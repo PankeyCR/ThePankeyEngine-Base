@@ -1,5 +1,5 @@
 
-#include "Logger.hpp"
+#include "MethodLogger.hpp"
 
 using namespace pankey;
 

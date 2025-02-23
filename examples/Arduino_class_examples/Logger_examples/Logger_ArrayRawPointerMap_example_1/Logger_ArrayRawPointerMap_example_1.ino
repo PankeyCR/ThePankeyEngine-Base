@@ -1,5 +1,5 @@
 
-#include "Logger.hpp"
+#include "MethodLogger.hpp"
 
 #define ArrayRawPointerMap_LogApp
 #include "ArrayRawPointerMap.hpp"
