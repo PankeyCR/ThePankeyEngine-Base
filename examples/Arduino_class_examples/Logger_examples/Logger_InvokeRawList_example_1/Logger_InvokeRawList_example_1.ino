@@ -11,20 +11,27 @@ void Log(int a_status, const String& a_name, const String& a_method, T a_log){
 
 #define pankey_Log(status,name,method,log) Log(status,name,method,log)
 
-#define CharArray_Log
+#define InvokeRawList_Log
 //#define pankey_Global_Log
 //#define pankey_Base_Log
 
-#include "CharArray.hpp"
+#include "InvokeRawList.hpp"
 
 using namespace pankey;
 
+void Function(){
+  Serial.println("Function");
+}
+
+MethodList<> methods;
+
 void setup() {
   Serial.begin(9600);
+
+  methods.add(Function);
 }
 
 void loop() {
-  CharArray array = "hellow log";
-  Serial.println(array.pointer());
+  invokeAll(methods);
   delay(3000);
 }

@@ -1,5 +1,6 @@
 
-void Log(int a_status, const String& a_name, const String& a_method, const String& a_log){
+template<class T>
+void Log(int a_status, const String& a_name, const String& a_method, T a_log){
   Serial.println("Log start");
   Serial.println(a_status);
   Serial.println(a_name);
@@ -10,7 +11,10 @@ void Log(int a_status, const String& a_name, const String& a_method, const Strin
 
 #define pankey_Log(status,name,method,log) Log(status,name,method,log)
 
-#define Array_LogApp
+#define Array_Log
+//#define pankey_Global_Log
+//#define pankey_Base_Log
+
 #include "Array.hpp"
 
 using namespace pankey;

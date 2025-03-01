@@ -10,7 +10,10 @@ void Log(int a_status, const String& a_name, const String& a_method, const Strin
 
 #define pankey_Log(status,name,method,log) Log(status,name,method,log)
 
-#define InvokeMethod_LogApp
+#define InvokeMethod_Log
+//#define pankey_Global_Log
+//#define pankey_Base_Log
+
 #include "InvokeMethod.hpp"
 
 using namespace pankey;

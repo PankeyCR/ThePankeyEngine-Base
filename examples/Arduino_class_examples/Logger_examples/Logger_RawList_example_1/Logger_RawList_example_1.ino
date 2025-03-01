@@ -1,12 +1,15 @@
 
 #include "MethodLogger.hpp"
 
-#define RawList_LogApp
+#define RawList_Log
+//#define pankey_Global_Log
+//#define pankey_Base_Log
+
 #include "ArrayRawList.hpp"
 
 using namespace pankey;
 
-void Log(int a_status, const CharArray& a_name, const CharArray& a_method, const CharArray& a_log){
+void Log(int a_status, const CharArray& a_name, const CharArray& a_method, const CharArray& a_log) {
   Serial.println("Log start");
   Serial.println(a_status);
   Serial.println(a_name.pointer());
@@ -26,7 +29,7 @@ void loop() {
   array.add(5);
   array.add(6);
   array.add(7);
-  for(int x : array){
+  for (int x : array) {
     Serial.println(x);
   }
   delay(3000);

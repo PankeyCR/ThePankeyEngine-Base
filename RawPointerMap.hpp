@@ -4,7 +4,7 @@
 
 #include "RawMapEntry.hpp"
 
-#if defined(RawPointerMap_LogApp) && defined(pankey_Log)
+#if defined(pankey_Log) && (defined(RawPointerMap_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 	#include "Logger_status.hpp"
 	#define RawPointerMapLog(status,method,mns) pankey_Log(status,"RawPointerMap",method,mns)
 #else
@@ -61,15 +61,15 @@ class RawPointerMap{
 			RawPointerMapLog(pankey_Log_EndMethod, "isValueOwner", "");
 			return this->m_value_owner;
 		}
-		virtual void setPosition(int a_position){
-			RawPointerMapLog(pankey_Log_StartMethod, "setPosition", a_position);
-			this->m_position = a_position;
-			RawPointerMapLog(pankey_Log_EndMethod, "setPosition", "");
+		virtual void setLastIndex(int a_index){
+			RawPointerMapLog(pankey_Log_StartMethod, "setLastIndex", a_index);
+			this->m_index = a_index;
+			RawPointerMapLog(pankey_Log_EndMethod, "setLastIndex", "");
 		}
-		virtual int getPosition()const{
-			RawPointerMapLog(pankey_Log_StartMethod, "getPosition", "");
-			RawPointerMapLog(pankey_Log_EndMethod, "getPosition", "");
-			return this->m_position;
+		virtual int getLastIndex()const{
+			RawPointerMapLog(pankey_Log_StartMethod, "getLastIndex", "");
+			RawPointerMapLog(pankey_Log_EndMethod, "getLastIndex", "");
+			return this->m_index;
 		}
 
 		virtual void setSize(int a_size){
@@ -86,25 +86,25 @@ class RawPointerMap{
 		virtual int hasAvailableSize()const{
 			RawPointerMapLog(pankey_Log_StartMethod, "getSize", "");
 			RawPointerMapLog(pankey_Log_EndMethod, "getSize", "");
-			return this->m_position < this->m_size  && this->m_size != 0;
+			return this->m_index < this->m_size  && this->m_size != 0;
 		}
 
-		virtual void addMove(RawPointerMap<K,V>* a_map){
+		virtual void addMove(RawPointerMap<K,V>& a_map){
 			RawPointerMapLog(pankey_Log_StartMethod, "addMove", "");
-			for(int x = 0; x < a_map->getPosition(); x++){
-				K* k = a_map->getKeyByPosition(x);
-				V* v = a_map->getValueByPosition(x);
+			for(int x = 0; x < a_map.getLastIndex(); x++){
+				K* k = a_map.getKeyByIndex(x);
+				V* v = a_map.getValueByIndex(x);
 				this->addPointers(k,v);
-				a_map->setRawMapEntryByPosition(x, RawMapEntry<K,V>());
 			}
+			a_map.reset();
 			RawPointerMapLog(pankey_Log_EndMethod, "addMove", "");
 		}
 
-		virtual void addDuplicate(RawPointerMap<K,V>* a_map){
+		virtual void addDuplicate(const RawPointerMap<K,V>& a_map){
 			RawPointerMapLog(pankey_Log_StartMethod, "addDuplicate", "");
-			for(int x = 0; x < a_map->getPosition(); x++){
-				K* k = a_map->getKeyByPosition(x);
-				V* v = a_map->getValueByPosition(x);
+			for(int x = 0; x < a_map.getLastIndex(); x++){
+				K* k = a_map.getKeyByIndex(x);
+				V* v = a_map.getValueByIndex(x);
 				this->addPointers(k,v);
 			}
 			RawPointerMapLog(pankey_Log_EndMethod, "addDuplicate", "");
@@ -135,10 +135,10 @@ class RawPointerMap{
 		virtual RawMapEntry<K,V> setPointers(K* a_key, V* a_value)=0;
 		virtual RawMapEntry<K,V> setRawMapEntry(RawMapEntry<K,V> a_map_entry)=0;
 
-		virtual RawMapEntry<K,V> setKeyPointerByPosition(int a_position, K* a_key)=0;
-		virtual RawMapEntry<K,V> setValuePointerByPosition(int a_position, V* a_value)=0;
+		virtual RawMapEntry<K,V> setKeyPointerByIndex(int a_index, K* a_key)=0;
+		virtual RawMapEntry<K,V> setValuePointerByIndex(int a_index, V* a_value)=0;
 
-		virtual RawMapEntry<K,V> setRawMapEntryByPosition(int a_position, RawMapEntry<K,V> a_map_entry)=0;
+		virtual RawMapEntry<K,V> setRawMapEntryByIndex(int a_index, RawMapEntry<K,V> a_map_entry)=0;
 
 		virtual bool containPairPointers(K* a_key, V* a_value)=0;
 		virtual bool containRawMapEntry(RawMapEntry<K,V> a_map_entry)=0;
@@ -146,22 +146,22 @@ class RawPointerMap{
 		virtual bool containKeyByPointer(K* a_key)=0;
 		virtual bool containValueByPointer(V* a_value)=0;
 
-		virtual RawMapEntry<K,V> getRawMapEntryByPosition(int a_position)const=0;
+		virtual RawMapEntry<K,V> getRawMapEntryByIndex(int a_index)const=0;
 
 		virtual K* getKeyByPointer(V* a_value)=0;
-		virtual K* getKeyByPosition(int a_position)const=0;
+		virtual K* getKeyByIndex(int a_index)const=0;
 
 		virtual V* getValueByPointer(const K* a_key)const=0;
-		virtual V* getValueByPosition(int a_position)const=0;
+		virtual V* getValueByIndex(int a_index)const=0;
 
 		virtual void reset()=0;
-		virtual void resetDelete()=0;
-		virtual void resetDeleteKey()=0;
-		virtual void resetDeleteValue()=0;
+		virtual void clear()=0;
+		virtual void clearKey()=0;
+		virtual void clearValue()=0;
 
 		virtual RawMapEntry<K,V> removeByKeyPointer(K* a_key)=0;
 		virtual RawMapEntry<K,V> removeByValuePointer(V* a_value)=0;
-		virtual RawMapEntry<K,V> removeByPosition(int a_position)=0;
+		virtual RawMapEntry<K,V> removeByIndex(int a_index)=0;
 
 		virtual bool removeDeleteByKeyPointer(K* a_key){
 			RawPointerMapLog(pankey_Log_StartMethod, "removeDeleteByKeyPointer", "");
@@ -185,14 +185,14 @@ class RawPointerMap{
 			return removed;
 		}
 
-		virtual bool removeDeleteByPosition(int a_position){
-			RawPointerMapLog(pankey_Log_StartMethod, "removeDeleteByPosition", "");
-			RawMapEntry<K,V> i_entry = this->removeByPosition(a_position);
+		virtual bool removeDeleteByIndex(int a_index){
+			RawPointerMapLog(pankey_Log_StartMethod, "removeDeleteByIndex", "");
+			RawMapEntry<K,V> i_entry = this->removeByIndex(a_index);
 			bool removed = !i_entry.isNull();
 			if(removed && isOwner()){
 				i_entry.deleteEntry();
 			}
-			RawPointerMapLog(pankey_Log_EndMethod, "removeDeleteByPosition", "");
+			RawPointerMapLog(pankey_Log_EndMethod, "removeDeleteByIndex", "");
 			return removed;
 		}
 
@@ -202,8 +202,8 @@ class RawPointerMap{
 				RawPointerMapLog(pankey_Log_EndMethod, "getKeyIndexByPointer", "");
 				return -1;
 			}
-			for(int x = 0; x < this->getPosition(); x++){
-				if(a_key == this->getKeyByPosition(x)){
+			for(int x = 0; x < this->getLastIndex(); x++){
+				if(a_key == this->getKeyByIndex(x)){
 					RawPointerMapLog(pankey_Log_EndMethod, "getKeyIndexByPointer", "");
 					return x;
 				}
@@ -218,8 +218,8 @@ class RawPointerMap{
 				RawPointerMapLog(pankey_Log_EndMethod, "getValueIndexByPointer", "");
 				return -1;
 			}
-			for(int x = 0; x < this->getPosition(); x++){
-				if(a_value == this->getValueByPosition(x)){
+			for(int x = 0; x < this->getLastIndex(); x++){
+				if(a_value == this->getValueByIndex(x)){
 					RawPointerMapLog(pankey_Log_EndMethod, "getValueIndexByPointer", "");
 					return x;
 				}
@@ -230,32 +230,32 @@ class RawPointerMap{
 
 	protected:
 
-		virtual void incrementPosition(){
-			RawPointerMapLog(pankey_Log_StartMethod, "incrementPosition", this->m_position);
-			this->m_position++;
-			RawPointerMapLog(pankey_Log_EndMethod, "incrementPosition", this->m_position);
+		virtual void incrementIndex(){
+			RawPointerMapLog(pankey_Log_StartMethod, "incrementIndex", this->m_index);
+			this->m_index++;
+			RawPointerMapLog(pankey_Log_EndMethod, "incrementIndex", this->m_index);
 		}
-		virtual void decrementPosition(){
-			RawPointerMapLog(pankey_Log_StartMethod, "decrementPosition", this->m_position);
-			this->m_position--;
-			if(this->m_position < 0){
-				this->m_position = 0;
+		virtual void decrementIndex(){
+			RawPointerMapLog(pankey_Log_StartMethod, "decrementIndex", this->m_index);
+			this->m_index--;
+			if(this->m_index < 0){
+				this->m_index = 0;
 			}
-			RawPointerMapLog(pankey_Log_EndMethod, "decrementPosition", this->m_position);
+			RawPointerMapLog(pankey_Log_EndMethod, "decrementIndex", this->m_index);
 		}
 
-		virtual void incrementPosition(int a_size){
-			RawPointerMapLog(pankey_Log_StartMethod, "incrementPosition", this->m_position);
-			this->m_position += a_size;
-			RawPointerMapLog(pankey_Log_EndMethod, "incrementPosition", this->m_position);
+		virtual void incrementIndex(int a_size){
+			RawPointerMapLog(pankey_Log_StartMethod, "incrementIndex", this->m_index);
+			this->m_index += a_size;
+			RawPointerMapLog(pankey_Log_EndMethod, "incrementIndex", this->m_index);
 		}
-		virtual void decrementPosition(int a_size){
-			RawPointerMapLog(pankey_Log_StartMethod, "decrementPosition", this->m_position);
-			this->m_position -= a_size;
-			if(this->m_position < 0){
-				this->m_position = 0;
+		virtual void decrementIndex(int a_size){
+			RawPointerMapLog(pankey_Log_StartMethod, "decrementIndex", this->m_index);
+			this->m_index -= a_size;
+			if(this->m_index < 0){
+				this->m_index = 0;
 			}
-			RawPointerMapLog(pankey_Log_EndMethod, "decrementPosition", this->m_position);
+			RawPointerMapLog(pankey_Log_EndMethod, "decrementIndex", this->m_index);
 		}
 		
 		virtual bool isEqualKey(K* a_key_1, K* a_key_2){
@@ -287,7 +287,7 @@ class RawPointerMap{
 	protected:
 		bool m_key_owner = true;
 		bool m_value_owner = true;
-		int m_position = 0;
+		int m_index = 0;
 		int m_size = 0;
 };
 

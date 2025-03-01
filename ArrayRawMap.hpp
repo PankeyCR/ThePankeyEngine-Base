@@ -6,7 +6,7 @@
 #include "RawMap.hpp"
 #include "RawMapIterator.hpp"
 
-#if defined(ArrayRawMap_LogApp) && defined(pankey_Log)
+#if defined(pankey_Log) && (defined(ArrayRawMap_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 	#include "Logger_status.hpp"
 	#define ArrayRawMapLog(status,method,mns) pankey_Log(status,"ArrayRawMap",method,mns)
 #else
@@ -27,11 +27,11 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 		ArrayRawMap(const ArrayRawMap<K,V>& c_map){
 			ArrayRawMapLog(pankey_Log_StartMethod, "Constructor", "");
 			this->setOwner(false);
-			this->expandLocal(c_map.getPosition());
+			this->expandLocal(c_map.getLastIndex());
 			
-			for(int x = 0; x < c_map.getPosition(); x++){
-				K* k = c_map.getKeyByPosition(x);
-				V* v = c_map.getValueByPosition(x);
+			for(int x = 0; x < c_map.getLastIndex(); x++){
+				K* k = c_map.getKeyByIndex(x);
+				V* v = c_map.getValueByIndex(x);
 				if(k != nullptr && v != nullptr){
 					this->addLValues(*k,*v);
 				}
@@ -59,12 +59,12 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 		
 		virtual void addMap(const ArrayRawMap<K,V>& a_map){
 			ArrayRawMapLog(pankey_Log_StartMethod, "addLValues", "");
-			if(a_map.getSize() < this->getPosition() + a_map.getPosition()){
-				this->expandLocal(a_map.getPosition());
+			if(a_map.getSize() < this->getLastIndex() + a_map.getLastIndex()){
+				this->expandLocal(a_map.getLastIndex());
 			}
-			for(int x = 0; x < a_map.getPosition(); x++){
-				K* k = a_map.getKeyByPosition(x);
-				V* v = a_map.getValueByPosition(x);
+			for(int x = 0; x < a_map.getLastIndex(); x++){
+				K* k = a_map.getKeyByIndex(x);
+				V* v = a_map.getValueByIndex(x);
 				if(k != nullptr && v != nullptr){
 					this->addLValues(*k,*v);
 				}
@@ -98,7 +98,7 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 				return RawMapEntry<K,V>();
 			}
 			ArrayRawMapLog(pankey_Log_EndMethod, "setLValues", "");
-			return this->setValueLValueByPosition(i_index, a_value);
+			return this->setValueLValueByIndex(i_index, a_value);
 		}
 		
 		virtual RawMapEntry<K,V> setPointer(K a_key, V *a_value){
@@ -109,27 +109,27 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 				return RawMapEntry<K,V>();
 			}
 			ArrayRawMapLog(pankey_Log_EndMethod, "setPointer", "");
-			return this->setValuePointerByPosition(i_index, a_value);
+			return this->setValuePointerByIndex(i_index, a_value);
 		}
 		
-		virtual RawMapEntry<K,V> setKeyLValueByPosition(int a_position, K a_key){
-			ArrayRawMapLog(pankey_Log_StartMethod, "setKeyLValueByPosition", "");
+		virtual RawMapEntry<K,V> setKeyLValueByIndex(int a_position, K a_key){
+			ArrayRawMapLog(pankey_Log_StartMethod, "setKeyLValueByIndex", "");
 			K* i_key = new K(a_key);
-			ArrayRawMapLog(pankey_Log_EndMethod, "setKeyLValueByPosition", "");
-			return this->setKeyPointerByPosition(a_position, i_key);
+			ArrayRawMapLog(pankey_Log_EndMethod, "setKeyLValueByIndex", "");
+			return this->setKeyPointerByIndex(a_position, i_key);
 		}
 		
-		virtual RawMapEntry<K,V> setValueLValueByPosition(int a_position, V a_value){
-			ArrayRawMapLog(pankey_Log_StartMethod, "setValueLValueByPosition", "");
+		virtual RawMapEntry<K,V> setValueLValueByIndex(int a_position, V a_value){
+			ArrayRawMapLog(pankey_Log_StartMethod, "setValueLValueByIndex", "");
 			V* i_value = new V(a_value);
-			ArrayRawMapLog(pankey_Log_EndMethod, "setValueLValueByPosition", "");
-			return this->setValuePointerByPosition(a_position, i_value);
+			ArrayRawMapLog(pankey_Log_EndMethod, "setValueLValueByIndex", "");
+			return this->setValuePointerByIndex(a_position, i_value);
 		}
 		
 		virtual bool containKeyByLValue(K a_key){
 			ArrayRawMapLog(pankey_Log_StartMethod, "containKeyByLValue", "");
-			for(int x = 0; x < this->getPosition(); x++){
-				K* f_key = this->getKeyByPosition(x);
+			for(int x = 0; x < this->getLastIndex(); x++){
+				K* f_key = this->getKeyByIndex(x);
 				if(f_key == nullptr){
 					continue;
 				}
@@ -144,8 +144,8 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 		
 		virtual bool containValueByLValue(V a_value){
 			ArrayRawMapLog(pankey_Log_StartMethod, "containValueByLValue", "");
-			for(int x = 0; x < this->getPosition(); x++){
-				V* f_value = this->getValueByPosition(x);
+			for(int x = 0; x < this->getLastIndex(); x++){
+				V* f_value = this->getValueByIndex(x);
 				if(f_value == nullptr){
 					continue;
 				}
@@ -160,14 +160,14 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 		
 		virtual K* getKeyByLValue(V a_value)const{
 			ArrayRawMapLog(pankey_Log_StartMethod, "getKeyByLValue", "");
-			for(int x = 0; x < this->getPosition(); x++){
-				V* f_value = this->getValueByPosition(x);
+			for(int x = 0; x < this->getLastIndex(); x++){
+				V* f_value = this->getValueByIndex(x);
 				if(f_value == nullptr){
 					continue;
 				}
 				if(*f_value == a_value){
 					ArrayRawMapLog(pankey_Log_EndMethod, "getKeyByLValue", "");
-					return this->getKeyByPosition(x);
+					return this->getKeyByIndex(x);
 				}
 			}
 			ArrayRawMapLog(pankey_Log_EndMethod, "getKeyByLValue", "");
@@ -176,14 +176,14 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 		
 		virtual V* getValueByLValue(K a_key)const{
 			ArrayRawMapLog(pankey_Log_StartMethod, "getValueByLValue", "");
-			for(int x = 0; x < this->getPosition(); x++){
-				K* f_key = this->getKeyByPosition(x);
+			for(int x = 0; x < this->getLastIndex(); x++){
+				K* f_key = this->getKeyByIndex(x);
 				if(f_key == nullptr){
 					continue;
 				}
 				if(*f_key == a_key){
 					ArrayRawMapLog(pankey_Log_EndMethod, "getValueByLValue", "");
-					return this->getValueByPosition(x);
+					return this->getValueByIndex(x);
 				}
 			}
 			ArrayRawMapLog(pankey_Log_EndMethod, "getValueByLValue", "");
@@ -198,7 +198,7 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 				return RawMapEntry<K,V>();
 			}
 			ArrayRawMapLog(pankey_Log_EndMethod, "removeByKeyLValue", "");
-			return this->removeByPosition(i_position);
+			return this->removeByIndex(i_position);
 		}
 		
 		virtual RawMapEntry<K,V> removeByValueLValue(V a_value){
@@ -209,7 +209,7 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 				return RawMapEntry<K,V>();
 			}
 			ArrayRawMapLog(pankey_Log_EndMethod, "removeByValueLValue", "");
-			return this->removeByPosition(i_position);
+			return this->removeByIndex(i_position);
 		}
 		
 		virtual bool removeDeleteByKeyLValue(K a_key){
@@ -220,7 +220,7 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 				return false;
 			}
 			ArrayRawMapLog(pankey_Log_EndMethod, "removeDeleteByKeyLValue", "");
-			return this->removeDeleteByPosition(i_position);
+			return this->removeDeleteByIndex(i_position);
 		}
 		
 		virtual bool removeDeleteByValueLValue(V a_value){
@@ -231,7 +231,7 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 				return false;
 			}
 			ArrayRawMapLog(pankey_Log_EndMethod, "removeDeleteByValueLValue", "");
-			return this->removeDeleteByPosition(i_position);
+			return this->removeDeleteByIndex(i_position);
 		}
 		
 		virtual bool remove(K a_key){
@@ -242,7 +242,7 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 				return false;
 			}
 			ArrayRawMapLog(pankey_Log_EndMethod, "remove", "");
-			return this->removeDeleteByPosition(i_position);
+			return this->removeDeleteByIndex(i_position);
 		}
 		
 		virtual RawMapEntry<K,V> putLValues(K a_key, V a_value){
@@ -250,7 +250,7 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 			int index = this->getKeyIndexByLValue(a_key);
 			if(index != -1){
 				ArrayRawMapLog(pankey_Log_EndMethod, "putLValues", "index != -1");
-				return this->getRawMapEntryByPosition(index);
+				return this->getRawMapEntryByIndex(index);
 			}
 			ArrayRawMapLog(pankey_Log_EndMethod, "putLValues", "");
 			return this->addLValues(a_key, a_value);
@@ -261,7 +261,7 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 			int index = this->getKeyIndexByLValue(a_key);
 			if(index != -1){
 				ArrayRawMapLog(pankey_Log_EndMethod, "putLValues", "index != -1");
-				return this->getRawMapEntryByPosition(index);
+				return this->getRawMapEntryByIndex(index);
 			}
 			ArrayRawMapLog(pankey_Log_EndMethod, "putPointer", "");
 			return this->addPointer(a_key, a_value);
@@ -269,8 +269,8 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 		
 		virtual int getKeyIndexByLValue(K a_key){
 			ArrayRawMapLog(pankey_Log_StartMethod, "getKeyIndexByLValue", "");
-			for(int x=0; x < this->getPosition(); x++){
-				K* i_key = this->getKeyByPosition(x);
+			for(int x=0; x < this->getLastIndex(); x++){
+				K* i_key = this->getKeyByIndex(x);
 				if(i_key == nullptr){
 					continue;
 				}
@@ -285,8 +285,8 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 		
 		virtual int getValueIndexByLValue(V a_value){
 			ArrayRawMapLog(pankey_Log_StartMethod, "getValueIndexByLValue", "");
-			for(int x=0; x < this->getPosition(); x++){
-				V* i_value = this->getValueByPosition(x);
+			for(int x=0; x < this->getLastIndex(); x++){
+				V* i_value = this->getValueByIndex(x);
 				if(i_value == nullptr){
 					continue;
 				}
@@ -304,10 +304,10 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 		
 		virtual ArrayRawMap<K,V>& operator=(const ArrayRawMap<K,V>& a_map){
 			ArrayRawMapLog(pankey_Log_StartMethod, "operator=", "");
-			this->resetDelete();
-			for(int x = 0; x < a_map.getPosition(); x++){
-				K* f_key = this->getKeyByPosition(x);
-				V* f_value = this->getValueByPosition(x);
+			this->clear();
+			for(int x = 0; x < a_map.getLastIndex(); x++){
+				K* f_key = this->getKeyByIndex(x);
+				V* f_value = this->getValueByIndex(x);
 				if(f_key == nullptr || f_value == nullptr){
 					continue;
 				}
@@ -319,14 +319,14 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 		
 		virtual bool operator==(const ArrayRawMap<K,V>& a_map){
 			ArrayRawMapLog(pankey_Log_StartMethod, "operator==", "");
-			if(this->getPosition() != a_map.getPosition()){
+			if(this->getLastIndex() != a_map.getLastIndex()){
 				return false;
 			}
-			for(int x = 0; x < a_map.getPosition(); x++){
-				K* f_key_1 = a_map.getKeyByPosition(x);
-				V* f_value_1 = a_map.getValueByPosition(x);
-				K* f_key_2 = this->getKeyByPosition(x);
-				V* f_value_2 = this->getValueByPosition(x);
+			for(int x = 0; x < a_map.getLastIndex(); x++){
+				K* f_key_1 = a_map.getKeyByIndex(x);
+				V* f_value_1 = a_map.getValueByIndex(x);
+				K* f_key_2 = this->getKeyByIndex(x);
+				V* f_value_2 = this->getValueByIndex(x);
 				if(f_key_1 == f_key_2 && f_value_1 == f_value_2){
 					continue;
 				}
@@ -342,14 +342,14 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 		
 		virtual bool operator!=(const ArrayRawMap<K,V>& a_map){
 			ArrayRawMapLog(pankey_Log_StartMethod, "operator!=", "");
-			if(this->getPosition() != a_map.getPosition()){
+			if(this->getLastIndex() != a_map.getLastIndex()){
 				return true;
 			}
-			for(int x = 0; x < a_map.getPosition(); x++){
-				K* f_key_1 = a_map.getKeyByPosition(x);
-				V* f_value_1 = a_map.getValueByPosition(x);
-				K* f_key_2 = this->getKeyByPosition(x);
-				V* f_value_2 = this->getValueByPosition(x);
+			for(int x = 0; x < a_map.getLastIndex(); x++){
+				K* f_key_1 = a_map.getKeyByIndex(x);
+				V* f_value_1 = a_map.getValueByIndex(x);
+				K* f_key_2 = this->getKeyByIndex(x);
+				V* f_value_2 = this->getValueByIndex(x);
 				if(f_key_1 == f_key_2 && f_value_1 == f_value_2){
 					continue;
 				}
@@ -366,14 +366,14 @@ class ArrayRawMap : public ArrayRawPointerMap<K,V>, virtual public RawMap<K,V>{
 		////////////////////////////////////////////Iterator part///////////////////////////////////////////////
 		
 		virtual RawMapIterator<K,V> begin(){
-			ArrayRawMapLog(pankey_Log_StartMethod, "begin", this->getPosition());
+			ArrayRawMapLog(pankey_Log_StartMethod, "begin", this->getLastIndex());
 			ArrayRawMapLog(pankey_Log_EndMethod, "begin", "");
-			return RawMapIterator<K,V>(this, 0, this->getPosition());
+			return RawMapIterator<K,V>(this, 0, this->getLastIndex());
 		}
 		virtual RawMapIterator<K,V> end(){
-			ArrayRawMapLog(pankey_Log_StartMethod, "end", this->getPosition());
+			ArrayRawMapLog(pankey_Log_StartMethod, "end", this->getLastIndex());
 			ArrayRawMapLog(pankey_Log_EndMethod, "end", "");
-			return RawMapIterator<K,V>(this, this->getPosition() - 1, this->getPosition());
+			return RawMapIterator<K,V>(this, this->getLastIndex() - 1, this->getLastIndex());
 		}
 		
 	protected:

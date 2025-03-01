@@ -2,7 +2,7 @@
 #ifndef RawPointerList_hpp
     #define RawPointerList_hpp
 
-    #if defined(RawPointerList_LogApp) && defined(pankey_Log)
+    #if defined(pankey_Log) && (defined(RawPointerList_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 	#include "Logger_status.hpp"
         #define RawPointerListLog(status,method,mns) pankey_Log(status,"RawPointerList",method,mns)
     #else
@@ -99,7 +99,7 @@
                 virtual int getIndexByPointer(T* a_value)=0;
 
                 virtual void reset()=0;
-                virtual void resetDelete()=0;
+                virtual void clear()=0;
 
                 virtual T* removeByPointer(T* a_value)=0;
 

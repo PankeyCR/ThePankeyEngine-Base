@@ -18,18 +18,11 @@
 #define pankey_HEXADECIMAL 1
 #define pankey_DECIMAL 2
 
-#if defined(CharArray_LogApp) && defined(pankey_Log)
+#if defined(pankey_Log) && (defined(CharArray_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 	#include "Logger_status.hpp"
 	#define CharArrayLog(status,method,mns) pankey_Log(status,"CharArray",method,mns)
 #else
 	#define CharArrayLog(status,method,mns)
-#endif
-
-#if defined(PointerCharArray_LogApp) && defined(pankey_Log)
-	#include "Logger_status.hpp"
-	#define PointerCharArrayLog(status,method,mns) pankey_Log(status,"CharArray",method,mns)
-#else
-	#define PointerCharArrayLog(status,method,mns)
 #endif
 
 
@@ -196,8 +189,6 @@ class CharArray : public Array<char>{
 
 		virtual char* pointer()const{
 			CharArrayLog(pankey_Log_StartMethod, "pointer", "");
-			PointerCharArrayLog(pankey_Log_Statement, "pointer", "Pointer: ");
-			PointerCharArrayLog(pankey_Log_Statement, "pointer", this->m_t_value);
 			CharArrayLog(pankey_Log_EndMethod, "pointer", "");
 			return this->m_t_value;
 		}

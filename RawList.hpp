@@ -4,7 +4,7 @@
 
 #include "RawPointerList.hpp"
 
-#if defined(RawList_LogApp) && defined(pankey_Log)
+#if defined(pankey_Log) && (defined(RawList_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 	#include "Logger_status.hpp"
 	#define RawListLog(status,method,mns) pankey_Log(status,"RawList",method,mns)
 #else

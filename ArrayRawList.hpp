@@ -7,7 +7,7 @@
 #include "RawList.hpp"
 #include "ListIterator.hpp"
 
-#if defined(ArrayRawList_LogApp) && defined(pankey_Log)
+#if defined(pankey_Log) && (defined(ArrayRawList_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 	#include "Logger_status.hpp"
 	#define ArrayRawListLog(status,method,mns) pankey_Log(status,"ArrayRawList",method,mns)
 #else
@@ -255,7 +255,7 @@ class ArrayRawList : public ArrayRawPointerList<T>, virtual public RawList<T>{
 		
 		virtual ArrayRawList<T>& operator=(const ArrayRawList<T>& a_list){
 			ArrayRawListLog(pankey_Log_StartMethod, "operator=", "");
-			this->resetDelete();
+			this->clear();
 			for(int x = 0; x < a_list.getLastIndex(); x++){
 				T* i_pointer = a_list.getByIndex(x);
 				if(i_pointer == nullptr){

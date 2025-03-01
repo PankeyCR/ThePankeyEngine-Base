@@ -4,7 +4,7 @@
 
 	#include "RawPointerList.hpp"
 
-	#if defined(ArrayRawPointerList_LogApp) && defined(pankey_Log)
+	#if defined(pankey_Log) && (defined(ArrayRawPointerList_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 		#include "Logger_status.hpp"
 		#define ArrayRawPointerListLog(status,method,mns) pankey_Log(status,"ArrayRawPointerList",method,mns)
 	#else
@@ -228,22 +228,22 @@
 					ArrayRawPointerListLog(pankey_Log_EndMethod, "reset", "");
 				}
 				
-				virtual void resetDelete(){
-					ArrayRawPointerListLog(pankey_Log_StartMethod, "resetDelete", "");
+				virtual void clear(){
+					ArrayRawPointerListLog(pankey_Log_StartMethod, "clear", "");
 					for(int x = 0; x < this->getLastIndex(); x++){
 						T* f_value = this->m_values[x];
 						if(f_value == nullptr){
-							ArrayRawPointerListLog(pankey_Log_Statement, "resetDelete", "this->m_values[x] == nullptr");
+							ArrayRawPointerListLog(pankey_Log_Statement, "clear", "this->m_values[x] == nullptr");
 							continue;
 						}
 						if(this->isOwner()){
-							ArrayRawPointerListLog(pankey_Log_Statement, "resetDelete", "this->isOwner()");
+							ArrayRawPointerListLog(pankey_Log_Statement, "clear", "this->isOwner()");
 							delete f_value;
 						}
 						this->m_values[x] = nullptr;
 					}
 					this->setLastIndex(0);
-					ArrayRawPointerListLog(pankey_Log_EndMethod, "resetDelete", "");
+					ArrayRawPointerListLog(pankey_Log_EndMethod, "clear", "");
 				}
 				
 				virtual T* removeByPointer(T* a_key){
@@ -393,7 +393,7 @@
 				
 				virtual ArrayRawPointerList& operator=(const ArrayRawPointerList<T>& a_list){
 					ArrayRawPointerListLog(pankey_Log_StartMethod, "operator=", "const ArrayRawPointerList<T>&");
-					this->resetDelete();
+					this->clear();
 					for(int x = 0; x < a_list.getLastIndex(); x++){
 						T* f_value = a_list.getByIndex(x);
 						this->addPointer(f_value);

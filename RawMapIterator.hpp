@@ -61,11 +61,11 @@ class RawMapIterator{
 	}
 	
 	virtual RawMapEntry<K,V> get(){
-		return m_map->getRawMapEntryByPosition(position);
+		return m_map->getRawMapEntryByIndex(position);
 	}
 	
 	virtual K getKey(){
-		K* key = m_map->getKeyByPosition(position);
+		K* key = m_map->getKeyByIndex(position);
 		if(key == nullptr){
 			return K();
 		}
@@ -73,11 +73,11 @@ class RawMapIterator{
 	}
 	
 	virtual K* getKeyPointer(){
-		return m_map->getKeyByPosition(position);
+		return m_map->getKeyByIndex(position);
 	}
 	
 	virtual V getValue(){
-		V* value = m_map->getValueByPosition(position);
+		V* value = m_map->getValueByIndex(position);
 		if(value == nullptr){
 			return V();
 		}
@@ -85,11 +85,11 @@ class RawMapIterator{
 	}
 	
 	virtual V* getValuePointer(){
-		return m_map->getValueByPosition(position);
+		return m_map->getValueByIndex(position);
 	}
 	
 	virtual void setKey(K k){
-		K* key = m_map->getKeyByPosition(position);
+		K* key = m_map->getKeyByIndex(position);
 		if(key == nullptr){
 			return;
 		}
@@ -97,7 +97,7 @@ class RawMapIterator{
 	}
 	
 	virtual void setValue(V v){
-		V* value = m_map->getValueByPosition(position);
+		V* value = m_map->getValueByIndex(position);
 		if(value == nullptr){
 			return;
 		}

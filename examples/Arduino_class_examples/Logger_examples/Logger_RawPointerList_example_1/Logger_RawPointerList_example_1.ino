@@ -1,7 +1,10 @@
 
 #include "MethodLogger.hpp"
 
-#define RawPointerList_LogApp
+#define RawPointerList_Log
+//#define pankey_Global_Log
+//#define pankey_Base_Log
+
 #include "ArrayRawList.hpp"
 
 using namespace pankey;

@@ -4,7 +4,7 @@
 
 #include "RawPointerMap.hpp"
 
-#if defined(RawMap_LogApp) && defined(pankey_Log)
+#if defined(pankey_Log) && (defined(RawMap_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 	#include "Logger_status.hpp"
 	#define RawMapLog(status,method,mns) pankey_Log(status,"RawMap",method,mns)
 #else
@@ -23,9 +23,9 @@ class RawMap : virtual public RawPointerMap<K,V>{
 
 		virtual void addCopy(const RawPointerMap<K,V>& a_map){
 			RawMapLog(pankey_Log_StartMethod, "addCopy", "");
-			for(int x = 0; x < a_map.getPosition(); x++){
-				K* k = a_map.getKeyByPosition(x);
-				V* v = a_map.getValueByPosition(x);
+			for(int x = 0; x < a_map.getLastIndex(); x++){
+				K* k = a_map.getKeyByIndex(x);
+				V* v = a_map.getValueByIndex(x);
 				if(k == nullptr || v == nullptr){
 					continue;
 				}
@@ -46,8 +46,8 @@ class RawMap : virtual public RawPointerMap<K,V>{
 		virtual RawMapEntry<K,V> setLValues(K a_key, V a_value)=0;
 		virtual RawMapEntry<K,V> setPointer(K a_key, V* a_value)=0;
 		
-		virtual RawMapEntry<K,V> setKeyLValueByPosition(int a_position, K a_key)=0;
-		virtual RawMapEntry<K,V> setValueLValueByPosition(int a_position, V a_value)=0;
+		virtual RawMapEntry<K,V> setKeyLValueByIndex(int a_position, K a_key)=0;
+		virtual RawMapEntry<K,V> setValueLValueByIndex(int a_position, V a_value)=0;
 		
 		virtual RawMapEntry<K,V> set(K a_key, V a_value){
 			RawMapLog(pankey_Log_StartMethod, "set", "");
@@ -80,7 +80,7 @@ class RawMap : virtual public RawPointerMap<K,V>{
 		}
 		virtual K getKey(int a_position){
 			RawMapLog(pankey_Log_StartMethod, "getKey", "");
-			K* i_key = this->getKeyByPosition(a_position);
+			K* i_key = this->getKeyByIndex(a_position);
 			if(i_key == nullptr){
 				RawMapLog(pankey_Log_EndMethod, "getKey", "");
 				return K();
@@ -90,7 +90,7 @@ class RawMap : virtual public RawPointerMap<K,V>{
 		}
 		virtual V getValue(int a_position){
 			RawMapLog(pankey_Log_StartMethod, "getValue", "");
-			V* i_value = this->getValueByPosition(a_position);
+			V* i_value = this->getValueByIndex(a_position);
 			if(i_value == nullptr){
 				RawMapLog(pankey_Log_EndMethod, "getValue", "");
 				return V();

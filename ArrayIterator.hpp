@@ -2,7 +2,7 @@
 #ifndef ArrayIterator_hpp
 	#define ArrayIterator_hpp
 
-	#if defined(ArrayIterator_LogApp) && defined(pankey_Log)
+	#if defined(pankey_Log) && (defined(ArrayIterator_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 		#include "Logger_status.hpp"
 		#define ArrayIteratorLog(status,method,mns) pankey_Log(status,"ArrayIterator",method,mns)
 	#else

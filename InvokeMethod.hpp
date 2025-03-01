@@ -2,7 +2,7 @@
 #ifndef InvokeMethod_hpp
 	#define InvokeMethod_hpp
 
-	#if defined(InvokeMethod_LogApp) && defined(pankey_Log)
+	#if defined(pankey_Log) && (defined(InvokeMethod_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 	#include "Logger_status.hpp"
 		#define InvokeMethodLog(status,method,mns) pankey_Log(status,"InvokeMethod",method,mns)
 	#else

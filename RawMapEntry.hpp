@@ -2,7 +2,7 @@
 #ifndef RawMapEntry_hpp
 #define RawMapEntry_hpp
 
-#if defined(RawMapEntry_LogApp) && defined(pankey_Log)
+#if defined(pankey_Log) && (defined(RawMapEntry_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 	#include "Logger_status.hpp"
 	#define RawMapEntryLog(status,method,mns) pankey_Log(status,"RawMapEntry",method,mns)
 #else

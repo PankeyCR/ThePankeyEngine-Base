@@ -570,8 +570,8 @@
 					LinkedRawPointerListLog(pankey_Log_EndMethod, "reset", "println", "");
 				}
 				
-				virtual void resetDelete(){
-					LinkedRawPointerListLog(pankey_Log_StartMethod, "resetDelete", "println", "");
+				virtual void clear(){
+					LinkedRawPointerListLog(pankey_Log_StartMethod, "clear", "println", "");
 					LinkedListNode<T>* node = getStartNode();
 					LinkedListNode<T>* nextNode = nullptr;
 					for(int x = 0; node != nullptr; x++){
@@ -592,7 +592,7 @@
 					m_node = nullptr;
 					this->setPosition(0);
 					this->setSize(0);
-					LinkedRawPointerListLog(pankey_Log_EndMethod, "resetDelete", "println", "");
+					LinkedRawPointerListLog(pankey_Log_EndMethod, "clear", "println", "");
 				}
 				
 				virtual T* removeByPointer(T* key){
