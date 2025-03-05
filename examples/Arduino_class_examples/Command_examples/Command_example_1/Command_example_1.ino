@@ -1,7 +1,7 @@
 
 #include "Command.hpp"
 
-using namespace pankey;
+using namespace pankey::Base;
 
 class Example : public Command<int>{
   public:

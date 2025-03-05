@@ -9,23 +9,27 @@
 	#include "InvokeRawMap.hpp"
 
 	namespace pankey{
-		
-		TestResult TR_InvokeRawMap_Testing_1(){
-			TestResult result;
-			
-			return result;
-		}
-		
-		TestResult TR_InvokeRawMap_Testing_2(){
-			TestResult result;
-			
 
-			return result;
-		}
+		namespace Base{
+		
+			TestResult TR_InvokeRawMap_Testing_1(){
+				TestResult result;
+				
+				return result;
+			}
+			
+			TestResult TR_InvokeRawMap_Testing_2(){
+				TestResult result;
+				
 
-		void TR_InvokeRawMap_Testing(TestRunner& a_test_runner){
-			a_test_runner.add("ArrayRawPointerMap Simple Constructor", TR_InvokeRawMap_Testing_1);
-			a_test_runner.add("ArrayRawPointerMap addPointer", TR_InvokeRawMap_Testing_2);
+				return result;
+			}
+
+			void TR_InvokeRawMap_Testing(TestRunner& a_test_runner){
+				a_test_runner.add("ArrayRawPointerMap Simple Constructor", TR_InvokeRawMap_Testing_1);
+				a_test_runner.add("ArrayRawPointerMap addPointer", TR_InvokeRawMap_Testing_2);
+			}		
+
 		}		
 
 	}

@@ -1,7 +1,7 @@
 
 #include "Array.hpp"
 
-using namespace pankey;
+using namespace pankey::Base;
 
 Array<int> array;
 

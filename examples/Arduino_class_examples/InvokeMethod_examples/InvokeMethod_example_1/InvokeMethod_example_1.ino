@@ -1,7 +1,7 @@
 
 #include "InvokeMethod.hpp"
 
-using namespace pankey;
+using namespace pankey::Base;
 
 void Example() {
   Serial.println("Example");

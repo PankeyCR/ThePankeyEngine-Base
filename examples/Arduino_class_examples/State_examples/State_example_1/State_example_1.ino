@@ -1,7 +1,7 @@
 
 #include "State.hpp"
 
-using namespace pankey;
+using namespace pankey::Base;
 
 class Example : public State<long>{
   virtual void initializeState(){

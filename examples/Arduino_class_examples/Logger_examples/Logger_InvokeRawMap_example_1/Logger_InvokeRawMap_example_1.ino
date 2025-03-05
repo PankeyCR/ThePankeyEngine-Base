@@ -17,7 +17,7 @@ void Log(int a_status, const String& a_name, const String& a_method, T a_log){
 
 #include "InvokeRawMap.hpp"
 
-using namespace pankey;
+using namespace pankey::Base;
 
 void Function(){
   Serial.println("Function");

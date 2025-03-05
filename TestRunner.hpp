@@ -19,118 +19,122 @@
 
 	namespace pankey{
 
-		class TestRunner{
-			public:
-				TestRunner(){
-					TestRunnerLog(pankey_Log_StartMethod, "Constructor", "");
-					TestRunnerLog(pankey_Log_EndMethod, "Constructor", "");
-				}
-				virtual ~TestRunner(){
-					TestRunnerLog(pankey_Log_StartMethod, "Destructor", "");
-					TestRunnerLog(pankey_Log_EndMethod, "Destructor", "");
-				}
-				
-				virtual void runTest(){m_running = true;}
+		namespace Base{
 
-				virtual void add(CharArray a_test, InvokeMethodReturn<TestResult> a_method){
-					map.add(a_test, a_method);
-				}
-
-				virtual void output(InvokeMethod<> a_start,
-									InvokeMethod<> a_end,
-									InvokeMethod<const CharArray&, const TestResult&> a_result,
-									InvokeMethod<const CharArray&, const CharArray&> a_info,
-									InvokeMethod<const CharArray&, const CharArray&> a_error,
-									InvokeMethod<> a_succes){
-					start = a_start;
-					end = a_end;
-					result = a_result;
-					info = a_info;
-					error = a_error;
-					succes = a_succes;
-				}
-
-				virtual void output(InvokeMethod<> a_start,
-									InvokeMethod<> a_end,
-									InvokeMethod<const CharArray&, const CharArray&> a_info,
-									InvokeMethod<const CharArray&, const CharArray&> a_error,
-									InvokeMethod<> a_succes){
-					start = a_start;
-					end = a_end;
-					info = a_info;
-					error = a_error;
-					succes = a_succes;
-				}
-
-				virtual void output(InvokeMethod<> a_start,
-									InvokeMethod<> a_end,
-									InvokeMethod<const CharArray&, const CharArray&> a_info,
-									InvokeMethod<const CharArray&, const CharArray&> a_error){
-					start = a_start;
-					end = a_end;
-					info = a_info;
-					error = a_error;
-				}
-
-				virtual void omitInfo(bool a_omit){
-					m_omit_info = a_omit;
-				}
-				
-				virtual void run(){
-					TestRunnerLog(pankey_Log_StartMethod, "run", "");
-					if(!m_running){
-						TestRunnerLog(pankey_Log_EndMethod, "run", "");
-						return;
+			class TestRunner{
+				public:
+					TestRunner(){
+						TestRunnerLog(pankey_Log_StartMethod, "Constructor", "");
+						TestRunnerLog(pankey_Log_EndMethod, "Constructor", "");
 					}
-					TestRunnerLog(pankey_Log_Statement, "run", "start");
-					invoke(start);
+					virtual ~TestRunner(){
+						TestRunnerLog(pankey_Log_StartMethod, "Destructor", "");
+						TestRunnerLog(pankey_Log_EndMethod, "Destructor", "");
+					}
+					
+					virtual void runTest(){m_running = true;}
 
-					bool t_res = true;
-					for(int x = 0; x < map.getLastIndex(); x++){
-						CharArray* f_note = map.getKeyByIndex(x);
-						InvokeMethodReturn<TestResult>* f_method = map.getValueByIndex(x);
-						if(f_note == nullptr || f_method == nullptr){
-							continue;
+					virtual void add(CharArray a_test, InvokeMethodReturn<TestResult> a_method){
+						map.add(a_test, a_method);
+					}
+
+					virtual void output(InvokeMethod<> a_start,
+										InvokeMethod<> a_end,
+										InvokeMethod<const CharArray&, const TestResult&> a_result,
+										InvokeMethod<const CharArray&, const CharArray&> a_info,
+										InvokeMethod<const CharArray&, const CharArray&> a_error,
+										InvokeMethod<> a_succes){
+						start = a_start;
+						end = a_end;
+						result = a_result;
+						info = a_info;
+						error = a_error;
+						succes = a_succes;
+					}
+
+					virtual void output(InvokeMethod<> a_start,
+										InvokeMethod<> a_end,
+										InvokeMethod<const CharArray&, const CharArray&> a_info,
+										InvokeMethod<const CharArray&, const CharArray&> a_error,
+										InvokeMethod<> a_succes){
+						start = a_start;
+						end = a_end;
+						info = a_info;
+						error = a_error;
+						succes = a_succes;
+					}
+
+					virtual void output(InvokeMethod<> a_start,
+										InvokeMethod<> a_end,
+										InvokeMethod<const CharArray&, const CharArray&> a_info,
+										InvokeMethod<const CharArray&, const CharArray&> a_error){
+						start = a_start;
+						end = a_end;
+						info = a_info;
+						error = a_error;
+					}
+
+					virtual void omitInfo(bool a_omit){
+						m_omit_info = a_omit;
+					}
+					
+					virtual void run(){
+						TestRunnerLog(pankey_Log_StartMethod, "run", "");
+						if(!m_running){
+							TestRunnerLog(pankey_Log_EndMethod, "run", "");
+							return;
 						}
-						TestResult f_result = invoke<TestResult>(*f_method);
+						TestRunnerLog(pankey_Log_Statement, "run", "start");
+						invoke(start);
 
-						invoke<const CharArray&, const TestResult&>(result, *f_note, f_result);
-						
-						if(!m_omit_info){
-							if(f_result.hasInfo()){
-								invoke<const CharArray&, const CharArray&>(info, *f_note, f_result.getInfo());
+						bool t_res = true;
+						for(int x = 0; x < map.getLastIndex(); x++){
+							CharArray* f_note = map.getKeyByIndex(x);
+							InvokeMethodReturn<TestResult>* f_method = map.getValueByIndex(x);
+							if(f_note == nullptr || f_method == nullptr){
+								continue;
 							}
+							TestResult f_result = invoke<TestResult>(*f_method);
+
+							invoke<const CharArray&, const TestResult&>(result, *f_note, f_result);
+							
+							if(!m_omit_info){
+								if(f_result.hasInfo()){
+									invoke<const CharArray&, const CharArray&>(info, *f_note, f_result.getInfo());
+								}
+							}
+
+							if(!f_result.hasError()){
+								continue;
+							}
+							t_res = false;
+
+							invoke<const CharArray&, const CharArray&>(error, *f_note, f_result.getCharArrayResult());
+						}
+						if(t_res){
+							invoke(succes);
 						}
 
-						if(!f_result.hasError()){
-							continue;
-						}
-						t_res = false;
-
-						invoke<const CharArray&, const CharArray&>(error, *f_note, f_result.getCharArrayResult());
-					}
-					if(t_res){
-						invoke(succes);
+						invoke(end);
+						m_running = false;
+						TestRunnerLog(pankey_Log_EndMethod, "run", "");
 					}
 
-					invoke(end);
-					m_running = false;
-					TestRunnerLog(pankey_Log_EndMethod, "run", "");
-				}
+				protected:
+					bool m_running = false;
+					bool m_omit_info = false;
 
-			protected:
-				bool m_running = false;
-				bool m_omit_info = false;
+					ArrayRawMap<CharArray,InvokeMethodReturn<TestResult>> map;
+					
+					InvokeMethod<> start;
+					InvokeMethod<> end;
+					InvokeMethod<const CharArray&, const TestResult&> result;
+					InvokeMethod<const CharArray&, const CharArray&> info;
+					InvokeMethod<const CharArray&, const CharArray&> error;
+					InvokeMethod<> succes;
+			};
 
-				ArrayRawMap<CharArray,InvokeMethodReturn<TestResult>> map;
-				
-				InvokeMethod<> start;
-				InvokeMethod<> end;
-				InvokeMethod<const CharArray&, const TestResult&> result;
-				InvokeMethod<const CharArray&, const CharArray&> info;
-				InvokeMethod<const CharArray&, const CharArray&> error;
-				InvokeMethod<> succes;
-		};
+		}
 
 	}
 

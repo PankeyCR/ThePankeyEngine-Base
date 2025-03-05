@@ -7,7 +7,7 @@
 
 #include "CharArray.hpp"
 
-using namespace pankey;
+using namespace pankey::Base;
 
 void Log(int a_status, const CharArray& a_name, const CharArray& a_method, int a_log){
   Serial.println("Log start");

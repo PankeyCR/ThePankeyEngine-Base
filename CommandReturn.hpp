@@ -4,12 +4,16 @@
 
 	namespace pankey{
 
-		template<class R, class... Args>
-		class CommandReturn{
-			public:
-				virtual ~CommandReturn(){}
-				virtual R execute(Args... args)=0;
-		};
+		namespace Base{
+
+			template<class R, class... Args>
+			class CommandReturn{
+				public:
+					virtual ~CommandReturn(){}
+					virtual R execute(Args... args)=0;
+			};
+
+		}
 
 	}
 

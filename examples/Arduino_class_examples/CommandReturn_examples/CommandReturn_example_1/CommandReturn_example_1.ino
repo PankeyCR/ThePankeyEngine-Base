@@ -1,7 +1,7 @@
 
 #include "CommandReturn.hpp"
 
-using namespace pankey;
+using namespace pankey::Base;
 
 class Example : public CommandReturn<float,int>{
   public:
