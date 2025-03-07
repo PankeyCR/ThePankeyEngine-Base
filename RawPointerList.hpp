@@ -35,15 +35,15 @@
                         RawPointerListLog(pankey_Log_EndMethod, "isOwner", "");
                         return this->m_owner;
                     }
-                    virtual void setLastIndex(int a_position){
+                    virtual void setLastIndex(int a_index){
                         RawPointerListLog(pankey_Log_StartMethod, "setLastIndex", "");
-                        this->m_position = a_position;
+                        this->m_index = a_index;
                         RawPointerListLog(pankey_Log_EndMethod, "setLastIndex", "");
                     }
                     virtual int getLastIndex()const{
                         RawPointerListLog(pankey_Log_StartMethod, "getLastIndex", "");
                         RawPointerListLog(pankey_Log_EndMethod, "getLastIndex", "");
-                        return this->m_position;
+                        return this->m_index;
                     }
                     
                     virtual void setSize(int a_size){
@@ -89,9 +89,9 @@
                         return this->addPointer(a_value);
                     }
 
-                    virtual T* setPointer(int a_position, T* a_value)=0;
+                    virtual T* setPointer(int a_index, T* a_value)=0;
 
-                    virtual T* insertPointer(int a_position, T* a_value)=0;
+                    virtual T* insertPointer(int a_index, T* a_value)=0;
 
                     virtual T* getByPointer(T* a_value)=0;
                     virtual T* getByIndex(int x)const=0;
@@ -105,7 +105,7 @@
 
                     virtual T* removeByPointer(T* a_value)=0;
 
-                    virtual T* removeByPosition(int a_position)=0;
+                    virtual T* removeByIndex(int a_index)=0;
 
                     virtual bool removeDeleteByPointer(T* a_value){
                         RawPointerListLog(pankey_Log_StartMethod, "removeDeleteByPointer", "");
@@ -118,15 +118,15 @@
                         return removed;
                     }
 
-                    virtual bool removeDeleteByPosition(int a_position){
-                        RawPointerListLog(pankey_Log_StartMethod, "removeDeleteByPosition", "");
-                        T* t = this->removeByPosition(a_position);
+                    virtual bool removeDeleteByIndex(int a_index){
+                        RawPointerListLog(pankey_Log_StartMethod, "removeDeleteByIndex", "");
+                        T* t = this->removeByIndex(a_index);
                         bool removed = t != nullptr;
                         if(removed && isOwner()){
-                            RawPointerListLog(pankey_Log_Statement, "removeDeleteByPosition", "deleting pointer");
+                            RawPointerListLog(pankey_Log_Statement, "removeDeleteByIndex", "deleting pointer");
                             delete t;
                         }
-                        RawPointerListLog(pankey_Log_EndMethod, "removeDeleteByPosition", "");
+                        RawPointerListLog(pankey_Log_EndMethod, "removeDeleteByIndex", "");
                         return removed;
                     }
 
@@ -141,7 +141,7 @@
                             return false;
                         }
                         RawPointerListLog(pankey_Log_EndMethod, "removeFirst", "");
-                        return this->removeDeleteByPosition(0);
+                        return this->removeDeleteByIndex(0);
                     }
 
                     virtual bool removeLast(){
@@ -150,7 +150,7 @@
                             return false;
                         }
                         RawPointerListLog(pankey_Log_EndMethod, "removeLast", "");
-                        return this->removeDeleteByPosition(this->getLastIndex() - 1);
+                        return this->removeDeleteByIndex(this->getLastIndex() - 1);
                     }
 
                     virtual bool isInOrder(){return this->m_reorder;}
@@ -161,32 +161,32 @@
                     
                 protected:
                     
-                    virtual void incrementPosition(){
-                        RawPointerListLog(pankey_Log_StartMethod, "incrementPosition", "");
-                        this->m_position++;
-                        RawPointerListLog(pankey_Log_EndMethod, "incrementPosition", "");
+                    virtual void incrementIndex(){
+                        RawPointerListLog(pankey_Log_StartMethod, "incrementIndex", "");
+                        this->m_index++;
+                        RawPointerListLog(pankey_Log_EndMethod, "incrementIndex", "");
                     }
-                    virtual void decrementPosition(){
-                        RawPointerListLog(pankey_Log_StartMethod, "decrementPosition", "");
-                        this->m_position--;
-                        if(this->m_position < 0){
-                            this->m_position = 0;
+                    virtual void decrementIndex(){
+                        RawPointerListLog(pankey_Log_StartMethod, "decrementIndex", "");
+                        this->m_index--;
+                        if(this->m_index < 0){
+                            this->m_index = 0;
                         }
-                        RawPointerListLog(pankey_Log_EndMethod, "decrementPosition", "");
+                        RawPointerListLog(pankey_Log_EndMethod, "decrementIndex", "");
                     }
                     
-                    virtual void incrementPosition(int a_size){
-                        RawPointerListLog(pankey_Log_StartMethod, "incrementPosition", "");
-                        this->m_position += a_size;
-                        RawPointerListLog(pankey_Log_EndMethod, "incrementPosition", "");
+                    virtual void incrementIndex(int a_size){
+                        RawPointerListLog(pankey_Log_StartMethod, "incrementIndex", "");
+                        this->m_index += a_size;
+                        RawPointerListLog(pankey_Log_EndMethod, "incrementIndex", "");
                     }
-                    virtual void decrementPosition(int a_size){
-                        RawPointerListLog(pankey_Log_StartMethod, "decrementPosition", "");
-                        this->m_position -= a_size;
-                        if(this->m_position < 0){
-                            this->m_position = 0;
+                    virtual void decrementIndex(int a_size){
+                        RawPointerListLog(pankey_Log_StartMethod, "decrementIndex", "");
+                        this->m_index -= a_size;
+                        if(this->m_index < 0){
+                            this->m_index = 0;
                         }
-                        RawPointerListLog(pankey_Log_EndMethod, "decrementPosition", "");
+                        RawPointerListLog(pankey_Log_EndMethod, "decrementIndex", "");
                     }
                     
                     virtual void incrementSize(){
@@ -258,7 +258,7 @@
                 protected:
                     bool m_reorder = true;
                     bool m_owner = true;
-                    int m_position = 0;
+                    int m_index = 0;
                     int m_size = 0;
             };
 

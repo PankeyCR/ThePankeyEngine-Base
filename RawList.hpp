@@ -40,20 +40,20 @@
 						return this->addLValue(a_value);
 					}
 
-					virtual T* setLValue(int a_position, T a_value)=0;
+					virtual T* setLValue(int a_index, T a_value)=0;
 					
-					virtual T* set(int a_position, T a_value){
+					virtual T* set(int a_index, T a_value){
 						RawListLog(pankey_Log_StartMethod, "set", "");
 						RawListLog(pankey_Log_EndMethod, "set", "");
-						return this->setLValue(a_position, a_value);
+						return this->setLValue(a_index, a_value);
 					}
 					
-					virtual T* insertLValue(int a_position, T a_value)=0;
+					virtual T* insertLValue(int a_index, T a_value)=0;
 					
-					virtual T* insert(int a_position, T a_value){
+					virtual T* insert(int a_index, T a_value){
 						RawListLog(pankey_Log_StartMethod, "insert", "");
 						RawListLog(pankey_Log_EndMethod, "insert", "");
-						return this->insertLValue(a_position, a_value);
+						return this->insertLValue(a_index, a_value);
 					}
 					
 					virtual T* getByLValue(T a_value)=0;
@@ -102,12 +102,6 @@
 						RawListLog(pankey_Log_StartMethod, "remove", "");
 						RawListLog(pankey_Log_EndMethod, "remove", "");
 						return this->removeDeleteByLValue(a_value);
-					}
-					
-					virtual bool removeByIndex(int a_position){
-						RawListLog(pankey_Log_StartMethod, "removeByIndex", "");
-						RawListLog(pankey_Log_EndMethod, "removeByIndex", "");
-						return this->removeDeleteByPosition(a_position);
 					}
 
 					virtual bool removeDeleteByLValue(T a_value){

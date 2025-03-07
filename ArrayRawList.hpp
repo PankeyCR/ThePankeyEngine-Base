@@ -53,22 +53,22 @@
 						return this->addPointer(i_value);
 					}
 					
-					virtual T* setLValue(int a_position, T a_value){
+					virtual T* setLValue(int a_index, T a_value){
 						ArrayRawListLog(pankey_Log_StartMethod, "setLValue", "");
-						if(a_position >= this->getLastIndex()){
+						if(a_index >= this->getLastIndex()){
 							return nullptr;			
 						}
-						if(this->m_values[a_position] == nullptr){
-							this->m_values[a_position] = new T();
+						if(this->m_values[a_index] == nullptr){
+							this->m_values[a_index] = new T();
 						}
-						*this->m_values[a_position] = a_value;
+						*this->m_values[a_index] = a_value;
 						ArrayRawListLog(pankey_Log_EndMethod, "setLValue", "");
-						return this->m_values[a_position];
+						return this->m_values[a_index];
 					}
 					
-					virtual T* insertLValue(int a_position, T a_value){
+					virtual T* insertLValue(int a_index, T a_value){
 						ArrayRawListLog(pankey_Log_StartMethod, "insertLValue", "");
-						if(a_position >= this->getLastIndex() + 1){
+						if(a_index >= this->getLastIndex() + 1){
 							return nullptr;
 						}
 						if(this->getSize() <= this->getLastIndex()){
@@ -77,14 +77,14 @@
 						T* nVaule;
 						T* rVaule = new T();
 						*rVaule = a_value;
-						for(int x = a_position; x <= this->getLastIndex(); x++){
+						for(int x = a_index; x <= this->getLastIndex(); x++){
 							nVaule = this->m_values[x];
 							this->m_values[x] = rVaule;
 							rVaule = nVaule;
 						}
-						this->incrementPosition();
+						this->incrementIndex();
 						ArrayRawListLog(pankey_Log_EndMethod, "insertLValue", "");
-						return this->m_values[a_position];
+						return this->m_values[a_index];
 					}
 					
 					virtual T* getByLValue(T a_key){
@@ -144,18 +144,18 @@
 							ArrayRawListLog(pankey_Log_EndMethod, "removeByLValue", "");
 							return nullptr;
 						}
-						int i_position = -1;
+						int i_index = -1;
 						for(int x = 0; x < this->getLastIndex(); x++){
 							if(this->m_values[x] == nullptr){
 								continue;
 							}
 							if(a_key == *this->m_values[x]){
-								i_position = x;
+								i_index = x;
 								break;
 							}
 						}
 						ArrayRawListLog(pankey_Log_EndMethod, "removeByLValue", "");
-						return this->removeByPosition(i_position);
+						return this->removeByIndex(i_index);
 					}
 				
 					////////////////////////////////////////////special removes part///////////////////////////////////////////////
@@ -203,18 +203,18 @@
 							ArrayRawListLog(pankey_Log_EndMethod, "removeLast", "");
 							return false;
 						}
-						int i_position = -1;
+						int i_index = -1;
 						for(int x = this->getLastIndex() - 1; x >= 0; x--){
 							if(this->m_values[x] == nullptr){
 								continue;
 							}
 							if(a_value == *this->m_values[x]){
-								i_position = x;
+								i_index = x;
 								break;
 							}
 						}
 						ArrayRawListLog(pankey_Log_EndMethod, "removeLast", "");
-						return this->removeByPosition(i_position);
+						return this->removeDeleteByIndex(i_index);
 					}
 					
 					virtual T& operator[](int x){
@@ -232,7 +232,7 @@
 							this->expand(this->m_expandSize);
 						}
 						if(this->getLastIndex() == x){
-							this->incrementPosition();
+							this->incrementIndex();
 						}
 						this->m_values[x] = new T();
 						ArrayRawListLog(pankey_Log_EndMethod, "operator[]", "");

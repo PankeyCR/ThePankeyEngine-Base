@@ -60,7 +60,7 @@
 
 					virtual bool isEmpty()const{
 						ArrayRawPointerListLog(pankey_Log_StartMethod, "isEmpty", "");
-						ArrayRawPointerListLog(pankey_Log_Statement, "isEmpty", "List Position:");
+						ArrayRawPointerListLog(pankey_Log_Statement, "isEmpty", "List Index:");
 						ArrayRawPointerListLog(pankey_Log_Statement, "isEmpty", this->getLastIndex());
 						ArrayRawPointerListLog(pankey_Log_Statement, "isEmpty", "List Size:");
 						ArrayRawPointerListLog(pankey_Log_Statement, "isEmpty", this->getSize());
@@ -83,7 +83,7 @@
 					
 					virtual T* addPointer(T* a_value){
 						ArrayRawPointerListLog(pankey_Log_StartMethod, "addPointer", "");
-						ArrayRawPointerListLog(pankey_Log_Statement, "addPointer", "List Position Before adding:");
+						ArrayRawPointerListLog(pankey_Log_Statement, "addPointer", "List Index Before adding:");
 						ArrayRawPointerListLog(pankey_Log_Statement, "addPointer", this->getLastIndex());
 						ArrayRawPointerListLog(pankey_Log_Statement, "addPointer", "List Size Before adding:");
 						ArrayRawPointerListLog(pankey_Log_Statement, "addPointer", this->getSize());
@@ -100,9 +100,9 @@
 							return nullptr;
 						}
 						this->m_values[this->getLastIndex()] = a_value;
-						this->incrementPosition();
+						this->incrementIndex();
 						
-						ArrayRawPointerListLog(pankey_Log_Statement, "addPointer", "List Position After adding:");
+						ArrayRawPointerListLog(pankey_Log_Statement, "addPointer", "List Index After adding:");
 						ArrayRawPointerListLog(pankey_Log_Statement, "addPointer", this->getLastIndex());
 						ArrayRawPointerListLog(pankey_Log_Statement, "addPointer", "List Size After adding:");
 						ArrayRawPointerListLog(pankey_Log_Statement, "addPointer", this->getSize());	
@@ -110,22 +110,22 @@
 						return a_value;
 					}
 					
-					virtual T* setPointer(int a_position, T* a_value){
+					virtual T* setPointer(int a_index, T* a_value){
 						ArrayRawPointerListLog(pankey_Log_StartMethod, "setPointer", "");
-						if(a_position >= this->getSize()){
+						if(a_index >= this->getSize()){
 							ArrayRawPointerListLog(pankey_Log_Statement, "setPointer", "expanding:");
-							ArrayRawPointerListLog(pankey_Log_Statement, "setPointer", a_position - this->getSize() + this->m_expandSize);
-							this->expand(a_position - this->getSize() + this->m_expandSize);
+							ArrayRawPointerListLog(pankey_Log_Statement, "setPointer", a_index - this->getSize() + this->m_expandSize);
+							this->expand(a_index - this->getSize() + this->m_expandSize);
 						}
-						if(a_position >= this->getSize()){
+						if(a_index >= this->getSize()){
 							if(a_value != nullptr && this->isOwner()){
 								ArrayRawPointerListLog(pankey_Log_Statement, "setPointer", "deleting a_value");
 								delete a_value;
 							}
-							ArrayRawPointerListLog(pankey_Log_EndMethod, "setPointer", "a_position >= this->getSize()");
+							ArrayRawPointerListLog(pankey_Log_EndMethod, "setPointer", "a_index >= this->getSize()");
 							return nullptr;			
 						}
-						T* i_value = this->getByIndex(a_position);
+						T* i_value = this->getByIndex(a_index);
 						if(a_value == i_value){
 							ArrayRawPointerListLog(pankey_Log_EndMethod, "setPointer", "a_value == i_value");
 							return a_value;
@@ -134,18 +134,18 @@
 							ArrayRawPointerListLog(pankey_Log_Statement, "setPointer", "deleting i_value");
 							delete i_value;
 						}
-						this->m_values[a_position] = a_value;
-						if(a_position > this->getLastIndex()){
-							this->setLastIndex(a_position + 1);
+						this->m_values[a_index] = a_value;
+						if(a_index > this->getLastIndex()){
+							this->setLastIndex(a_index + 1);
 						}
 						ArrayRawPointerListLog(pankey_Log_EndMethod, "setPointer", "");
 						return a_value;
 					}
 					
-					virtual T* insertPointer(int a_position, T* a_value){
+					virtual T* insertPointer(int a_index, T* a_value){
 						ArrayRawPointerListLog(pankey_Log_StartMethod, "insertPointer", "");
-						if(a_position >= this->getLastIndex()){
-							ArrayRawPointerListLog(pankey_Log_EndMethod, "insertPointer", "a_position >= this->getLastIndex()");
+						if(a_index >= this->getLastIndex()){
+							ArrayRawPointerListLog(pankey_Log_EndMethod, "insertPointer", "a_index >= this->getLastIndex()");
 							return this->addPointer(a_value);
 						}
 						if(this->getLastIndex() >= this->getSize()){
@@ -159,12 +159,12 @@
 						}
 						T* nVaule;
 						T* rVaule = a_value;
-						for(int x = a_position; x <= this->getLastIndex(); x++){
+						for(int x = a_index; x <= this->getLastIndex(); x++){
 							nVaule = this->m_values[x];
 							this->m_values[x] = rVaule;
 							rVaule = nVaule;
 						}
-						this->incrementPosition();
+						this->incrementIndex();
 						ArrayRawPointerListLog(pankey_Log_EndMethod, "insertPointer", "");
 						return a_value;
 					}
@@ -250,30 +250,30 @@
 					
 					virtual T* removeByPointer(T* a_key){
 						ArrayRawPointerListLog(pankey_Log_StartMethod, "removeByPointer", "");
-						int i_position = this->getIndexByPointer(a_key);
-						ArrayRawPointerListLog(pankey_Log_EndMethod, "removeByPointer", "removed position: ");
-						ArrayRawPointerListLog(pankey_Log_EndMethod, "removeByPointer", i_position);
+						int i_index = this->getIndexByPointer(a_key);
+						ArrayRawPointerListLog(pankey_Log_EndMethod, "removeByPointer", "removed Index: ");
+						ArrayRawPointerListLog(pankey_Log_EndMethod, "removeByPointer", i_index);
 						ArrayRawPointerListLog(pankey_Log_EndMethod, "removeByPointer", "");
-						return this->removeByPosition(i_position);
+						return this->removeByIndex(i_index);
 					}
 					
-					virtual T* removeByPosition(int a_position){
-						ArrayRawPointerListLog(pankey_Log_StartMethod, "removeByPosition", "");
-						if(this->isEmpty() || a_position >= this->getLastIndex()){
+					virtual T* removeByIndex(int a_index){
+						ArrayRawPointerListLog(pankey_Log_StartMethod, "removeByIndex", "");
+						if(this->isEmpty() || a_index >= this->getLastIndex()){
 							return nullptr;
 						}
-						T* i_value = this->m_values[a_position];
-						this->m_values[a_position] = nullptr;
+						T* i_value = this->m_values[a_index];
+						this->m_values[a_index] = nullptr;
 						if(!this->isInOrder()){
-							ArrayRawPointerListLog(pankey_Log_EndMethod, "removeByPosition", "!this->isInOrder()");
+							ArrayRawPointerListLog(pankey_Log_EndMethod, "removeByIndex", "!this->isInOrder()");
 							return i_value;
 						}
 						int i_iteration = this->getLastIndex();
-						this->decrementPosition();
-						for(int x = a_position + 1; x < i_iteration; x++){
+						this->decrementIndex();
+						for(int x = a_index + 1; x < i_iteration; x++){
 							this->m_values[x - 1] = this->m_values[x];
 						}
-						ArrayRawPointerListLog(pankey_Log_EndMethod, "removeByPosition", "");
+						ArrayRawPointerListLog(pankey_Log_EndMethod, "removeByIndex", "");
 						return i_value;
 					}
 					
@@ -297,7 +297,7 @@
 						for(int x = i_iteration; x < this->getLastIndex(); x++){
 							this->m_values[x - i_iteration] = this->m_values[x];
 						}
-						this->decrementPosition(i_iteration);
+						this->decrementIndex(i_iteration);
 						ArrayRawPointerListLog(pankey_Log_EndMethod, "removeFirstIndex", "");
 						return true;
 					}
@@ -319,7 +319,7 @@
 							ArrayRawPointerListLog(pankey_Log_EndMethod, "removeLastIndex", "!this->isInOrder()");
 							return true;
 						}
-						this->decrementPosition(i_iteration);
+						this->decrementIndex(i_iteration);
 						ArrayRawPointerListLog(pankey_Log_EndMethod, "removeLastIndex", "");
 						return true;
 					}
@@ -330,7 +330,7 @@
 						ArrayRawPointerListLog(pankey_Log_StartMethod, "expand", "");
 						
 						int i_size = this->getSize() + a_size;
-						ArrayRawPointerListLog(pankey_Log_Statement, "expand", "List Position:");
+						ArrayRawPointerListLog(pankey_Log_Statement, "expand", "List Index:");
 						ArrayRawPointerListLog(pankey_Log_Statement, "expand", this->getLastIndex());
 						ArrayRawPointerListLog(pankey_Log_Statement, "expand", "List Size:");
 						ArrayRawPointerListLog(pankey_Log_Statement, "expand", this->getSize());	
@@ -356,7 +356,7 @@
 						this->m_values = nT;
 						this->setSize(i_size);
 						
-						ArrayRawPointerListLog(pankey_Log_Statement, "expand", "List Position:");
+						ArrayRawPointerListLog(pankey_Log_Statement, "expand", "List Index:");
 						ArrayRawPointerListLog(pankey_Log_Statement, "expand", this->getLastIndex());
 						ArrayRawPointerListLog(pankey_Log_Statement, "expand", "List Size:");
 						ArrayRawPointerListLog(pankey_Log_Statement, "expand", this->getSize());	
