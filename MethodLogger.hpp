@@ -12,6 +12,10 @@
 
 			bool g_method_logger_enable = true;
 
+			#ifndef pankey_Log_enable
+				#define pankey_Log_enable(status,name,method,mns) g_method_logger_enable
+			#endif
+
 			template<class L>
 			struct Logger
 			{
@@ -25,7 +29,7 @@
 				
 			template<class L>
 			void Logging(int status, const CharArray& name, const CharArray& method, L mns){
-				if(!g_method_logger_enable){
+				if(!pankey_Log_enable(status,name,method,mns)){
 					return;
 				}
 				invoke<int,const CharArray&,const CharArray&,L>(Logger<L>::log, status, name, method, mns);
@@ -34,13 +38,11 @@
 			template<class L>
 			InvokeMethod<int,const CharArray&,const CharArray&,L> Logger<L>::log;
 
-			template<class T>
-			void LoggingStartPrint_(T a_tittle){
+			void LoggingStartPrint_(){
 				g_method_logger_enable = true;
 			}
 		
-			template<class T>
-			void LoggingStopPrint_(T a_tittle){
+			void LoggingStopPrint_(){
 				g_method_logger_enable = false;
 			}
 
@@ -57,15 +59,15 @@
 	#endif
 	
 	#ifndef pankey_Log_Start
-		#define pankey_Log_Start(tittle) LoggingStartPrint_(tittle)
+		#define pankey_Log_Start pankey::Base::LoggingStartPrint_
 	#endif
 	
 	#ifndef pankey_Log_Stop
-		#define pankey_Log_Stop(tittle) LoggingStopPrint_(tittle)
+		#define pankey_Log_Stop pankey::Base::LoggingStopPrint_
 	#endif 
 
 	#ifndef pankey_Log
-		#define pankey_Log(status,name,method,mns) pankey::Base::Logging<const CharArray&>(status,name,method,mns)
+		#define pankey_Log(status,name,method,mns) pankey::Base::Logging<const pankey::Base::CharArray&>(status,name,method,mns)
 	#endif 
 
 	#ifndef pankey_Logger

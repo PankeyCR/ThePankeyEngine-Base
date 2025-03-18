@@ -18,8 +18,8 @@ void loop() {
   list.addPointer(new int(4));
   list.addPointer(new int(5));
 
-  for(int x = 0; x < list.getLastIndex(); x++){
-    int* number = list.getByIndex(x);
+  for(int x = 0; x < list.length(); x++){
+    int* number = list.getPointerByIndex(x);
     if(number == nullptr){
       continue;
     }

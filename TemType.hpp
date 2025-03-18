@@ -9,7 +9,7 @@
 		namespace Base{
 
 			template<class T>
-			class TemType{
+			class TemType : public Type{
 				public:
 					TemType(){}
 					virtual ~TemType(){}

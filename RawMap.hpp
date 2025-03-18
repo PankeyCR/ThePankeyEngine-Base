@@ -25,54 +25,36 @@
 
 					virtual void addCopy(const RawPointerMap<K,V>& a_map){
 						RawMapLog(pankey_Log_StartMethod, "addCopy", "");
-						for(int x = 0; x < a_map.getLastIndex(); x++){
-							K* k = a_map.getKeyByIndex(x);
-							V* v = a_map.getValueByIndex(x);
+						for(int x = 0; x < a_map.length(); x++){
+							K* k = a_map.getKeyPointerByIndex(x);
+							V* v = a_map.getValuePointerByIndex(x);
 							if(k == nullptr || v == nullptr){
 								continue;
 							}
-							this->addLValues(*k,*v);
+							this->add(*k,*v);
 						}
 						RawMapLog(pankey_Log_EndMethod, "addCopy", "");
 					}
 					
-					virtual RawMapEntry<K,V> addLValues(K a_key, V a_value)=0;
+					virtual RawMapEntry<K,V> add(K a_key, V a_value)=0;
 					virtual RawMapEntry<K,V> addPointer(K a_key, V* a_value)=0;
-					
-					virtual RawMapEntry<K,V> add(K a_key, V a_value){
-						RawMapLog(pankey_Log_StartMethod, "add", "");
-						RawMapLog(pankey_Log_EndMethod, "add", "");
-						return this->addLValues(a_key, a_value);
-					}
 
-					virtual RawMapEntry<K,V> setLValues(K a_key, V a_value)=0;
+					virtual RawMapEntry<K,V> set(K a_key, V a_value)=0;
 					virtual RawMapEntry<K,V> setPointer(K a_key, V* a_value)=0;
 					
-					virtual RawMapEntry<K,V> setKeyLValueByIndex(int a_position, K a_key)=0;
-					virtual RawMapEntry<K,V> setValueLValueByIndex(int a_position, V a_value)=0;
+					virtual RawMapEntry<K,V> setKeyByIndex(int a_position, K a_key)=0;
+					virtual RawMapEntry<K,V> setValueByIndex(int a_position, V a_value)=0;
 					
-					virtual RawMapEntry<K,V> set(K a_key, V a_value){
-						RawMapLog(pankey_Log_StartMethod, "set", "");
-						RawMapLog(pankey_Log_EndMethod, "set", "");
-						return this->setLValues(a_key,a_value);
-					}
+					virtual bool containKey(K a_key)=0;
+					virtual bool containValue(V a_value)=0;
 					
-					virtual bool containKeyByLValue(K a_key)=0;
-					virtual bool containValueByLValue(V a_value)=0;
+					virtual K* getKeyPointer(V a_value)const=0;
 					
-					virtual bool contain(K a_key){
-						RawMapLog(pankey_Log_StartMethod, "contain", "");
-						RawMapLog(pankey_Log_EndMethod, "contain", "");
-						return this->containKeyByLValue(a_key);
-					}
-					
-					virtual K* getKeyByLValue(V a_value)const=0;
-					
-					virtual V* getValueByLValue(K a_key)const=0;
+					virtual V* getValuePointer(K a_key)const=0;
 					
 					virtual V get(K a_key)const{
 						RawMapLog(pankey_Log_StartMethod, "get", "");
-						V* i_value = this->getValueByLValue(a_key);
+						V* i_value = this->getValuePointer(a_key);
 						if(i_value == nullptr){
 							RawMapLog(pankey_Log_EndMethod, "get", "");
 							return V();
@@ -80,47 +62,41 @@
 						RawMapLog(pankey_Log_EndMethod, "get", "");
 						return *i_value;
 					}
-					virtual K getKey(int a_position){
-						RawMapLog(pankey_Log_StartMethod, "getKey", "");
-						K* i_key = this->getKeyByIndex(a_position);
+					virtual K getKeyByIndex(int a_position){
+						RawMapLog(pankey_Log_StartMethod, "getKeyByIndex", "");
+						K* i_key = this->getKeyPointerByIndex(a_position);
 						if(i_key == nullptr){
-							RawMapLog(pankey_Log_EndMethod, "getKey", "");
+							RawMapLog(pankey_Log_EndMethod, "getKeyByIndex", "");
 							return K();
 						}
-						RawMapLog(pankey_Log_EndMethod, "getKey", "");
+						RawMapLog(pankey_Log_EndMethod, "getKeyByIndex", "");
 						return *i_key;
 					}
-					virtual V getValue(int a_position){
-						RawMapLog(pankey_Log_StartMethod, "getValue", "");
-						V* i_value = this->getValueByIndex(a_position);
+					virtual V getValueByIndex(int a_position){
+						RawMapLog(pankey_Log_StartMethod, "getValueByIndex", "");
+						V* i_value = this->getValuePointerByIndex(a_position);
 						if(i_value == nullptr){
-							RawMapLog(pankey_Log_EndMethod, "getValue", "");
+							RawMapLog(pankey_Log_EndMethod, "getValueByIndex", "");
 							return V();
 						}
-						RawMapLog(pankey_Log_EndMethod, "getValue", "");
+						RawMapLog(pankey_Log_EndMethod, "getValueByIndex", "");
 						return *i_value;
 					}
 					
-					virtual RawMapEntry<K,V> removeByKeyLValue(K a_key)=0;
-					virtual RawMapEntry<K,V> removeByValueLValue(V a_value)=0;
+					virtual RawMapEntry<K,V> removeByKey(K a_key)=0;
+					virtual RawMapEntry<K,V> removeByValue(V a_value)=0;
 					
-					virtual bool removeDeleteByKeyLValue(K a_key)=0;
-					virtual bool removeDeleteByValueLValue(V a_value)=0;
+					virtual bool destroyByKey(K a_key)=0;
+					virtual bool destroyByValue(V a_value)=0;
 					
-					virtual bool remove(K a_key)=0;
+					virtual bool destroy(K a_key)=0;
 					
-					virtual RawMapEntry<K,V> putLValues(K a_key, V a_value)=0;
+					virtual RawMapEntry<K,V> put(K a_key, V a_value)=0;
 					virtual RawMapEntry<K,V> putPointer(K a_key, V* a_value)=0;
 					
-					virtual RawMapEntry<K,V> put(K a_key, V a_value){
-						RawMapLog(pankey_Log_StartMethod, "put", "");
-						RawMapLog(pankey_Log_EndMethod, "put", "");
-						return this->putLValues(a_key, a_value);
-					}
+					virtual int getKeyIndex(K a_key)=0;
 					
-					virtual int getKeyIndexByLValue(K a_key)=0;
-					
-					virtual int getValueIndexByLValue(V a_key)=0;
+					virtual int getValueIndex(V a_key)=0;
 					
 					template<class... Args>
 					void addKeyPack(Args... a_values){

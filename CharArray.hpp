@@ -1737,7 +1737,7 @@
 						return true;
 					}
 
-					virtual bool operator!=(const CharArray& a_CharArray){
+					virtual bool operator!=(const CharArray& a_CharArray)const{
 						if(a_CharArray.length() != this->length()){
 							return true;
 						}

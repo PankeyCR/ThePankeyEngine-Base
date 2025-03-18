@@ -31,7 +31,7 @@
 			template<class K, class... Args>
 			void invoke(const RawMap<K,InvokeMethod<Args...>>& a_map, K a_key, Args... args){
 				InvokeRawMapLog(pankey_Log_StartMethod, "invoke", "");
-				auto i_event = a_map.getValueByLValue(a_key);
+				auto i_event = a_map.get(a_key);
 				if(i_event == nullptr){
 					InvokeRawMapLog(pankey_Log_EndMethod, "invoke", "");
 					return;
@@ -43,8 +43,8 @@
 			template<class K, class... Args>
 			void invokeAll(const RawMap<K,InvokeMethod<Args...>>& a_map, Args... args){
 				InvokeRawMapLog(pankey_Log_StartMethod, "invokeAll", "");
-				for(int x = 0; x < a_map.getLastIndex(); x++){
-					auto i_event = a_map.getValueByIndex(x);
+				for(int x = 0; x < a_map.length(); x++){
+					auto i_event = a_map.getValuePointerByIndex(x);
 					if(i_event == nullptr){
 						InvokeRawMapLog(pankey_Log_EndMethod, "invokeAll", "");
 						return;
@@ -57,7 +57,7 @@
 			template<class T, class K, class... Args>
 			void invoke(const RawMap<K,InvokeClassMethod<T,Args...>>& a_map, T& a_instance, K a_key, Args... args){
 				InvokeRawMapLog(pankey_Log_StartMethod, "invoke", "");
-				auto i_event = a_map.getValueByLValue(a_key);
+				auto i_event = a_map.get(a_key);
 				if(i_event == nullptr){
 					InvokeRawMapLog(pankey_Log_EndMethod, "invoke", "");
 					return;
@@ -70,8 +70,8 @@
 			template<class T, class K, class... Args>
 			void invokeAll(const RawMap<K,InvokeClassMethod<T,Args...>>& a_map, T& a_instance, Args... args){
 				InvokeRawMapLog(pankey_Log_StartMethod, "invokeAll", "");
-				for(int x = 0; x < a_map.getLastIndex(); x++){
-					auto i_event = a_map.getValueByIndex(x);
+				for(int x = 0; x < a_map.length(); x++){
+					auto i_event = a_map.getValuePointerByIndex(x);
 					if(i_event == nullptr){
 						InvokeRawMapLog(pankey_Log_EndMethod, "invokeAll", "");
 						return;
@@ -85,7 +85,7 @@
 			template<class K, class R, class... Args>
 			R invoke(const RawMap<K,InvokeMethodReturn<R,Args...>>& a_map, K a_key, Args... args){
 				InvokeRawMapLog(pankey_Log_StartMethod, "invoke", "");
-				auto i_event = a_map.getValueByLValue(a_key);
+				auto i_event = a_map.get(a_key);
 				if(i_event == nullptr){
 					InvokeRawMapLog(pankey_Log_EndMethod, "invoke", "");
 					return R();
@@ -97,10 +97,10 @@
 			template<class K, class R, class... Args>
 			void invokeAll(const RawMap<K,InvokeMethodReturn<R,Args...>>& a_map, Args... args){
 				InvokeRawMapLog(pankey_Log_StartMethod, "invokeAll", "");
-				for(int x = 0; x < a_map.getLastIndex(); x++){
+				for(int x = 0; x < a_map.length(); x++){
 					InvokeRawMapLog(pankey_Log_Statement, "invokeAll", "loop index:");
 					InvokeRawMapLog(pankey_Log_Statement, "invokeAll", x);
-					auto i_event = a_map.getValueByIndex(x);
+					auto i_event = a_map.getValuePointerByIndex(x);
 					if(i_event == nullptr){
 						InvokeRawMapLog(pankey_Log_EndMethod, "invokeAll", "");
 						continue;
@@ -113,7 +113,7 @@
 			template<class T, class K, class R, class... Args>
 			R invoke(const RawMap<K,InvokeClassMethodReturn<T,R,Args...>>& a_map, T& a_instance, K a_key, Args... args){
 				InvokeRawMapLog(pankey_Log_StartMethod, "invoke", "");
-				auto i_event = a_map.getValueByLValue(a_key);
+				auto i_event = a_map.get(a_key);
 				if(i_event == nullptr){
 					InvokeRawMapLog(pankey_Log_EndMethod, "invoke", "");
 					return R();
@@ -126,8 +126,8 @@
 			template<class T, class K, class R, class... Args>
 			void invokeAll(const RawMap<K,InvokeClassMethodReturn<T,R,Args...>>& a_map, T& a_instance, Args... args){
 				InvokeRawMapLog(pankey_Log_StartMethod, "invokeAll", "");
-				for(int x = 0; x < a_map.getLastIndex(); x++){
-					auto i_event = a_map.getValueByIndex(x);
+				for(int x = 0; x < a_map.length(); x++){
+					auto i_event = a_map.getValuePointerByIndex(x);
 					if(i_event == nullptr){
 						InvokeRawMapLog(pankey_Log_EndMethod, "invokeAll", "");
 						return;

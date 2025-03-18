@@ -1,5 +1,5 @@
 
-//#include "arduino_logger.hpp"
+//#include "MethodLogger.hpp"
 
 //#define TestRunner_Log
 
@@ -11,6 +11,7 @@
 #include "TR_InvokeRawList_Testing.hpp"
 #include "TR_InvokeRawMap_Testing.hpp"
 #include "TR_RawPointerList_Testing.hpp"
+#include "TR_GlobalEvents_Testing.hpp"
 
 using namespace pankey::Base;
 
@@ -50,6 +51,7 @@ void setup() {
   TR_InvokeRawMap_Testing(tester);
 //  TR_RawPointerList_Testing<LinkedRawPointerList<int>,int>("LinkedRawPointerList", tester);
   TR_RawPointerList_Testing<ArrayRawPointerList<int>,int>("ArrayRawPointerList", tester);
+  TR_GlobalEvents_Testing(tester);
   
   tester.output(Start, End, Info, Error, Succes);
 }

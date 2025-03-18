@@ -88,9 +88,9 @@
 						invoke(start);
 
 						bool t_res = true;
-						for(int x = 0; x < map.getLastIndex(); x++){
-							CharArray* f_note = map.getKeyByIndex(x);
-							InvokeMethodReturn<TestResult>* f_method = map.getValueByIndex(x);
+						for(int x = 0; x < map.length(); x++){
+							CharArray* f_note = map.getKeyPointerByIndex(x);
+							InvokeMethodReturn<TestResult>* f_method = map.getValuePointerByIndex(x);
 							if(f_note == nullptr || f_method == nullptr){
 								continue;
 							}

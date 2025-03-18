@@ -52,7 +52,6 @@
 				protected:
 					bool m_enable = false;
 					bool m_init = false;
-					Note m_id = "";
 			};
 
 		}

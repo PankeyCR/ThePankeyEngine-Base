@@ -20,106 +20,63 @@
 				public:
 					virtual ~RawList(){}
 
-					virtual void addCopy(RawPointerList<T>* a_list){
+					virtual void addCopy(RawList<T>& a_list){
 						RawListLog(pankey_Log_StartMethod, "addCopy", "");
-						for(int x = 0; x < a_list->getLastIndex(); x++){
-							T* f_value = a_list->getByIndex(x);
-							if(f_value == nullptr){
-								continue;
-							}
-							this->addLValue(*f_value);
-						}
+                        for(int x = 0; x < a_list.length(); x++){
+                            T* f_value = a_list.getPointerByIndex(x);
+                            this->add(*f_value);
+                        }
 						RawListLog(pankey_Log_EndMethod, "addCopy", "");
 					}
 
-					virtual T* addLValue(T a_value)=0;
-
-					virtual T* add(T a_value){
-						RawListLog(pankey_Log_StartMethod, "add", "");
-						RawListLog(pankey_Log_EndMethod, "add", "");
-						return this->addLValue(a_value);
-					}
-
-					virtual T* setLValue(int a_index, T a_value)=0;
+					virtual T* add(T a_value)=0;
 					
-					virtual T* set(int a_index, T a_value){
-						RawListLog(pankey_Log_StartMethod, "set", "");
-						RawListLog(pankey_Log_EndMethod, "set", "");
-						return this->setLValue(a_index, a_value);
-					}
+					virtual T* set(int a_index, T a_value)=0;
 					
-					virtual T* insertLValue(int a_index, T a_value)=0;
+					virtual T* insert(int a_index, T a_value)=0;
 					
-					virtual T* insert(int a_index, T a_value){
-						RawListLog(pankey_Log_StartMethod, "insert", "");
-						RawListLog(pankey_Log_EndMethod, "insert", "");
-						return this->insertLValue(a_index, a_value);
-					}
+					virtual T* getPointer(T a_value)=0;
 					
-					virtual T* getByLValue(T a_value)=0;
-					
-					virtual T* get(T a_value){
-						RawListLog(pankey_Log_StartMethod, "get", "");
-						RawListLog(pankey_Log_EndMethod, "get", "");
-						return this->getByLValue(a_value);
-					}
+					virtual T& getReference(T a_value)=0;
 					
 					virtual T& getReferenceByIndex(int x)const{
-						RawListLog(pankey_Log_StartMethod, "getByIndex", "");
-						RawListLog(pankey_Log_EndMethod, "getByIndex", "");
-						return *this->getByIndex(x);
+						RawListLog(pankey_Log_StartMethod, "getReferenceByIndex", "");
+						RawListLog(pankey_Log_EndMethod, "getReferenceByIndex", "");
+						return *this->getPointerByIndex(x);
 					}
 					
-					virtual T getValueByIndex(int x)const{
-						RawListLog(pankey_Log_StartMethod, "getValueByIndex", "");
-						T* i_pointer = this->getByIndex(x);
+					virtual T getByIndex(int x)const{
+						RawListLog(pankey_Log_StartMethod, "getByIndex", "");
+						T* i_pointer = this->getPointerByIndex(x);
 						if(i_pointer == nullptr){
 							return T();
 						}
-						RawListLog(pankey_Log_EndMethod, "getValueByIndex", "");
+						RawListLog(pankey_Log_EndMethod, "getByIndex", "");
 						return *i_pointer;
 					}
 					
-					virtual bool containByLValue(T a_value)=0;
+					virtual bool contain(T a_value)=0;
 					
-					virtual bool contain(T a_value){
-						RawListLog(pankey_Log_StartMethod, "contain", "");
-						RawListLog(pankey_Log_EndMethod, "contain", "");
-						return this->containByLValue(a_value);
-					}
-					
-					virtual int getIndexByLValue(T a_value)=0;
-					
-					virtual int getIndex(T a_value){
-						RawListLog(pankey_Log_StartMethod, "getIndex", "");
-						RawListLog(pankey_Log_EndMethod, "getIndex", "");
-						return this->getIndexByLValue(a_value);
-					}
+					virtual int getIndex(T a_value)=0;
 
-					virtual T* removeByLValue(T a_value)=0;
-					
-					virtual bool remove(T a_value){
-						RawListLog(pankey_Log_StartMethod, "remove", "");
-						RawListLog(pankey_Log_EndMethod, "remove", "");
-						return this->removeDeleteByLValue(a_value);
-					}
+					virtual T* remove(T a_value)=0;
 
-					virtual bool removeDeleteByLValue(T a_value){
-						RawListLog(pankey_Log_StartMethod, "removeDeleteByLValue", "");
-						T* t = this->removeByLValue(a_value);
+					virtual bool destroy(T a_value){
+						RawListLog(pankey_Log_StartMethod, "destroy", "");
+						T* t = this->remove(a_value);
 						bool removed = t != nullptr;
 						if(removed && this->isOwner()){
-							RawListLog(pankey_Log_Statement, "removeDeleteByLValue", "deleting pointer");
+							RawListLog(pankey_Log_Statement, "destroy", "deleting pointer");
 							delete t;
 						}
-						RawListLog(pankey_Log_EndMethod, "removeDeleteByLValue", "");
+						RawListLog(pankey_Log_EndMethod, "destroy", "");
 						return removed;
 					}
 					
 					//special removes
-					virtual bool removeAll(T a_value)=0;
-					virtual bool removeFirst(T a_value)=0;
-					virtual bool removeLast(T a_value)=0;
+					virtual bool destroyAll(T a_value)=0;
+					virtual bool destroyFirst(T a_value)=0;
+					virtual bool destroyLast(T a_value)=0;
 				
 					template<class... Args>
 					void addPack(Args... x){
@@ -140,18 +97,18 @@
 					
 					virtual T* put(T a_value){
 						RawListLog(pankey_Log_StartMethod, "put", "");
-						if(this->containByLValue(a_value)){
-							return nullptr;
+						if(this->contain(a_value)){
+							return this->getPointer(a_value);
 						}
 						RawListLog(pankey_Log_EndMethod, "put", "");
-						return this->addLValue(a_value);
+						return this->add(a_value);
 					}
 					
 					virtual int repeated(T a_value){
 						RawListLog(pankey_Log_StartMethod, "repeated", "");
 						int size = 0;
-						for(int x = 0; x < this->getLastIndex(); x++){
-							T t = *this->getByIndex(x);
+						for(int x = 0; x < this->length(); x++){
+							T t = *this->getPointerByIndex(x);
 							if(a_value == t){
 								size++;
 							}
@@ -163,13 +120,13 @@
 					virtual T* addFirst(T a_value){
 						RawListLog(pankey_Log_StartMethod, "addFirst", "");
 						RawListLog(pankey_Log_EndMethod, "addFirst", "");
-						return this->insertLValue(0, a_value);
+						return this->insert(0, a_value);
 					}
 					
 					virtual T* addLast(T a_value){
 						RawListLog(pankey_Log_StartMethod, "addLast", "");
 						RawListLog(pankey_Log_EndMethod, "addLast", "");
-						return this->addLValue(a_value);
+						return this->add(a_value);
 					}
 					
 					//operators

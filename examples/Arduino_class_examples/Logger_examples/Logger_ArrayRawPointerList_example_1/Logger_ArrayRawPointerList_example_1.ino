@@ -29,8 +29,8 @@ void loop() {
   array.addPointer(new int(5));
   array.addPointer(new int(6));
   array.addPointer(new int(7));
-  for(int x = 0; x < array.getLastIndex(); x++){
-    Serial.println(*array.getByIndex(x));
+  for(int x = 0; x < array.length(); x++){
+    Serial.println(*array.getPointerByIndex(x));
   }
   delay(3000);
 }

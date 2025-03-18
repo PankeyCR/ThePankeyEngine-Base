@@ -3,8 +3,8 @@
 *	
 *	pankey_Log_set(LoggerMethod)			//Starts a method into the logger
 *	pankey_Log_Split(Tittle)				//Separetes parts of the logger to adentify better a bug
-*	pankey_Log_Start(Tittle)				//Starts the logg
-*	pankey_Log_Stop(Tittle)					//Stops the logg
+*	pankey_Log_Start()						//Starts the logg
+*	pankey_Log_Stop()						//Stops the logg
 *	pankey_Log(status,name,method,mns)		//General logger, mns is a CharArray value
 *	pankey_Logger(status,name,method,mns)	//General logger, mns is a template value
 *	
@@ -22,19 +22,23 @@
 	#endif
 	
 	#ifndef pankey_Log_Start
-		#define pankey_Log_Start(tittle) 
+		#define pankey_Log_Start() 
 	#endif
 	
 	#ifndef pankey_Log_Stop
-		#define pankey_Log_Stop(tittle) 
+		#define pankey_Log_Stop() 
 	#endif 
 
 	#ifndef pankey_Log
 		#define pankey_Log(status,name,method,mns) 
-	#endif 
+	#endif
 
 	#ifndef pankey_Logger
 		#define pankey_Logger(status,name,method,mns) 
+	#endif
+
+	#ifndef pankey_Log_enable
+		#define pankey_Log_enable(status,name,method,mns) false
 	#endif
 
 #endif 

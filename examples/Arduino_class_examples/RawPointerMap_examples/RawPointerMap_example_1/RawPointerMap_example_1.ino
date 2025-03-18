@@ -16,7 +16,7 @@ void loop() {
   map.addPointers(new int(4), new int(14));
   map.addPointers(new int(5), new int(15));
 
-  for(int x = 0; x < map.getLastIndex(); x++){
+  for(int x = 0; x < map.length(); x++){
     RawMapEntry<int,int> entry = map.getRawMapEntryByIndex(x);
     if(entry.isNull()){
       continue;

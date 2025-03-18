@@ -27,7 +27,7 @@
 				virtual ~ListIterator(){}
 				
 				T& operator* (){
-					return *m_list->getByIndex(m_pos);
+					return *m_list->getPointerByIndex(m_pos);
 				}
 				
 				ListIterator<T> &operator++ (){

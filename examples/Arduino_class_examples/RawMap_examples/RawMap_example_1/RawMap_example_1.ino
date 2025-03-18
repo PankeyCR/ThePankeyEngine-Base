@@ -10,11 +10,11 @@ void setup() {
 void loop() {
   ArrayRawMap<int,int> map;
 
-  map.addLValues(1, 11);
-  map.addLValues(2, 12);
-  map.addLValues(3, 13);
-  map.addLValues(4, 14);
-  map.addLValues(5, 15);
+  map.add(1, 11);
+  map.add(2, 12);
+  map.add(3, 13);
+  map.add(4, 14);
+  map.add(5, 15);
 
   for(auto entry :  map){
     int key = entry.getKey();

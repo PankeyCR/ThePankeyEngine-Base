@@ -67,7 +67,7 @@
 				}
 				
 				virtual K getKey(){
-					K* key = m_map->getKeyByIndex(position);
+					K* key = m_map->getKeyPointerByIndex(position);
 					if(key == nullptr){
 						return K();
 					}
@@ -75,11 +75,11 @@
 				}
 				
 				virtual K* getKeyPointer(){
-					return m_map->getKeyByIndex(position);
+					return m_map->getKeyPointerByIndex(position);
 				}
 				
 				virtual V getValue(){
-					V* value = m_map->getValueByIndex(position);
+					V* value = m_map->getValuePointerByIndex(position);
 					if(value == nullptr){
 						return V();
 					}
@@ -87,11 +87,11 @@
 				}
 				
 				virtual V* getValuePointer(){
-					return m_map->getValueByIndex(position);
+					return m_map->getValuePointerByIndex(position);
 				}
 				
 				virtual void setKey(K k){
-					K* key = m_map->getKeyByIndex(position);
+					K* key = m_map->getKeyPointerByIndex(position);
 					if(key == nullptr){
 						return;
 					}
@@ -99,7 +99,7 @@
 				}
 				
 				virtual void setValue(V v){
-					V* value = m_map->getValueByIndex(position);
+					V* value = m_map->getValuePointerByIndex(position);
 					if(value == nullptr){
 						return;
 					}
