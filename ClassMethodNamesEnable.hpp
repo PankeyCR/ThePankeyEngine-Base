@@ -15,7 +15,7 @@
 			ArrayRawMap<CharArray,ArrayRawList<CharArray>> g_classmethodnamesenable_map;
 		
 			template<class L>
-			bool ClassMethodNamesEnable(int a_status, const CharArray& a_name, const CharArray& a_method, L a_log){Serial.println("calasdfasdfadfasdfasdfasdfasdfadsfasdf");
+			bool ClassMethodNamesEnable(int a_status, const CharArray& a_name, const CharArray& a_method, L a_log){
 				for(auto entry :  g_classmethodnamesenable_map){
 				  CharArray f_key = entry.getKey();
 				  if(f_key != a_name){
