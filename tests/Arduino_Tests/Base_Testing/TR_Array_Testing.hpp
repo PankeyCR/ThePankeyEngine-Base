@@ -7,6 +7,7 @@
 
 	#include "Array.hpp"
 	#include "Cast.hpp"
+	#include "TemplateMemoryAllocator.hpp"
 
 	namespace pankey{
 
@@ -15,7 +16,7 @@
 			TestResult TR_Array_Testing_1(){
 				TestResult result;
 				
-			Array<int> array;
+				Array<int> array;
 
 				array.addLocalValue(1);
 				array.addLocalValue(2);
@@ -521,6 +522,62 @@
 				}
 
 				result.assertCharArrayEqual("array should contain 1000 ints", i_array.length(), 1000);
+				result.assertCharArrayEqual("array should contain 1000 ints", i_array.getSize(), 1000);
+				
+				return result;
+			}
+				
+			TestResult TR_Array_Testing_33(){
+				TestResult result;
+				
+				Array<int> i_array;
+				i_array.setFixSize(1000);
+
+				for(int x = 0; x < 2000; x++){
+					i_array.addLocalValue(15);
+				}
+
+				i_array.clear();
+
+				result.assertCharArrayEqual("array should contain 1000 ints", i_array.length(), 0);
+				result.assertCharArrayEqual("array should contain 1000 ints", i_array.getSize(), 1000);
+				
+				return result;
+			}
+				
+			TestResult TR_Array_Testing_34(){
+				TestResult result;
+				
+				Array<int> i_array;
+				i_array.setFixSize(1000);
+
+				for(int x = 0; x < 2000; x++){
+					i_array.addLocalValue(15);
+				}
+
+				i_array.reset();
+
+				result.assertCharArrayEqual("array should contain 1000 ints", i_array.length(), 0);
+				result.assertCharArrayEqual("array should contain 1000 ints", i_array.getSize(), 1000);
+				
+				return result;
+			}
+				
+			TestResult TR_Array_Testing_35(){
+				TestResult result;
+				
+				MemoryAllocator* i_allocator = new TemplateMemoryAllocator<int>();
+				i_allocator->isManaged(true);
+				Array<int> i_array;
+				i_array.setAllocator(i_allocator);
+
+				for(int x = 0; x < 10; x++){
+					i_array.addLocalValue(15);
+				}
+
+				result.assertTrue("array should an allocator", i_array.hasAllocator());
+				result.assertCharArrayEqual("array should contain 1000 ints", i_array.length(), 10);
+				result.assertCharArrayEqual("array should contain 1000 ints", i_array.get(0), 15);
 				
 				return result;
 			}
@@ -558,6 +615,9 @@
 				a_test_runner.add("Array spliting at the start with 1 split value", TR_Array_Testing_30);
 				a_test_runner.add("Array spliting at the start with 3 split value", TR_Array_Testing_31);
 				a_test_runner.add("Array setFixSize", TR_Array_Testing_32);
+				a_test_runner.add("Array setFixSize, clear", TR_Array_Testing_33);
+				a_test_runner.add("Array setFixSize, reset", TR_Array_Testing_34);
+				a_test_runner.add("Array with allocator", TR_Array_Testing_35);
 			}
 		}
 	}

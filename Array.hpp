@@ -3,6 +3,8 @@
 	#define Array_hpp
 
 	#include "ArrayIterator.hpp"
+	#include "Cast.hpp"
+	#include "MemoryAllocator.hpp"
 
 	#if defined(pankey_Log) && (defined(Array_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 		#include "Logger_status.hpp"
@@ -23,6 +25,7 @@
 					int m_pos = 0;
 					int m_size = 0;
 					int m_expandSize = 0;
+					MemoryAllocator* m_allocator = nullptr;
 
 				public:
 					Array(){
@@ -62,6 +65,14 @@
 					Array(const Array<T>& c_array){
 						ArrayLog(pankey_Log_StartMethod, "Constructor", "");
 						ArrayLog(pankey_Log_Statement, "Constructor", "const Array& val");
+						if(c_array.m_allocator != nullptr){
+							if(c_array.m_allocator->isManaged()){
+								m_allocator = c_array.m_allocator->clone();
+								m_allocator->isManaged(true);
+							}else{
+								m_allocator = c_array.m_allocator;
+							}
+						}
 						if(c_array.isEmpty()){
 							ArrayLog(pankey_Log_EndMethod, "Constructor", "c_array.isEmpty()");
 							return;
@@ -83,16 +94,14 @@
 					Array(Array<T>&& c_array){
 						ArrayLog(pankey_Log_StartMethod, "Constructor", "start");
 						ArrayLog(pankey_Log_Statement, "Constructor", "Array&& c_array");
-						if(c_array.isEmpty()){
-							ArrayLog(pankey_Log_EndMethod, "Constructor", "c_array.isEmpty()");
-							return;
-						}
 						int i_array_length = c_array.getPosition();
 						ArrayLog(pankey_Log_Statement, "Constructor", "Array Length:");
 						ArrayLog(pankey_Log_Statement, "Constructor", i_array_length);
 						this->m_pos = c_array.m_pos;
 						this->m_size = c_array.m_size;
 						this->m_t_value = c_array.m_t_value;
+						this->m_allocator = c_array.m_allocator;
+						c_array.m_allocator = nullptr;
 						c_array.m_t_value = nullptr;
 						c_array.m_pos = 0;
 						c_array.m_size = 0;
@@ -111,6 +120,7 @@
 						ArrayLog(pankey_Log_Statement, "Destructor", this->getSize());
 						this->fix();
 						this->erase();
+						this->destroyAllocator();
 						ArrayLog(pankey_Log_EndMethod, "Destructor", "");
 					}
 
@@ -188,19 +198,44 @@
 						ArrayLog(pankey_Log_EndMethod, "copyExternEndValue", "");
 					}
 
-					virtual void eraseExternArrayPointer(T* a_t_value){
-						ArrayLog(pankey_Log_StartMethod, "eraseExternArrayPointer", "");
-						if(a_t_value == nullptr){
+					virtual void erase(){
+						ArrayLog(pankey_Log_StartMethod, "erase", "");
+						if(this->m_t_value == nullptr){
+							this->m_pos = 0;
+							this->m_size = 0;
+							ArrayLog(pankey_Log_EndMethod, "erase", "this->m_t_value == nullptr");
 							return;
 						}
-						delete[] a_t_value;
-						ArrayLog(pankey_Log_EndMethod, "eraseExternArrayPointer", "");
+						this->destroy(this->m_t_value);
+						this->m_t_value = nullptr;
+						this->m_pos = 0;
+						this->m_size = 0;
+						ArrayLog(pankey_Log_EndMethod, "erase", "");
+					}
+
+					virtual void destroy(T* a_array){
+						ArrayLog(pankey_Log_StartMethod, "create", "");
+						if(m_allocator == nullptr){
+							if(a_array != nullptr){
+								delete[] a_array;
+								ArrayLog(pankey_Log_Statement, "create", "delete[] a_array");
+							}
+							ArrayLog(pankey_Log_EndMethod, "create", "");
+							return;
+						}
+						m_allocator->destroyArray(a_array);
+						ArrayLog(pankey_Log_EndMethod, "create", "");
 					}
 
 					virtual T* create(int a_size)const{
 						ArrayLog(pankey_Log_StartMethod, "create", "");
+						if(m_allocator == nullptr){
+							return new T[a_size];
+						}
+						memory_size i_count = a_size;
+						memory_size i_memory = ArrayMemorySize(T, i_count);
 						ArrayLog(pankey_Log_EndMethod, "create", "");
-						return new T[a_size];
+						return (T*)m_allocator->createArray(i_memory, i_count);
 					}
 
 					virtual T* createFilledArray(int a_size){
@@ -437,7 +472,34 @@
 						ArrayLog(pankey_Log_EndMethod, "setSize", "");
 					}
 
+					virtual void destroyAllocator(){
+						ArrayLog(pankey_Log_StartMethod, "destroyAllocator", "");
+						if(m_allocator == nullptr){
+							ArrayLog(pankey_Log_EndMethod, "destroyAllocator", "m_allocator == nullptr");
+							return;
+						}
+						if(!m_allocator->isManaged()){
+							ArrayLog(pankey_Log_EndMethod, "destroyAllocator", "!m_allocator->isManaged()");
+							return;
+						}
+						delete m_allocator;
+						ArrayLog(pankey_Log_EndMethod, "destroyAllocator", "");
+					}
+
 				public:
+
+					virtual void setAllocator(MemoryAllocator* a_allocator){
+						ArrayLog(pankey_Log_StartMethod, "setAllocator", "");
+						if(m_allocator != a_allocator){
+							this->destroyAllocator();
+						}
+						m_allocator = a_allocator;
+						ArrayLog(pankey_Log_EndMethod, "setAllocator", "");
+					}
+
+					virtual bool hasAllocator() const{
+						return this->m_allocator != nullptr;
+					}
 
 					virtual int getPosition() const{
 						return this->m_pos;
@@ -566,7 +628,7 @@
 
 						Array<T> i_array;
 						i_array.addLocalArrayPointer(buff);
-						delete[] buff;
+						this->destroy(buff);
 
 						ArrayLog(pankey_Log_EndMethod, "getArrayPart", "");
 						return i_array;
@@ -622,7 +684,7 @@
 
 						Array<T> i_array;
 						i_array.addLocalArrayPointer(buff);
-						delete[] buff;
+						this->destroy(buff);
 						
 						ArrayLog(pankey_Log_EndMethod, "getArrayPart", "");
 						return i_array;
@@ -885,7 +947,7 @@
 							expandLocal(i_size + this->m_expandSize);
 						}
 						this->copyPointer(i_t_value, i_size);
-						this->eraseExternArrayPointer(i_t_value);
+						this->destroy(i_t_value);
 						ArrayLog(pankey_Log_EndMethod, "addLocal", "");
 						return *this;
 					}
@@ -1241,6 +1303,15 @@
 						ArrayLog(pankey_Log_EndMethod, "setFixSize", "");
 					}
 
+					virtual void setFixSize(){
+						ArrayLog(pankey_Log_StartMethod, "setFixSize", "");
+						if(m_fix_length == -1){
+							return;
+						}
+						expandLocal(m_fix_length);
+						ArrayLog(pankey_Log_EndMethod, "setFixSize", "");
+					}
+
 					virtual bool hasReachedFixSize()const{
 						ArrayLog(pankey_Log_StartMethod, "hasReachedFixSize", "");
 						ArrayLog(pankey_Log_Statement, "hasReachedFixSize", "m_fix_length:");
@@ -1308,21 +1379,6 @@
 						ArrayLog(pankey_Log_EndMethod, "fix", "");
 					}
 
-					virtual void erase(){
-						ArrayLog(pankey_Log_StartMethod, "erase", "");
-						if(this->m_t_value == nullptr){
-							this->m_pos = 0;
-							this->m_size = 0;
-							ArrayLog(pankey_Log_EndMethod, "erase", "this->m_t_value == nullptr");
-							return;
-						}
-						delete[] this->m_t_value;
-						this->m_t_value = nullptr;
-						this->m_pos = 0;
-						this->m_size = 0;
-						ArrayLog(pankey_Log_EndMethod, "erase", "");
-					}
-
 					virtual void fill(T a_fill){
 						ArrayLog(pankey_Log_StartMethod, "fill", "");
 						if(this->isEmpty()){
@@ -1339,13 +1395,34 @@
 						if(this->m_t_value == nullptr){
 							this->m_pos = 0;
 							this->m_size = 0;
+
+							if(this->m_fix_length == -1){
+								return;
+							}
+	
+							this->setFixSize();
+							
+							ArrayLog(pankey_Log_EndMethod, "erase", "this->m_t_value == nullptr");
 							return;
 						}
-						delete[] this->m_t_value;
+						this->destroy(this->m_t_value);
 						this->m_t_value = nullptr;
 						this->m_pos = 0;
 						this->m_size = 0;
+
+						if(this->m_fix_length == -1){
+							return;
+						}
+
+						this->setFixSize();
+
 						ArrayLog(pankey_Log_EndMethod, "clear", "");
+					}
+
+					virtual void reset(){
+						ArrayLog(pankey_Log_StartMethod, "reset", "");
+						this->m_pos = 0;
+						ArrayLog(pankey_Log_EndMethod, "reset", "");
 					}
 
 					virtual void expandLocal(int a_size){
@@ -1354,12 +1431,12 @@
 							return;
 						}
 						int nsize = this->getSize() + a_size;
-						T *nT = new T[nsize];
+						T *nT = this->create(nsize);
 						for(int x = 0; x < this->m_pos; x++){
 							nT[x] = this->m_t_value[x];
 						}
 						if(this->m_t_value != nullptr){
-							delete[] this->m_t_value;
+							this->destroy(this->m_t_value);
 						}
 						this->m_t_value = nT;
 						this->setSize(nsize);

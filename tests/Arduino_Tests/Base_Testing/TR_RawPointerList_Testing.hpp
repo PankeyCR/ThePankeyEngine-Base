@@ -407,7 +407,7 @@
 				TYPE* i_value_01 = i_list.addPointer(new TYPE());
 				TYPE* i_value_02 = i_list.addPointer(new TYPE());
 
-				i_list.removeLast();
+				i_list.destroyLast();
 				
 				TYPE* i_value_1 = i_list.getPointerByIndex(0);
 				TYPE* i_value_2 = i_list.getPointerByIndex(1);
@@ -434,13 +434,13 @@
 				a_test_runner.add(a_list_name + " containByPointer", TR_RawPointerList_Testing_10<TRawPointerList,TYPE>);
 				a_test_runner.add(a_list_name + " getIndexByPointer", TR_RawPointerList_Testing_11<TRawPointerList,TYPE>);
 				a_test_runner.add(a_list_name + " reset", TR_RawPointerList_Testing_12<TRawPointerList,TYPE>);
-				a_test_runner.add(a_list_name + " resetDelete", TR_RawPointerList_Testing_13<TRawPointerList,TYPE>);
+				a_test_runner.add(a_list_name + " clear", TR_RawPointerList_Testing_13<TRawPointerList,TYPE>);
 				a_test_runner.add(a_list_name + " destroyByPointer", TR_RawPointerList_Testing_14<TRawPointerList,TYPE>);
-				a_test_runner.add(a_list_name + " removeDeleteByIndex", TR_RawPointerList_Testing_15<TRawPointerList,TYPE>);
+				a_test_runner.add(a_list_name + " destroyByIndex", TR_RawPointerList_Testing_15<TRawPointerList,TYPE>);
 				a_test_runner.add(a_list_name + " destroyFirstIndex", TR_RawPointerList_Testing_16<TRawPointerList,TYPE>);
 				a_test_runner.add(a_list_name + " destroyLastIndex", TR_RawPointerList_Testing_17<TRawPointerList,TYPE>);
 				a_test_runner.add(a_list_name + " destroyFirst", TR_RawPointerList_Testing_18<TRawPointerList,TYPE>);
-				a_test_runner.add(a_list_name + " removeLast", TR_RawPointerList_Testing_19<TRawPointerList,TYPE>);
+				a_test_runner.add(a_list_name + " destroyLast", TR_RawPointerList_Testing_19<TRawPointerList,TYPE>);
 			}
 
 		}
