@@ -27,8 +27,8 @@
 					return sizeOfMemory<P>() * count;
 				}
 
-				#define MemorySize(TYPE) sizeOfMemory<TYPE>()
-				#define ArrayMemorySize(TYPE, COUNT) sizeOfArray<TYPE>(COUNT)
+				#define MemorySize(TYPE) Base::sizeOfMemory<TYPE>()
+				#define ArrayMemorySize(TYPE, COUNT) Base::sizeOfArray<TYPE>(COUNT)
 
 			#endif
 		}
