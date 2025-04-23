@@ -12,8 +12,8 @@
 		namespace Base{
 		
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_1(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_1(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -23,8 +23,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_2(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_2(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -46,8 +46,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_3(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_3(){
+				TestResult<String> i_result;
 
 				TRawPointerList list;
 				TYPE* i_value_01 = list.addPointer(new TYPE());
@@ -65,8 +65,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_4(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_4(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list_1;
 				TRawPointerList i_list_2;
@@ -92,8 +92,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_5(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_5(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list_1;
 				TRawPointerList i_list_2;
@@ -121,8 +121,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_6(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_6(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -141,8 +141,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_7(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_7(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -162,8 +162,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_8(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_8(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -187,8 +187,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_9(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_9(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -205,8 +205,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_10(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_10(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -219,8 +219,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_11(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_11(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -235,8 +235,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_12(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_12(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list_1;
 				TRawPointerList i_list_2;
@@ -264,8 +264,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_13(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_13(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -280,8 +280,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_14(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_14(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -304,8 +304,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_15(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_15(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -328,8 +328,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_16(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_16(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -354,8 +354,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_17(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_17(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -377,8 +377,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_18(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_18(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -399,8 +399,8 @@
 			}
 			
 			template<class TRawPointerList, class TYPE>
-			TestResult TR_RawPointerList_Testing_19(){
-				TestResult i_result;
+			TestResult<String> TR_RawPointerList_Testing_19(){
+				TestResult<String> i_result;
 
 				TRawPointerList i_list;
 
@@ -421,7 +421,7 @@
 			}
 
 			template<class TRawPointerList, class TYPE>
-			void TR_RawPointerList_Testing(const CharArray& a_list_name, TestRunner& a_test_runner){
+			void TR_RawPointerList_Testing(const String& a_list_name, TestRunner<String>& a_test_runner){
 				a_test_runner.add(a_list_name + " Simple Constructor", TR_RawPointerList_Testing_1<TRawPointerList,TYPE>);
 				a_test_runner.add(a_list_name + " addPointer, getPointerByIndex", TR_RawPointerList_Testing_2<TRawPointerList,TYPE>);
 				a_test_runner.add(a_list_name + " replace", TR_RawPointerList_Testing_3<TRawPointerList,TYPE>);

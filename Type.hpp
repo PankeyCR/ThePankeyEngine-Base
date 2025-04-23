@@ -85,4 +85,13 @@
 
 		#endif
 
+		#define CREATE_TYPE(T)\
+			class T : public pankey::Base::Type{\
+				public:\
+					T(){}\
+					virtual ~T(){}\
+					virtual long getType()const{return Base::ClassCount<T>::get();}\
+					virtual bool istype(long a_type)const{return a_type == Base::ClassCount<T>::get();}\
+			};\
+
 #endif

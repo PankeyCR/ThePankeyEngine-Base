@@ -3,7 +3,6 @@
 	#define TestResult_hpp
 
 	#include "ArrayRawList.hpp"
-	#include "CharArray.hpp"
 
 	#if defined(pankey_Log) && (defined(TestResult_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 		#include "Logger_status.hpp"
@@ -16,6 +15,7 @@
 
 		namespace Base{
 		
+			template<class S>
 			class TestResult{
 				public:
 					TestResult(){
@@ -45,16 +45,16 @@
 					template<class... Args>
 					void addInfo(Args... a_error){
 						TestResultLog(pankey_Log_StartMethod, "addInfo", "");
-						CharArray array[] = {CharArray(a_error)...};
-						CharArray total;
-						for(const CharArray& a : array){
-							total.addLocalArray(a);
+						S array[] = {S(a_error)...};
+						S total;
+						for(const S& a : array){
+							concat(total, a);
 						}
 						m_info.add(total);
 						TestResultLog(pankey_Log_EndMethod, "addInfo", "");
 					}
 					
-					virtual void catchError(int a_index, CharArray a_error){
+					virtual void catchError(int a_index, S a_error){
 						TestResultLog(pankey_Log_StartMethod, "catchError", "");
 						m_test_Error = true;
 						m_errors.add(a_error);
@@ -62,7 +62,7 @@
 						TestResultLog(pankey_Log_EndMethod, "catchError", "");
 					}
 					
-					virtual void catchError(CharArray a_error){
+					virtual void catchError(S a_error){
 						TestResultLog(pankey_Log_StartMethod, "catchError", "");
 						m_test_Error = true;
 						m_errors.add(a_error);
@@ -70,7 +70,7 @@
 						TestResultLog(pankey_Log_EndMethod, "catchError", "");
 					}
 
-					virtual void expecting(int a_index, CharArray a_error, bool a_result){
+					virtual void expecting(int a_index, S a_error, bool a_result){
 						TestResultLog(pankey_Log_StartMethod, "expecting", "");
 						m_expected_indexs.add(a_index);
 						m_expected_errors.add(a_error);
@@ -78,7 +78,7 @@
 						TestResultLog(pankey_Log_EndMethod, "expecting", "");
 					}
 
-					virtual void expecting(int a_index, CharArray a_error){
+					virtual void expecting(int a_index, S a_error){
 						TestResultLog(pankey_Log_StartMethod, "expecting", "");
 						m_expected_indexs.add(a_index);
 						m_expected_errors.add(a_error);
@@ -86,7 +86,7 @@
 						TestResultLog(pankey_Log_EndMethod, "expecting", "");
 					}
 
-					virtual void expecting(CharArray a_error){
+					virtual void expecting(S a_error){
 						TestResultLog(pankey_Log_StartMethod, "expecting", "");
 						m_expected_indexs.add(-1);
 						m_expected_errors.add(a_error);
@@ -94,7 +94,7 @@
 						TestResultLog(pankey_Log_EndMethod, "expecting", "");
 					}
 
-					virtual void expecting(CharArray a_error, bool a_result){
+					virtual void expecting(S a_error, bool a_result){
 						TestResultLog(pankey_Log_StartMethod, "expecting", "");
 						m_expected_indexs.add(-1);
 						m_expected_errors.add(a_error);
@@ -102,23 +102,23 @@
 						TestResultLog(pankey_Log_EndMethod, "expecting", "");
 					}
 
-					virtual void expectingTrue(int a_index, CharArray a_error, bool a_assert){
+					virtual void expectingTrue(int a_index, S a_error, bool a_assert){
 						TestResultLog(pankey_Log_StartMethod, "expectingTrue", "");
 						this->expecting(a_index, a_error, a_assert);
 						TestResultLog(pankey_Log_EndMethod, "expectingTrue", "");
 					}
 
-					virtual void expectingTrue(CharArray a_error, bool a_assert){
+					virtual void expectingTrue(S a_error, bool a_assert){
 						TestResultLog(pankey_Log_StartMethod, "expectingTrue", "");
 						this->expecting(a_error, a_assert);
 						TestResultLog(pankey_Log_EndMethod, "expectingTrue", "");
 					}
 
-					virtual void assertExpectation(CharArray a_error){
+					virtual void assertExpectation(S a_error){
 						TestResultLog(pankey_Log_StartMethod, "assertExpectation", "");
 						int i_list_index = m_expected_errors.getIndex(a_error);
 						if(i_list_index == -1){
-							this->catchError(CharArray("Error, no test registered: ") + a_error);
+							this->catchError(S("Error, no test registered: ") + a_error);
 							return;
 						}
 						int i_index = m_expected_indexs.getByIndex(i_list_index);
@@ -133,7 +133,7 @@
 						TestResultLog(pankey_Log_EndMethod, "assertExpectation", "");
 					}
 
-					virtual void assertUnexpectation(CharArray a_error){
+					virtual void assertUnexpectation(S a_error){
 						TestResultLog(pankey_Log_StartMethod, "assertUnexpectation", "");
 						int i_list_index = m_expected_errors.getIndex(a_error);
 						if(i_list_index == -1){
@@ -143,9 +143,9 @@
 						int i_assert = m_expected_results.getByIndex(i_list_index);
 						if(!i_assert){
 							if(i_index == -1){
-								this->catchError(CharArray("Error, test has been registered and it shouldnt: ") + a_error);
+								this->catchError(S("Error, test has been registered and it shouldnt: ") + a_error);
 							}else{
-								this->catchError(i_index, CharArray("Error, test has been registered and it shouldnt: ") + a_error);
+								this->catchError(i_index, S("Error, test has been registered and it shouldnt: ") + a_error);
 							}
 						}
 						TestResultLog(pankey_Log_EndMethod, "assertUnexpectation", "");
@@ -154,7 +154,7 @@
 					template<class... Args>
 					void assertExpectedSequence(Args... a_errors){
 						TestResultLog(pankey_Log_StartMethod, "assertExpectedSequence", "");
-						ArrayRawList<CharArray> i_sequence;
+						ArrayRawList<S> i_sequence;
 						i_sequence.addPack(a_errors...);
 						TestResultLog(pankey_Log_Statement, "assertExpectedSequence", "i_sequence.length: ");
 						TestResultLog(pankey_Log_Statement, "assertExpectedSequence", i_sequence.length());
@@ -170,31 +170,21 @@
 							return;
 						}
 
-						CharArray i_firts_error = i_sequence.getByIndex(0);
+						S i_firts_error = i_sequence.getByIndex(0);
 						int i_list_index = m_expected_errors.getIndex(i_firts_error);
-						TestResultLog(pankey_Log_Statement, "assertExpectedSequence", "i_firts_error: ");
-						TestResultLog(pankey_Log_Statement, "assertExpectedSequence", i_firts_error.pointer());
-						TestResultLog(pankey_Log_Statement, "assertExpectedSequence", "i_list_index: ");
-						TestResultLog(pankey_Log_Statement, "assertExpectedSequence", i_list_index);
-						TestResultLog(pankey_Log_Statement, "assertExpectedSequence", "i_list_index + i_sequence.length(): ");
-						TestResultLog(pankey_Log_Statement, "assertExpectedSequence", i_list_index + i_sequence.length());
-						TestResultLog(pankey_Log_Statement, "assertExpectedSequence", "m_expected_errors.length(): ");
-						TestResultLog(pankey_Log_Statement, "assertExpectedSequence", m_expected_errors.length());
-						TestResultLog(pankey_Log_Statement, "assertExpectedSequence", "m_expected_errors.length() - i_list_index: ");
-						TestResultLog(pankey_Log_Statement, "assertExpectedSequence", m_expected_errors.length() - i_list_index);
 
 						if(i_list_index + i_sequence.length() <= m_expected_errors.length()){
-							this->assertCharArrayEqual("Error, not enough test to check: sequence - errors found: ", i_sequence.length(), m_expected_errors.length() - i_list_index);
+							this->assertSEqual("Error, not enough test to check: sequence - errors found: ", i_sequence.length(), m_expected_errors.length() - i_list_index);
 							TestResultLog(pankey_Log_EndMethod, "assertExpectedSequence", "");
 							return;
 						}
 						
 						int s = 0;
 						for(int x = i_list_index; x < i_sequence.length(); x++){
-							CharArray f_error = m_expected_errors.getByIndex(x);
-							CharArray f_sequence_error = i_sequence.getByIndex(s);
+							S f_error = m_expected_errors.getByIndex(x);
+							S f_sequence_error = i_sequence.getByIndex(s);
 							if(f_sequence_error != f_error){
-								this->catchError(CharArray("Error, no test registered: ") + f_error);
+								this->catchError(S("Error, no test registered: ") + f_error);
 								continue;
 							}
 							int i_index = m_expected_indexs.getByIndex(x);
@@ -211,7 +201,7 @@
 						TestResultLog(pankey_Log_EndMethod, "assertExpectedSequence", "");
 					}
 
-					virtual void assertTrue(int a_index, CharArray a_error, bool a_assert){
+					virtual void assertTrue(int a_index, S a_error, bool a_assert){
 						TestResultLog(pankey_Log_StartMethod, "assertTrue", "");
 						if(!a_assert){
 							this->catchError(a_index, a_error);
@@ -219,21 +209,21 @@
 						TestResultLog(pankey_Log_EndMethod, "assertTrue", "");
 					}
 
-					virtual void assertTrue(CharArray a_error, bool a_assert){
+					virtual void assertTrue(S a_error, bool a_assert){
 						if(!a_assert){
 							this->catchError(a_error);
 						}
 						m_index++;
 					}
 
-					virtual void assertNull(CharArray a_error, void* a_assert){
+					virtual void assertNull(S a_error, void* a_assert){
 						if(a_assert != nullptr){
 							this->catchError(a_error);
 						}
 						m_index++;
 					}
 
-					virtual void assertNotNull(CharArray a_error, void* a_assert){
+					virtual void assertNotNull(S a_error, void* a_assert){
 						if(a_assert == nullptr){
 							this->catchError(a_error);
 						}
@@ -241,14 +231,14 @@
 					}
 
 					template<class T>
-					void assertLessThen(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertLessThen(int a_index, S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 >= a_assert_2){
 							this->catchError(a_index, a_error);
 						}
 					}
 
 					template<class T>
-					void assertLessThen(CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertLessThen(S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 >= a_assert_2){
 							this->catchError(a_error);
 						}
@@ -256,31 +246,31 @@
 					}
 
 					template<class T>
-					void assertCharArrayLessThen(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertSLessThen(int a_index, S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 >= a_assert_2){
-							CharArray i_CharArray = CharArray(" Value 1: ") + CharArray(a_assert_1) + CharArray(" <-> Value 2: ") + CharArray(a_assert_2);
-							this->catchError(a_index, a_error + i_CharArray);
+							S i_S = S(" Value 1: ") + S(a_assert_1) + S(" <-> Value 2: ") + S(a_assert_2);
+							this->catchError(a_index, a_error + i_S);
 						}
 					}
 
 					template<class T>
-					void assertCharArrayLessThen(CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertSLessThen(S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 >= a_assert_2){
-							CharArray i_CharArray = CharArray(" Value 1: ") + CharArray(a_assert_1) + CharArray(" <-> Value 2: ") + CharArray(a_assert_2);
-							this->catchError(a_error + i_CharArray);
+							S i_S = S(" Value 1: ") + S(a_assert_1) + S(" <-> Value 2: ") + S(a_assert_2);
+							this->catchError(a_error + i_S);
 						}
 						m_index++;
 					}
 
 					template<class T>
-					void assertGreaterThen(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertGreaterThen(int a_index, S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 <= a_assert_2){
 							this->catchError(a_index, a_error);
 						}
 					}
 
 					template<class T>
-					void assertGreaterThen(CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertGreaterThen(S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 <= a_assert_2){
 							this->catchError(a_error);
 						}
@@ -288,31 +278,14 @@
 					}
 
 					template<class T>
-					void assertCharArrayGreaterThen(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
-						if(a_assert_1 <= a_assert_2){
-							CharArray i_CharArray = CharArray(" Value 1: ") + CharArray(a_assert_1) + CharArray(" <-> Value 2: ") + CharArray(a_assert_2);
-							this->catchError(a_index, a_error + i_CharArray);
-						}
-					}
-
-					template<class T>
-					void assertCharArrayGreaterThen(CharArray a_error, T a_assert_1, T a_assert_2){
-						if(a_assert_1 <= a_assert_2){
-							CharArray i_CharArray = CharArray(" Value 1: ") + CharArray(a_assert_1) + CharArray(" <-> Value 2: ") + CharArray(a_assert_2);
-							this->catchError(a_error + i_CharArray);
-						}
-						m_index++;
-					}
-
-					template<class T>
-					void assertLessEqualThen(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertLessEqualThen(int a_index, S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 > a_assert_2){
 							this->catchError(a_index, a_error);
 						}
 					}
 
 					template<class T>
-					void assertLessEqualThen(CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertLessEqualThen(S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 > a_assert_2){
 							this->catchError(a_error);
 						}
@@ -320,31 +293,14 @@
 					}
 
 					template<class T>
-					void assertCharArrayLessEqualThen(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
-						if(a_assert_1 > a_assert_2){
-							CharArray i_CharArray = CharArray(" Value 1: ") + CharArray(a_assert_1) + CharArray(" <-> Value 2: ") + CharArray(a_assert_2);
-							this->catchError(a_index, a_error + i_CharArray);
-						}
-					}
-
-					template<class T>
-					void assertCharArrayLessEqualThen(CharArray a_error, T a_assert_1, T a_assert_2){
-						if(a_assert_1 > a_assert_2){
-							CharArray i_CharArray = CharArray(" Value 1: ") + CharArray(a_assert_1) + CharArray(" <-> Value 2: ") + CharArray(a_assert_2);
-							this->catchError(a_error + i_CharArray);
-						}
-						m_index++;
-					}
-
-					template<class T>
-					void assertGreaterEqualThen(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertGreaterEqualThen(int a_index, S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 < a_assert_2){
 							this->catchError(a_index, a_error);
 						}
 					}
 
 					template<class T>
-					void assertGreaterEqualThen(CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertGreaterEqualThen(S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 < a_assert_2){
 							this->catchError(a_error);
 						}
@@ -352,31 +308,14 @@
 					}
 
 					template<class T>
-					void assertCharArrayGreaterEqualThen(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
-						if(a_assert_1 < a_assert_2){
-							CharArray i_CharArray = CharArray(" Value 1: ") + CharArray(a_assert_1) + CharArray(" <-> Value 2: ") + CharArray(a_assert_2);
-							this->catchError(a_index, a_error + i_CharArray);
-						}
-					}
-
-					template<class T>
-					void assertCharArrayGreaterEqualThen(CharArray a_error, T a_assert_1, T a_assert_2){
-						if(a_assert_1 < a_assert_2){
-							CharArray i_CharArray = CharArray(" Value 1: ") + CharArray(a_assert_1) + CharArray(" <-> Value 2: ") + CharArray(a_assert_2);
-							this->catchError(a_error + i_CharArray);
-						}
-						m_index++;
-					}
-
-					template<class T>
-					void assertInBetween(int a_index, CharArray a_error, T a_assert_1, T a_assert_inbetween_1, T a_assert_inbetween_2){
+					void assertInBetween(int a_index, S a_error, T a_assert_1, T a_assert_inbetween_1, T a_assert_inbetween_2){
 						if(a_assert_inbetween_1 > a_assert_1 || a_assert_inbetween_2 < a_assert_1){
 							this->catchError(a_index, a_error);
 						}
 					}
 
 					template<class T>
-					void assertInBetween(CharArray a_error, T a_assert_1, T a_assert_inbetween_1, T a_assert_inbetween_2){
+					void assertInBetween(S a_error, T a_assert_1, T a_assert_inbetween_1, T a_assert_inbetween_2){
 						if(a_assert_inbetween_1 > a_assert_1 || a_assert_inbetween_2 < a_assert_1){
 							this->catchError(a_error);
 						}
@@ -384,31 +323,14 @@
 					}
 
 					template<class T>
-					void assertCharArrayInBetween(int a_index, CharArray a_error, T a_assert_1, T a_assert_inbetween_1, T a_assert_inbetween_2){
-						if(a_assert_inbetween_1 > a_assert_1 || a_assert_inbetween_2 < a_assert_1){
-							CharArray i_CharArray = CharArray(" Min Value 1: ") + CharArray(a_assert_inbetween_1) + CharArray(" <-> Test Value: ") + CharArray(a_assert_1) + CharArray(" <-> Max Value 2: ") + CharArray(a_assert_inbetween_2);
-							this->catchError(a_index, a_error + i_CharArray);
-						}
-					}
-
-					template<class T>
-					void assertCharArrayInBetween(CharArray a_error, T a_assert_1, T a_assert_inbetween_1, T a_assert_inbetween_2){
-						if(a_assert_inbetween_1 > a_assert_1 || a_assert_inbetween_2 < a_assert_1){
-							CharArray i_CharArray = CharArray(" Min Value 1: ") + CharArray(a_assert_inbetween_1) + CharArray(" <-> Test Value: ") + CharArray(a_assert_1) + CharArray(" <-> Max Value 2: ") + CharArray(a_assert_inbetween_2);
-							this->catchError(a_error + i_CharArray);
-						}
-						m_index++;
-					}
-
-					template<class T>
-					void assertEqual(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertEqual(int a_index, S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 != a_assert_2){
 							this->catchError(a_index, a_error);
 						}
 					}
 
 					template<class T>
-					void assertEqual(CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertEqual(S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 != a_assert_2){
 							this->catchError(a_error);
 						}
@@ -416,65 +338,16 @@
 					}
 
 					template<class T>
-					void assertNotEqual(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertNotEqual(int a_index, S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 == a_assert_2){
 							this->catchError(a_index, a_error);
 						}
 					}
 
 					template<class T>
-					void assertNotEqual(CharArray a_error, T a_assert_1, T a_assert_2){
+					void assertNotEqual(S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 == a_assert_2){
 							this->catchError(a_error);
-						}
-						m_index++;
-					}
-
-					template<class T>
-					void assertCharArrayqual(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
-						if(a_assert_1 == a_assert_2){
-							this->catchError(a_index, a_error);
-						}
-					}
-
-					template<class T>
-					void assertCharArrayqual(CharArray a_error, T a_assert_1, T a_assert_2){
-						if(a_assert_1 == a_assert_2){
-							this->catchError(a_error);
-						}
-						m_index++;
-					}
-
-					template<class T>
-					void assertCharArrayEqual(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
-						if(a_assert_1 != a_assert_2){
-							CharArray i_CharArray = CharArray(" Value 1: ") + CharArray(a_assert_1) + CharArray(" <-> Value 2: ") + CharArray(a_assert_2);
-							this->catchError(a_index, a_error + i_CharArray);
-						}
-					}
-
-					template<class T>
-					void assertCharArrayEqual(CharArray a_error, T a_assert_1, T a_assert_2){
-						if(a_assert_1 != a_assert_2){
-							CharArray i_CharArray = CharArray(" Value 1: ") + CharArray(a_assert_1) + CharArray(" <-> Value 2: ") + CharArray(a_assert_2);
-							this->catchError(a_error + i_CharArray);
-						}
-						m_index++;
-					}
-
-					template<class T>
-					void assertCharArrayCharArrayqual(int a_index, CharArray a_error, T a_assert_1, T a_assert_2){
-						if(a_assert_1 == a_assert_2){
-							CharArray i_CharArray = CharArray(" Value 1: ") + CharArray(a_assert_1) + CharArray(" <-> Value 2: ") + CharArray(a_assert_2);
-							this->catchError(a_index, a_error + i_CharArray);
-						}
-					}
-
-					template<class T>
-					void assertCharArrayCharArrayqual(CharArray a_error, T a_assert_1, T a_assert_2){
-						if(a_assert_1 == a_assert_2){
-							CharArray i_CharArray = CharArray(" Value 1: ") + CharArray(a_assert_1) + CharArray(" <-> Value 2: ") + CharArray(a_assert_2);
-							this->catchError(a_error + i_CharArray);
 						}
 						m_index++;
 					}
@@ -483,40 +356,39 @@
 
 					virtual bool hasInfo(){return !this->m_info.isEmpty();}
 					
-					virtual CharArray getInfo(){
-						CharArray i_info;
+					virtual S getInfo(){
+						S i_info;
 						for(int x = 0; x < m_info.length(); x++){
-							CharArray* f_info = m_info.getPointerByIndex(x);
+							S* f_info = m_info.getPointerByIndex(x);
 							if(f_info == nullptr){
 								continue;
 							}
-							i_info.addLocalArrayPointer("Info: ");
-							i_info.addLocalCharArray(*f_info);
+							concat(i_info, *f_info);
 							if(x == m_info.length() - 1){
 								continue;
 							}
-							i_info.addLocalValue('\n');
+							concat(i_info, '\n');
 						}
 						return i_info;
 					}
 					
-					virtual CharArray getCharArrayResult(){
+					virtual S getSResult(){
 						if(!m_test_Error){
-							return CharArray("No Error Found");
+							return S("No Error Found");
 						}
-						CharArray i_errors = "Test Failed at:\n";
+						S i_errors = "Test Failed at:\n";
 						for(int x = 0; x < m_errors.length(); x++){
 							int* f_index = m_indexs.getPointerByIndex(x);
-							CharArray* f_error = m_errors.getPointerByIndex(x);
+							S* f_error = m_errors.getPointerByIndex(x);
 							if(f_index == nullptr || f_error == nullptr){
 								continue;
 							}
-							i_errors.addLocalArrayPointer("Index: ");
-							i_errors.addLocalInt(*f_index);
-							i_errors.addLocalValue('\n');
-							i_errors.addLocalCharArray(*f_error);
+							concat(i_errors, "Index: ");
+							concat(i_errors, *f_index);
+							concat(i_errors, '\n');
+							concat(i_errors, *f_error);
 							if(x != m_errors.length() - 1){
-								i_errors.addLocalValue('\n');
+								concat(i_errors, '\n');
 							}
 						}
 						return i_errors;
@@ -551,14 +423,14 @@
 					
 				protected:
 					bool m_test_Error = false;
-					ArrayRawList<CharArray> m_info;
+					ArrayRawList<S> m_info;
 
-					ArrayRawList<CharArray> m_errors;
+					ArrayRawList<S> m_errors;
 					ArrayRawList<int> m_indexs;
 					int m_index = 0;
 
 
-					ArrayRawList<CharArray> m_expected_errors;
+					ArrayRawList<S> m_expected_errors;
 					ArrayRawList<int> m_expected_indexs;
 					ArrayRawList<int> m_expected_results;
 			};

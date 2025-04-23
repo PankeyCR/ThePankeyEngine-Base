@@ -11,8 +11,8 @@
 
 		namespace Base{
 		
-			TestResult TR_MemorySize_Testing_1(){
-				TestResult i_result;
+			TestResult<String> TR_MemorySize_Testing_1(){
+				TestResult<String> i_result;
 
 				memory_size i_memory = MemorySize(int);
 				size_t i_size = sizeof(int);
@@ -22,8 +22,8 @@
 				return i_result;
 			}
 		
-			TestResult TR_MemorySize_Testing_2(){
-				TestResult i_result;
+			TestResult<String> TR_MemorySize_Testing_2(){
+				TestResult<String> i_result;
 
 				memory_size i_memory = MemorySize(char);
 				size_t i_size = sizeof(char);
@@ -33,7 +33,7 @@
 				return i_result;
 			}
 
-			void TR_MemorySize_Testing(TestRunner& a_test_runner){
+			void TR_MemorySize_Testing(TestRunner<String>& a_test_runner){
 				a_test_runner.add("MemorySize int size", TR_MemorySize_Testing_1);
 				a_test_runner.add("MemorySize char size", TR_MemorySize_Testing_2);
 			}		

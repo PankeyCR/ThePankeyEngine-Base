@@ -12,8 +12,8 @@
 
 		namespace Base{
 		
-			TestResult TR_StaticAllocatorInstance_Testing_1(){
-				TestResult i_result;
+			TestResult<String> TR_StaticAllocatorInstance_Testing_1(){
+				TestResult<String> i_result;
 				
 				memory_size i_memory = MemorySize(int);
 				MemoryAllocator* i_allocator = StaticAllocatorInstance<int>::getAllocator();
@@ -42,7 +42,7 @@
 				return i_result;
 			}
 
-			void TR_StaticAllocatorInstance_Testing(TestRunner& a_test_runner){
+			void TR_StaticAllocatorInstance_Testing(TestRunner<String>& a_test_runner){
 				a_test_runner.add("StaticAllocatorInstance create(memory_size), destroy(memory_size,void*)", TR_StaticAllocatorInstance_Testing_1);
 			}		
 

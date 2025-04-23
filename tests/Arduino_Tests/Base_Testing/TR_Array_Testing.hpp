@@ -13,8 +13,8 @@
 
 		namespace Base{
 			
-			TestResult TR_Array_Testing_1(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_1(){
+				TestResult<String> result;
 				
 				Array<int> array;
 
@@ -24,16 +24,16 @@
 				array.addLocalValue(4);
 				array.addLocalValue(5);
 
-				result.assertEqual(0, "array value position 0", array.get(0), 1);
-				result.assertEqual(1, "array value position 1", array.get(1), 2);
-				result.assertEqual(2, "array value position 4", array.get(4), 5);
-				result.assertEqual(3, "array position", array.getPosition(), 5);
+				result.assertEqual("array value position 0", array.get(0), 1);
+				result.assertEqual("array value position 1", array.get(1), 2);
+				result.assertEqual("array value position 4", array.get(4), 5);
+				result.assertEqual("array position", array.getPosition(), 5);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_2(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_2(){
+				TestResult<String> result;
 				
 				Array<int> array;
 
@@ -45,58 +45,58 @@
 				
 				array.set(2, 91);
 
-				result.assertEqual(0, "array value position 0", array.get(0), 1);
-				result.assertEqual(1, "array value position 1", array.get(1), 2);
-				result.assertEqual(2, "array value position 4", array.get(4), 5);
-				result.assertEqual(3, "array position", array.getPosition(), 5);
-				result.assertEqual(4, "array value position 2", array.get(2), 91);
+				result.assertEqual("array value position 0", array.get(0), 1);
+				result.assertEqual("array value position 1", array.get(1), 2);
+				result.assertEqual("array value position 4", array.get(4), 5);
+				result.assertEqual("array position", array.getPosition(), 5);
+				result.assertEqual("array value position 2", array.get(2), 91);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_3(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_3(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,5};
 
-				result.assertEqual(0, "array value position 0", array.get(0), 1);
-				result.assertEqual(1, "array value position 1", array.get(1), 2);
-				result.assertEqual(2, "array value position 4", array.get(4), 5);
-				result.assertEqual(3, "array position", array.getPosition(), 5);
+				result.assertEqual("array value position 0", array.get(0), 1);
+				result.assertEqual("array value position 1", array.get(1), 2);
+				result.assertEqual("array value position 4", array.get(4), 5);
+				result.assertEqual("array position", array.getPosition(), 5);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_4(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_4(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,5};
 				Array<int> array_2 = array;
 
-				result.assertEqual(0, "array value position 0", array_2.get(0), 1);
-				result.assertEqual(1, "array value position 1", array_2.get(1), 2);
-				result.assertEqual(2, "array value position 4", array_2.get(4), 5);
-				result.assertEqual(3, "array position", array_2.getPosition(), 5);
+				result.assertEqual("array value position 0", array_2.get(0), 1);
+				result.assertEqual("array value position 1", array_2.get(1), 2);
+				result.assertEqual("array value position 4", array_2.get(4), 5);
+				result.assertEqual("array position", array_2.getPosition(), 5);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_5(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_5(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,5};
 				Array<int> array_2 = move(array);
 
-				result.assertEqual(0, "array value position 0", array_2.get(0), 1);
-				result.assertEqual(1, "array value position 1", array_2.get(1), 2);
-				result.assertEqual(2, "array value position 4", array_2.get(4), 5);
-				result.assertEqual(3, "array position", array_2.length(), 5);
+				result.assertEqual("array value position 0", array_2.get(0), 1);
+				result.assertEqual("array value position 1", array_2.get(1), 2);
+				result.assertEqual("array value position 4", array_2.get(4), 5);
+				result.assertEqual("array position", array_2.length(), 5);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_6(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_6(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,5};
 
@@ -108,8 +108,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_7(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_7(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,5};
 				Array<int> array_2 = array.addValue(20);
@@ -123,8 +123,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_8(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_8(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,5};
 				Array<int> array_2 = {1,2,3,4,5};
@@ -141,8 +141,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_9(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_9(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,5};
 
@@ -158,8 +158,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_10(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_10(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,5};
 
@@ -168,8 +168,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_11(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_11(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,3,2,3,4,3,5};
 
@@ -180,8 +180,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_12(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_12(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,3,2,3,4,3,5};
 
@@ -192,8 +192,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_13(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_13(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,5};
 
@@ -204,8 +204,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_14(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_14(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,2,5};
 
@@ -216,8 +216,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_15(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_15(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,2,5};
 
@@ -228,8 +228,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_16(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_16(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,2,5};
 
@@ -241,8 +241,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_17(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_17(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,2,5};
 
@@ -254,8 +254,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_18(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_18(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,2,5};
 
@@ -266,8 +266,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_19(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_19(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,5,6,7};
 
@@ -280,8 +280,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_20(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_20(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,2,5};
 
@@ -292,8 +292,8 @@
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_21(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_21(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,2,5};
 
@@ -301,218 +301,218 @@
 				
 				array.insertLocalArray(2, array_2);
 
-				result.assertCharArrayEqual(0, "array insertLocalArray", array.get(2), 11);
+				result.assertEqual("array insertLocalArray", array.get(2), 11);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_22(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_22(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4};
 
 				Array<int> i_part = array.removeAllInitialValues(1);
 
-				result.assertCharArrayEqual("array size should be 3", i_part.getPosition(), 3);
-				result.assertCharArrayEqual("array should contain a 2 at index 0", i_part.get(0), 2);
-				result.assertCharArrayEqual("array should contain a 3 at index 1", i_part.get(1), 3);
-				result.assertCharArrayEqual("array should contain a 4 at index 2", i_part.get(2), 4);
+				result.assertEqual("array size should be 3", i_part.getPosition(), 3);
+				result.assertEqual("array should contain a 2 at index 0", i_part.get(0), 2);
+				result.assertEqual("array should contain a 3 at index 1", i_part.get(1), 3);
+				result.assertEqual("array should contain a 4 at index 2", i_part.get(2), 4);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_23(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_23(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,1,1,2,3,4};
 
 				Array<int> i_part = array.removeAllInitialValues(1);
 
-				result.assertCharArrayEqual("array size should be 3", i_part.getPosition(), 3);
-				result.assertCharArrayEqual("array should contain a 2 at index 0", i_part.get(0), 2);
-				result.assertCharArrayEqual("array should contain a 3 at index 1", i_part.get(1), 3);
-				result.assertCharArrayEqual("array should contain a 4 at index 2", i_part.get(2), 4);
+				result.assertEqual("array size should be 3", i_part.getPosition(), 3);
+				result.assertEqual("array should contain a 2 at index 0", i_part.get(0), 2);
+				result.assertEqual("array should contain a 3 at index 1", i_part.get(1), 3);
+				result.assertEqual("array should contain a 4 at index 2", i_part.get(2), 4);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_24(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_24(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4};
 
 				Array<int> i_part = array.removeAllEndingValues(4);
 
-				result.assertCharArrayEqual("array size should be 3", i_part.getPosition(), 3);
-				result.assertCharArrayEqual("array should contain a 1 at index 0", i_part.get(0), 1);
-				result.assertCharArrayEqual("array should contain a 2 at index 1", i_part.get(1), 2);
-				result.assertCharArrayEqual("array should contain a 3 at index 2", i_part.get(2), 3);
+				result.assertEqual("array size should be 3", i_part.getPosition(), 3);
+				result.assertEqual("array should contain a 1 at index 0", i_part.get(0), 1);
+				result.assertEqual("array should contain a 2 at index 1", i_part.get(1), 2);
+				result.assertEqual("array should contain a 3 at index 2", i_part.get(2), 3);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_25(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_25(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,3,4,4,4};
 
 				Array<int> i_part = array.removeAllEndingValues(4);
 
-				result.assertCharArrayEqual("array size should be 3", i_part.getPosition(), 3);
-				result.assertCharArrayEqual("array should contain a 1 at index 0", i_part.get(0), 1);
-				result.assertCharArrayEqual("array should contain a 2 at index 1", i_part.get(1), 2);
-				result.assertCharArrayEqual("array should contain a 3 at index 2", i_part.get(2), 3);
+				result.assertEqual("array size should be 3", i_part.getPosition(), 3);
+				result.assertEqual("array should contain a 1 at index 0", i_part.get(0), 1);
+				result.assertEqual("array should contain a 2 at index 1", i_part.get(1), 2);
+				result.assertEqual("array should contain a 3 at index 2", i_part.get(2), 3);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_26(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_26(){
+				TestResult<String> result;
 				
 				Array<int> array = {4,4,4,1,2,3,4,4,4};
 
 				Array<int> i_part = array.removeAllInitialAndEndingValues(4);
 
-				result.assertCharArrayEqual("array size should be 3", i_part.getPosition(), 3);
-				result.assertCharArrayEqual("array should contain a 1 at index 0", i_part.get(0), 1);
-				result.assertCharArrayEqual("array should contain a 2 at index 1", i_part.get(1), 2);
-				result.assertCharArrayEqual("array should contain a 3 at index 2", i_part.get(2), 3);
+				result.assertEqual("array size should be 3", i_part.getPosition(), 3);
+				result.assertEqual("array should contain a 1 at index 0", i_part.get(0), 1);
+				result.assertEqual("array should contain a 2 at index 1", i_part.get(1), 2);
+				result.assertEqual("array should contain a 3 at index 2", i_part.get(2), 3);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_27(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_27(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,15,4,2,5};
 
 				int i_split_size = array.getSplitSize(15);
 				int i_part_size = array.getPartSize(15);
 
-				result.assertCharArrayEqual("array splits 1 time", i_split_size, 1);
-				result.assertCharArrayEqual("array splits in to parts", i_part_size, 2);
+				result.assertEqual("array splits 1 time", i_split_size, 1);
+				result.assertEqual("array splits in to parts", i_part_size, 2);
 
 				Array<int> i_part_1 = array.split(0, 15);
 				Array<int> i_part_2 = array.split(1, 15);
 
-				result.assertCharArrayEqual("array should contain 2 ints", i_part_1.getPosition(), 2);
-				result.assertCharArrayEqual("array should contain a 1 at index 0", i_part_1.get(0), 1);
-				result.assertCharArrayEqual("array should contain a 2 at index 1", i_part_1.get(1), 2);
+				result.assertEqual("array should contain 2 ints", i_part_1.getPosition(), 2);
+				result.assertEqual("array should contain a 1 at index 0", i_part_1.get(0), 1);
+				result.assertEqual("array should contain a 2 at index 1", i_part_1.get(1), 2);
 
-				result.assertCharArrayEqual("array should contain 2 ints", i_part_2.getPosition(), 3);
-				result.assertCharArrayEqual("array should contain a 1 at index 0", i_part_2.get(0), 4);
-				result.assertCharArrayEqual("array should contain a 2 at index 1", i_part_2.get(1), 2);
-				result.assertCharArrayEqual("array should contain a 2 at index 1", i_part_2.get(2), 5);
+				result.assertEqual("array should contain 2 ints", i_part_2.getPosition(), 3);
+				result.assertEqual("array should contain a 1 at index 0", i_part_2.get(0), 4);
+				result.assertEqual("array should contain a 2 at index 1", i_part_2.get(1), 2);
+				result.assertEqual("array should contain a 2 at index 1", i_part_2.get(2), 5);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_28(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_28(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,15,4,2,5};
 
 				int i_split_size = array.getSplitSize(5);
 				int i_part_size = array.getPartSize(5);
 
-				result.assertCharArrayEqual("array splits 1 time", i_split_size, 0);
-				result.assertCharArrayEqual("array splits in to parts", i_part_size, 1);
+				result.assertEqual("array splits 1 time", i_split_size, 0);
+				result.assertEqual("array splits in to parts", i_part_size, 1);
 
 				Array<int> i_part_1 = array.split(0, 5);
 				Array<int> i_part_2 = array.split(1, 5);
 
-				result.assertCharArrayEqual("array should contain 2 ints", i_part_1.getPosition(), 5);
-				result.assertCharArrayEqual("array should contain a 1 at index 0", i_part_1.get(0), 1);
-				result.assertCharArrayEqual("array should contain a 2 at index 1", i_part_1.get(1), 2);
-				result.assertCharArrayEqual("array should contain a 15 at index 2", i_part_1.get(2), 15);
-				result.assertCharArrayEqual("array should contain a 4 at index 3", i_part_1.get(3), 4);
-				result.assertCharArrayEqual("array should contain a 2 at index 4", i_part_1.get(4), 2);
+				result.assertEqual("array should contain 2 ints", i_part_1.getPosition(), 5);
+				result.assertEqual("array should contain a 1 at index 0", i_part_1.get(0), 1);
+				result.assertEqual("array should contain a 2 at index 1", i_part_1.get(1), 2);
+				result.assertEqual("array should contain a 15 at index 2", i_part_1.get(2), 15);
+				result.assertEqual("array should contain a 4 at index 3", i_part_1.get(3), 4);
+				result.assertEqual("array should contain a 2 at index 4", i_part_1.get(4), 2);
 
 				result.assertTrue("array should be empty", i_part_2.isEmpty());
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_29(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_29(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,15,4,2,5,5,5};
 
 				int i_split_size = array.getSplitSize(5);
 				int i_part_size = array.getPartSize(5);
 
-				result.assertCharArrayEqual("array splits 1 time", i_split_size, 0);
-				result.assertCharArrayEqual("array splits in to parts", i_part_size, 1);
+				result.assertEqual("array splits 1 time", i_split_size, 0);
+				result.assertEqual("array splits in to parts", i_part_size, 1);
 
 				Array<int> i_part_1 = array.split(0, 5);
 				Array<int> i_part_2 = array.split(1, 5);
 
-				result.assertCharArrayEqual("array should contain 2 ints", i_part_1.getPosition(), 5);
-				result.assertCharArrayEqual("array should contain a 1 at index 0", i_part_1.get(0), 1);
-				result.assertCharArrayEqual("array should contain a 2 at index 1", i_part_1.get(1), 2);
-				result.assertCharArrayEqual("array should contain a 15 at index 2", i_part_1.get(2), 15);
-				result.assertCharArrayEqual("array should contain a 4 at index 3", i_part_1.get(3), 4);
-				result.assertCharArrayEqual("array should contain a 2 at index 4", i_part_1.get(4), 2);
+				result.assertEqual("array should contain 2 ints", i_part_1.getPosition(), 5);
+				result.assertEqual("array should contain a 1 at index 0", i_part_1.get(0), 1);
+				result.assertEqual("array should contain a 2 at index 1", i_part_1.get(1), 2);
+				result.assertEqual("array should contain a 15 at index 2", i_part_1.get(2), 15);
+				result.assertEqual("array should contain a 4 at index 3", i_part_1.get(3), 4);
+				result.assertEqual("array should contain a 2 at index 4", i_part_1.get(4), 2);
 
 				result.assertTrue("array should be empty", i_part_2.isEmpty());
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_30(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_30(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,2,15,4,2,5};
 
 				int i_split_size = array.getSplitSize(1);
 				int i_part_size = array.getPartSize(1);
 
-				result.assertCharArrayEqual("array splits 1 time", i_split_size, 0);
-				result.assertCharArrayEqual("array splits in to parts", i_part_size, 1);
+				result.assertEqual("array splits 1 time", i_split_size, 0);
+				result.assertEqual("array splits in to parts", i_part_size, 1);
 
 				Array<int> i_part_1 = array.split(0, 1);
 				Array<int> i_part_2 = array.split(1, 1);
 
-				result.assertCharArrayEqual("array should contain 2 ints", i_part_1.getPosition(), 5);
-				result.assertCharArrayEqual("array should contain a 2 at index 1", i_part_1.get(0), 2);
-				result.assertCharArrayEqual("array should contain a 15 at index 2", i_part_1.get(1), 15);
-				result.assertCharArrayEqual("array should contain a 4 at index 3", i_part_1.get(2), 4);
-				result.assertCharArrayEqual("array should contain a 2 at index 4", i_part_1.get(3), 2);
-				result.assertCharArrayEqual("array should contain a 5 at index 4", i_part_1.get(4), 5);
+				result.assertEqual("array should contain 2 ints", i_part_1.getPosition(), 5);
+				result.assertEqual("array should contain a 2 at index 1", i_part_1.get(0), 2);
+				result.assertEqual("array should contain a 15 at index 2", i_part_1.get(1), 15);
+				result.assertEqual("array should contain a 4 at index 3", i_part_1.get(2), 4);
+				result.assertEqual("array should contain a 2 at index 4", i_part_1.get(3), 2);
+				result.assertEqual("array should contain a 5 at index 4", i_part_1.get(4), 5);
 
 				result.assertTrue("array should be empty", i_part_2.isEmpty());
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_31(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_31(){
+				TestResult<String> result;
 				
 				Array<int> array = {1,1,1,2,15,4,2,5};
 
 				int i_split_size = array.getSplitSize(1);
 				int i_part_size = array.getPartSize(1);
 
-				result.assertCharArrayEqual("array splits 1 time", i_split_size, 0);
-				result.assertCharArrayEqual("array splits in to parts", i_part_size, 1);
+				result.assertEqual("array splits 1 time", i_split_size, 0);
+				result.assertEqual("array splits in to parts", i_part_size, 1);
 
 				Array<int> i_part_1 = array.split(0, 1);
 				Array<int> i_part_2 = array.split(1, 1);
 
-				result.assertCharArrayEqual("array should contain 2 ints", i_part_1.getPosition(), 5);
-				result.assertCharArrayEqual("array should contain a 2 at index 1", i_part_1.get(0), 2);
-				result.assertCharArrayEqual("array should contain a 15 at index 2", i_part_1.get(1), 15);
-				result.assertCharArrayEqual("array should contain a 4 at index 3", i_part_1.get(2), 4);
-				result.assertCharArrayEqual("array should contain a 2 at index 4", i_part_1.get(3), 2);
-				result.assertCharArrayEqual("array should contain a 5 at index 4", i_part_1.get(4), 5);
+				result.assertEqual("array should contain 2 ints", i_part_1.getPosition(), 5);
+				result.assertEqual("array should contain a 2 at index 1", i_part_1.get(0), 2);
+				result.assertEqual("array should contain a 15 at index 2", i_part_1.get(1), 15);
+				result.assertEqual("array should contain a 4 at index 3", i_part_1.get(2), 4);
+				result.assertEqual("array should contain a 2 at index 4", i_part_1.get(3), 2);
+				result.assertEqual("array should contain a 5 at index 4", i_part_1.get(4), 5);
 
 				result.assertTrue("array should be empty", i_part_2.isEmpty());
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_32(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_32(){
+				TestResult<String> result;
 				
 				Array<int> i_array;
 				i_array.setFixSize(1000);
@@ -521,14 +521,14 @@
 					i_array.addLocalValue(15);
 				}
 
-				result.assertCharArrayEqual("array should contain 1000 ints", i_array.length(), 1000);
-				result.assertCharArrayEqual("array should contain 1000 ints", i_array.getSize(), 1000);
+				result.assertEqual("array should contain 1000 ints", i_array.length(), 1000);
+				result.assertEqual("array should contain 1000 ints", i_array.getSize(), 1000);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_33(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_33(){
+				TestResult<String> result;
 				
 				Array<int> i_array;
 				i_array.setFixSize(1000);
@@ -539,14 +539,14 @@
 
 				i_array.clear();
 
-				result.assertCharArrayEqual("array should contain 1000 ints", i_array.length(), 0);
-				result.assertCharArrayEqual("array should contain 1000 ints", i_array.getSize(), 1000);
+				result.assertEqual("array should contain 1000 ints", i_array.length(), 0);
+				result.assertEqual("array should contain 1000 ints", i_array.getSize(), 1000);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_34(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_34(){
+				TestResult<String> result;
 				
 				Array<int> i_array;
 				i_array.setFixSize(1000);
@@ -557,14 +557,14 @@
 
 				i_array.reset();
 
-				result.assertCharArrayEqual("array should contain 1000 ints", i_array.length(), 0);
-				result.assertCharArrayEqual("array should contain 1000 ints", i_array.getSize(), 1000);
+				result.assertEqual("array should contain 1000 ints", i_array.length(), 0);
+				result.assertEqual("array should contain 1000 ints", i_array.getSize(), 1000);
 				
 				return result;
 			}
 				
-			TestResult TR_Array_Testing_35(){
-				TestResult result;
+			TestResult<String> TR_Array_Testing_35(){
+				TestResult<String> result;
 				
 				MemoryAllocator* i_allocator = new TemplateMemoryAllocator<int>();
 				i_allocator->isManaged(true);
@@ -576,13 +576,13 @@
 				}
 
 				result.assertTrue("array should an allocator", i_array.hasAllocator());
-				result.assertCharArrayEqual("array should contain 1000 ints", i_array.length(), 10);
-				result.assertCharArrayEqual("array should contain 1000 ints", i_array.get(0), 15);
+				result.assertEqual("array should contain 1000 ints", i_array.length(), 10);
+				result.assertEqual("array should contain 1000 ints", i_array.get(0), 15);
 				
 				return result;
 			}
 			
-			void TR_Array_Testing(TestRunner& a_test_runner){
+			void TR_Array_Testing(TestRunner<String>& a_test_runner){
 				a_test_runner.add("Array addLocalValue", TR_Array_Testing_1);
 				a_test_runner.add("Array set", TR_Array_Testing_2);
 				a_test_runner.add("Array Contructor", TR_Array_Testing_3);

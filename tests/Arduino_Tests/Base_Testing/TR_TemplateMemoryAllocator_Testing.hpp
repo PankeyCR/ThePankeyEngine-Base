@@ -12,8 +12,8 @@
 
 		namespace Base{
 		
-			TestResult TR_TemplateMemoryAllocator_Testing_1(){
-				TestResult i_result;
+			TestResult<String> TR_TemplateMemoryAllocator_Testing_1(){
+				TestResult<String> i_result;
 				
 				memory_size i_memory = MemorySize(int);
 				TemplateMemoryAllocator<int> i_allocator;
@@ -35,8 +35,8 @@
 				return i_result;
 			}
 		
-			TestResult TR_TemplateMemoryAllocator_Testing_2(){
-				TestResult i_result;
+			TestResult<String> TR_TemplateMemoryAllocator_Testing_2(){
+				TestResult<String> i_result;
 				
 				memory_size i_memory = MemorySize(int);
 				TemplateMemoryAllocator<int> i_allocator;
@@ -58,8 +58,8 @@
 				return i_result;
 			}
 		
-			TestResult TR_TemplateMemoryAllocator_Testing_3(){
-				TestResult i_result;
+			TestResult<String> TR_TemplateMemoryAllocator_Testing_3(){
+				TestResult<String> i_result;
 				
 				memory_size i_count = 5;
 				memory_size i_memory = ArrayMemorySize(int, i_count);
@@ -83,8 +83,8 @@
 				return i_result;
 			}
 		
-			TestResult TR_TemplateMemoryAllocator_Testing_4(){
-				TestResult i_result;
+			TestResult<String> TR_TemplateMemoryAllocator_Testing_4(){
+				TestResult<String> i_result;
 				
 				memory_size i_count = 5;
 				memory_size i_memory = ArrayMemorySize(int, i_count);
@@ -108,7 +108,7 @@
 				return i_result;
 			}
 
-			void TR_TemplateMemoryAllocator_Testing(TestRunner& a_test_runner){
+			void TR_TemplateMemoryAllocator_Testing(TestRunner<String>& a_test_runner){
 				a_test_runner.add("TemplateMemoryAllocator<int> create(memory_size), destroy(memory_size,void*)", TR_TemplateMemoryAllocator_Testing_1);
 				a_test_runner.add("TemplateMemoryAllocator<int> create(memory_size), destroy(memory_size)", TR_TemplateMemoryAllocator_Testing_2);
 				a_test_runner.add("TemplateMemoryAllocator<int> createArray(memory_size, i_count), destroyArray(memory_size, i_count, void*)", TR_TemplateMemoryAllocator_Testing_3);

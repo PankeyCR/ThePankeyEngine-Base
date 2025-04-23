@@ -233,7 +233,7 @@
 							return new T[a_size];
 						}
 						memory_size i_count = a_size;
-						memory_size i_memory = ArrayMemorySize(T, i_count);
+						memory_size i_memory = MemorySize(T);
 						ArrayLog(pankey_Log_EndMethod, "create", "");
 						return (T*)m_allocator->createArray(i_memory, i_count);
 					}
@@ -696,23 +696,24 @@
 						if(this->hasReachedFixSize()){
 							return i_array;
 						}
+						i_array.addLocalValue(a_value);
 						ArrayLog(pankey_Log_EndMethod, "addValue", "");
-						return i_array.addLocalValue(a_value);
+						return i_array;
 					}
 
-					virtual Array<T> addLocalValue(T a_value){
+					virtual void addLocalValue(T a_value){
 						ArrayLog(pankey_Log_StartMethod, "addLocalValue", "const T& a_value");
 						if(this->hasReachedFixSize()){
-							return *this;
+							return;
 						}
+						this->insertLocalValue(this->getPosition(), a_value);
 						ArrayLog(pankey_Log_EndMethod, "addLocalValue", "");
-						return this->insertLocalValue(this->getPosition(), a_value);
 					}
 
-					virtual Array<T> insertLocalValue(int a_position, T a_value){
+					virtual void insertLocalValue(int a_position, T a_value){
 						ArrayLog(pankey_Log_StartMethod, "insertLocalValue", "const T& a_value");
 						if(this->hasReachedFixSize()){
-							return *this;
+							return;
 						}
 						int i_array_length = 1;
 						ArrayLog(pankey_Log_Statement, "insertLocalValue", "Array Length:");
@@ -727,7 +728,7 @@
 							this->copyValue(a_value);
 							this->copyEndValue();
 							ArrayLog(pankey_Log_EndMethod, "insertLocalValue", "");
-							return *this;
+							return;
 						}
 
 						this->expandIfNeeded(i_array_length);
@@ -736,7 +737,7 @@
 							this->copyValue(a_value);
 							this->copyEndValue();
 							ArrayLog(pankey_Log_EndMethod, "insertLocalValue", "");
-							return *this;
+							return;
 						}
 
 						T* i_pointer = this->createArrayClone(i_array_length + this->getPosition());
@@ -754,7 +755,6 @@
 						ArrayLog(pankey_Log_Statement, "insertLocalValue", this->getSize());
 
 						ArrayLog(pankey_Log_EndMethod, "insertLocalValue", "");
-						return *this;
 					}
 
 					virtual Array<T> addArray(const Array<T>& a_array){
@@ -1489,10 +1489,10 @@
 						return i_array.addArray(a_value);
 					}
 
-					virtual Array<T> operator+=(T a_value){
+					virtual void operator+=(T a_value){
 						ArrayLog(pankey_Log_StartMethod, "operator+=", "T a_value");
+						this->addLocalValue(a_value);
 						ArrayLog(pankey_Log_EndMethod, "operator+=", "");
-						return this->addLocalValue(a_value);
 					}
 
 					virtual Array<T> operator+(T a_value){

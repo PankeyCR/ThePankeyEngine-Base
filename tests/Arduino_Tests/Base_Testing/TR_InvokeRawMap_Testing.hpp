@@ -12,20 +12,20 @@
 
 		namespace Base{
 		
-			TestResult TR_InvokeRawMap_Testing_1(){
-				TestResult result;
+			TestResult<String> TR_InvokeRawMap_Testing_1(){
+				TestResult<String> result;
 				
 				return result;
 			}
 			
-			TestResult TR_InvokeRawMap_Testing_2(){
-				TestResult result;
+			TestResult<String> TR_InvokeRawMap_Testing_2(){
+				TestResult<String> result;
 				
 
 				return result;
 			}
 
-			void TR_InvokeRawMap_Testing(TestRunner& a_test_runner){
+			void TR_InvokeRawMap_Testing(TestRunner<String>& a_test_runner){
 				a_test_runner.add("ArrayRawPointerMap Simple Constructor", TR_InvokeRawMap_Testing_1);
 				a_test_runner.add("ArrayRawPointerMap addPointer", TR_InvokeRawMap_Testing_2);
 			}		

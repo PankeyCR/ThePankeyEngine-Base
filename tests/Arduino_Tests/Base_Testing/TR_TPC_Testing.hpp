@@ -11,22 +11,22 @@
 
 		namespace Base{
 		
-			TestResult TR_TPC_Testing_1(){
-				TestResult result;
+			TestResult<String> TR_TPC_Testing_1(){
+				TestResult<String> result;
 
 				TPC i_tpc;
 				
 				return result;
 			}
 			
-			TestResult TR_TPC_Testing_2(){
-				TestResult result;
+			TestResult<String> TR_TPC_Testing_2(){
+				TestResult<String> result;
 				
 
 				return result;
 			}
 
-			void TR_TPC_Testing(TestRunner& a_test_runner){
+			void TR_TPC_Testing(TestRunner<String>& a_test_runner){
 				a_test_runner.add("TPC", TR_TPC_Testing_1);
 				a_test_runner.add("TPC", TR_TPC_Testing_2);
 			}		

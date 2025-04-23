@@ -12,45 +12,45 @@
 
 		namespace Base{
 	
-			void GlobalEventMethod(TestResult& a_result, float a_tpc){
+			void GlobalEventMethod(TestResult<String>& a_result, float a_tpc){
 				a_result.assertTrue("executing method", true);
 			}
 		
-			TestResult TR_GlobalEvents_Testing_1(){
-				TestResult i_result;
+			TestResult<String> TR_GlobalEvents_Testing_1(){
+				TestResult<String> i_result;
 
-				GlobalEvents<CharArray,TestResult&,float>::clear();
+				GlobalEvents<CharArray,TestResult<String>&,float>::clear();
 
-				GlobalEvents<CharArray,TestResult&,float>::put("assert", GlobalEventMethod);
+				GlobalEvents<CharArray,TestResult<String>&,float>::put("assert", GlobalEventMethod);
 
-				GlobalEvents<CharArray,TestResult&,float>::run("assert", i_result, 15.5f);
+				GlobalEvents<CharArray,TestResult<String>&,float>::run("assert", i_result, 15.5f);
 
-				GlobalEvents<CharArray,TestResult&,float>::clear();
+				GlobalEvents<CharArray,TestResult<String>&,float>::clear();
 				
 				return i_result;
 			}
 		
-			static void GlobalEventMethod2(TestResult& a_result, float a_tpc){
+			static void GlobalEventMethod2(TestResult<String>& a_result, float a_tpc){
 				a_result.assertTrue("executing method", false);
 			}
 		
-			TestResult TR_GlobalEvents_Testing_2(){
-				TestResult i_result;
+			TestResult<String> TR_GlobalEvents_Testing_2(){
+				TestResult<String> i_result;
 
-				GlobalEvents<CharArray,TestResult&,float>::clear();
+				GlobalEvents<CharArray,TestResult<String>&,float>::clear();
 
-				GlobalEvents<CharArray,TestResult&,float>::put("assert", GlobalEventMethod2);
+				GlobalEvents<CharArray,TestResult<String>&,float>::put("assert", GlobalEventMethod2);
 
-				GlobalEvents<CharArray,TestResult&,float>::change("assert", GlobalEventMethod);
+				GlobalEvents<CharArray,TestResult<String>&,float>::change("assert", GlobalEventMethod);
 
-				GlobalEvents<CharArray,TestResult&,float>::run("assert", i_result, 15.5f);
+				GlobalEvents<CharArray,TestResult<String>&,float>::run("assert", i_result, 15.5f);
 
-				GlobalEvents<CharArray,TestResult&,float>::clear();
+				GlobalEvents<CharArray,TestResult<String>&,float>::clear();
 				
 				return i_result;
 			}
 
-			void TR_GlobalEvents_Testing(TestRunner& a_test_runner){
+			void TR_GlobalEvents_Testing(TestRunner<String>& a_test_runner){
 				a_test_runner.add("Application Constructor", TR_GlobalEvents_Testing_1);
 				a_test_runner.add("Application getStateManager", TR_GlobalEvents_Testing_2);
 			}
