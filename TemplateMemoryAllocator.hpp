@@ -25,7 +25,7 @@
 
 					virtual void* create(memory_size a_type_size){
 						TemplateMemoryAllocatorLog(pankey_Log_StartMethod, "create", "");
-						if(a_type_size != MemorySize(T)){
+						if(a_type_size != sizeof(T)){
 							return nullptr;
 						}
 						TemplateMemoryAllocatorLog(pankey_Log_EndMethod, "create", "");
@@ -37,13 +37,28 @@
 						TemplateMemoryAllocatorLog(pankey_Log_EndMethod, "create", "");
 						return new T();
 					}
+
+					virtual void* createArray(memory_size a_type_size, memory_size a_count){
+						TemplateMemoryAllocatorLog(pankey_Log_StartMethod, "createArray", "");
+						if(a_type_size != sizeof(T)){
+							return nullptr;
+						}
+						TemplateMemoryAllocatorLog(pankey_Log_EndMethod, "createArray", "");
+						return new T[a_count];
+					}
+
+					virtual void* createArray(memory_size a_count){
+						TemplateMemoryAllocatorLog(pankey_Log_StartMethod, "createArray", "");
+						TemplateMemoryAllocatorLog(pankey_Log_EndMethod, "createArray", "");
+						return new T[a_count];
+					}
 					
 					virtual void destroy(memory_size a_type_size, void* a_destroy){
 						TemplateMemoryAllocatorLog(pankey_Log_StartMethod, "destroy", "");
 						if(a_destroy == nullptr){
 							return;
 						}
-						if(a_type_size != MemorySize(T)){
+						if(a_type_size != sizeof(T)){
 							return;
 						}
 						T* i_var = (T*)a_destroy;

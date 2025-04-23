@@ -75,7 +75,7 @@
 							return new T[a_size];
 						}
 						memory_size i_count = a_size;
-						memory_size i_memory = MemorySize(T);
+						memory_size i_memory = sizeof(T);
 						ArrayPointerLog(pankey_Log_EndMethod, "create", "");
 						return (T*)m_allocator->createArray(i_memory, i_count);
 					}

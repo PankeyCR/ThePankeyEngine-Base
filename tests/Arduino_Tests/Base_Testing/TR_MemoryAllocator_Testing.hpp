@@ -15,7 +15,7 @@
 			TestResult<String> TR_MemoryAllocator_Testing_1(){
 				TestResult<String> i_result;
 				
-				memory_size i_memory = MemorySize(int);
+				memory_size i_memory = sizeof(int);
 				MemoryAllocator i_allocator;
 				void* i_var = i_allocator.create(i_memory);
 
@@ -38,7 +38,7 @@
 			TestResult<String> TR_MemoryAllocator_Testing_2(){
 				TestResult<String> i_result;
 				
-				memory_size i_memory = MemorySize(int);
+				memory_size i_memory = sizeof(int);
 				MemoryAllocator i_allocator;
 				void* i_var = i_allocator.create(i_memory);
 
@@ -62,7 +62,7 @@
 				TestResult<String> i_result;
 				
 				memory_size i_count = 5;
-				memory_size i_memory = ArrayMemorySize(int, i_count);
+				memory_size i_memory = sizeof(int);
 
 				MemoryAllocator i_allocator;
 				void* i_var = i_allocator.createArray(i_memory, i_count);
@@ -87,7 +87,7 @@
 				TestResult<String> i_result;
 				
 				memory_size i_count = 5;
-				memory_size i_memory = ArrayMemorySize(int, i_count);
+				memory_size i_memory = sizeof(int);
 
 				MemoryAllocator i_allocator;
 				void* i_var = i_allocator.createArray(i_memory, i_count);

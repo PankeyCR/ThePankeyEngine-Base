@@ -15,7 +15,7 @@
 			TestResult<String> TR_StaticAllocatorInstance_Testing_1(){
 				TestResult<String> i_result;
 				
-				memory_size i_memory = MemorySize(int);
+				memory_size i_memory = sizeof(int);
 				MemoryAllocator* i_allocator = StaticAllocatorInstance<int>::getAllocator();
 
 				i_result.assertNotNull("i_allocator shoudnt be null", i_allocator);
