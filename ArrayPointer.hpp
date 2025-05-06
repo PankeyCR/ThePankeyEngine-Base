@@ -29,20 +29,21 @@
 					ArrayPointer(MemoryAllocator* a_allocator){
 						ArrayPointerLog(pankey_Log_StartMethod, "Constructor", "");
 						ArrayPointerLog(pankey_Log_Statement, "Constructor", "MemoryAllocator*");
-						this->setAllocator(a_allocator);
+						this->m_allocator = setMemoryAllocator(a_allocator);
 						ArrayPointerLog(pankey_Log_EndMethod, "Constructor", "");
 					}
 
 					ArrayPointer(const ArrayPointer<T>& a_values){
-						ArrayPointerLog(pankey_Log_StartMethod, "Constructor", "");
-						ArrayPointerLog(pankey_Log_Statement, "Constructor", "const ArrayPointer&");
-						this->setAllocator(a_values.m_allocator);
+						ArrayPointerLog(pankey_Log_StartMethod, "Copy Constructor", "");
+						ArrayPointerLog(pankey_Log_Statement, "Copy Constructor", "const ArrayPointer&");
+						this->m_allocator = setMemoryAllocator(a_values.m_allocator);
 						if(a_values.isEmpty()){
-							ArrayPointerLog(pankey_Log_EndMethod, "Constructor", "a_values.isEmpty()");
+							ArrayPointerLog(pankey_Log_EndMethod, "Copy Constructor", "a_values.isEmpty()");
 							return;
 						}
+						this->createArray(a_values.m_last_index);
 						this->copy(a_values.m_t_value, a_values.m_last_index);
-						ArrayPointerLog(pankey_Log_EndMethod, "Constructor", "");
+						ArrayPointerLog(pankey_Log_EndMethod, "Copy Constructor", "");
 					}
 
 					ArrayPointer(ArrayPointer<T>&& a_values){
@@ -62,46 +63,31 @@
 					virtual ~ArrayPointer(){
 						ArrayPointerLog(pankey_Log_StartMethod, "Destructor", "");
 						ArrayPointerLog(pankey_Log_Statement, "Destructor", "~ArrayPointer");
-						this->destroy(this->m_t_value);
-						this->destroyAllocator();
+						deallocateArray<T>(this->m_allocator, this->m_size, this->m_t_value);
+						destroyMemoryAllocator(this->m_allocator);
 						ArrayPointerLog(pankey_Log_EndMethod, "Destructor", "");
 					}
 
 				protected:
 
-					virtual T* create(int a_size)const{
-						ArrayPointerLog(pankey_Log_StartMethod, "create", "");
-						if(m_allocator == nullptr){
-							return new T[a_size];
-						}
-						memory_size i_count = a_size;
-						memory_size i_memory = sizeof(T);
-						ArrayPointerLog(pankey_Log_EndMethod, "create", "");
-						return (T*)m_allocator->createArray(i_memory, i_count);
-					}
-
-					virtual void destroy(T* a_array){
-						ArrayPointerLog(pankey_Log_StartMethod, "destroy", "");
-						if(m_allocator == nullptr){
-							if(a_array != nullptr){
-								delete[] a_array;
-								ArrayPointerLog(pankey_Log_Statement, "destroy", "delete[] a_array");
-							}
-							ArrayPointerLog(pankey_Log_EndMethod, "destroy", "");
-							return;
-						}
-						m_allocator->destroyArray(a_array);
-						ArrayPointerLog(pankey_Log_EndMethod, "destroy", "");
-					}
-
 					virtual void copy(T* a_array, int a_size){
 						ArrayPointerLog(pankey_Log_StartMethod, "copy", "");
-						if(a_size > this->m_last_index || this->m_t_value == nullptr || a_array == nullptr){
+						if(this->m_t_value == nullptr || a_array == nullptr){
+							ArrayPointerLog(pankey_Log_StartMethod, "copy", "this->m_t_value == nullptr || a_array == nullptr");
+							return;
+						}
+						if(this->m_last_index > a_size){
+							ArrayPointerLog(pankey_Log_StartMethod, "copy", "this->m_last_index > a_size");
+							return;
+						}
+						if(a_size > this->m_size){
+							ArrayPointerLog(pankey_Log_StartMethod, "copy", "a_size > this->m_size");
 							return;
 						}
 						for(int x = 0; x < a_size; x++){
 							this->m_t_value[x] = a_array[x];
 						}
+						this->m_last_index = a_size;
 						ArrayPointerLog(pankey_Log_EndMethod, "copy", "");
 					}
 
@@ -131,33 +117,6 @@
 						}
 						ArrayPointerLog(pankey_Log_EndMethod, "moveFast", "");
 					}
-
-					virtual void setAllocator(MemoryAllocator* a_allocator){
-						ArrayPointerLog(pankey_Log_StartMethod, "setAllocator", "");
-						if(a_allocator != nullptr){
-							if(a_allocator->isManaged()){
-								m_allocator = a_allocator->clone();
-								m_allocator->isManaged(true);
-							}else{
-								m_allocator = a_allocator;
-							}
-						}
-						ArrayPointerLog(pankey_Log_EndMethod, "setAllocator", "");
-					}
-
-					virtual void destroyAllocator(){
-						ArrayPointerLog(pankey_Log_StartMethod, "destroyAllocator", "");
-						if(m_allocator == nullptr){
-							ArrayPointerLog(pankey_Log_EndMethod, "destroyAllocator", "m_allocator == nullptr");
-							return;
-						}
-						if(!m_allocator->isManaged()){
-							ArrayPointerLog(pankey_Log_EndMethod, "destroyAllocator", "!m_allocator->isManaged()");
-							return;
-						}
-						delete m_allocator;
-						ArrayPointerLog(pankey_Log_EndMethod, "destroyAllocator", "");
-					}
 				
 				public:
 
@@ -169,8 +128,12 @@
 
 					virtual void createArray(int a_size){
 						ArrayPointerLog(pankey_Log_StartMethod, "createArray", "");
-						this->destroy(this->m_t_value);
-						this->m_t_value = this->create(a_size);
+						ArrayPointerLog(pankey_Log_Statement, "createArray", "size:");
+						ArrayPointerLog(pankey_Log_Statement, "createArray", a_size);
+						deallocateArray<T>(this->m_allocator, this->m_size, this->m_t_value);
+						this->m_t_value = allocateArray<T>(m_allocator, a_size);
+						ArrayPointerLog(pankey_Log_Statement, "createArray", "is new Array is null:");
+						ArrayPointerLog(pankey_Log_Statement, "createArray", this->m_t_value == nullptr);
 						this->m_last_index = 0;
 						this->m_size = a_size;
 						ArrayPointerLog(pankey_Log_EndMethod, "createArray", "");
@@ -178,7 +141,7 @@
 
 					virtual void createArrayFast(int a_size){
 						ArrayPointerLog(pankey_Log_StartMethod, "createArrayFast", "");
-						this->m_t_value = this->create(a_size);
+						this->m_t_value = allocateArray<T>(m_allocator, a_size);
 						this->m_last_index = 0;
 						this->m_size = a_size;
 						ArrayPointerLog(pankey_Log_EndMethod, "createArrayFast", "");
@@ -187,13 +150,13 @@
 					virtual void expand(int a_size){
 						ArrayPointerLog(pankey_Log_StartMethod, "expand", "");
 						int i_size = this->m_size + a_size;
-						T *nT = this->create(i_size);
+						T *nT = allocateArray<T>(m_allocator, i_size);
 						for(int x = 0; x < this->m_last_index; x++){
 							nT[x] = pankey::Base::move(this->m_t_value[x]);
 						}
 						if(this->m_t_value != nullptr){
 							ArrayPointerLog(pankey_Log_Statement, "expand", "this->m_t_value != nullptr");
-							this->destroy(this->m_t_value);
+							deallocateArray<T>(this->m_allocator, this->m_size, this->m_t_value);
 						}
 						this->m_t_value = nT;
 						this->m_size = i_size;
@@ -203,13 +166,13 @@
 					virtual void shrink(int a_size){
 						ArrayPointerLog(pankey_Log_StartMethod, "shrink", "");
 						int i_size = this->m_size - a_size;
-						T *nT = this->create(i_size);
+						T *nT = allocateArray<T>(m_allocator, i_size);
 						for(int x = 0; x < this->m_last_index && x < i_size; x++){
 							nT[x] = pankey::Base::move(this->m_t_value[x]);
 						}
 						if(this->m_t_value != nullptr){
 							ArrayPointerLog(pankey_Log_Statement, "shrink", "this->m_t_value != nullptr");
-							this->destroy(this->m_t_value);
+							deallocateArray<T>(this->m_allocator, this->m_size, this->m_t_value);
 						}
 						this->m_t_value = nT;
 						this->m_size = i_size;
@@ -227,7 +190,7 @@
 							ArrayPointerLog(pankey_Log_EndMethod, "clear", "this->m_t_value == nullptr");
 							return;
 						}
-						this->destroy(this->m_t_value);
+						deallocateArray<T>(this->m_allocator, this->m_size, this->m_t_value);
 						this->m_t_value = nullptr;
 						this->m_last_index = 0;
 						this->m_size = 0;

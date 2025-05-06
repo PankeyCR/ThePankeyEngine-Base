@@ -29,12 +29,12 @@
 
 					virtual void initialize(){
 						iStateLog(pankey_Log_StartMethod, "initialize", "");
-						this->initializeiState();
+						this->initializeState();
 						iStateLog(pankey_Log_EndMethod, "initialize", "");
 					}
-					virtual void initializeiState(){
-						iStateLog(pankey_Log_StartMethod, "initializeiState", "");
-						iStateLog(pankey_Log_EndMethod, "initializeiState", "");
+					virtual void initializeState(){
+						iStateLog(pankey_Log_StartMethod, "initializeState", "");
+						iStateLog(pankey_Log_EndMethod, "initializeState", "");
 					}
 					virtual bool hasInitialize(){
 						iStateLog(pankey_Log_StartMethod, "hasInitialize", "");
@@ -51,12 +51,12 @@
 					}
 					virtual void update(Args... a_values){
 						iStateLog(pankey_Log_StartMethod, "update", "");
-						this->updateiState(a_values...);
+						this->updateState(a_values...);
 						iStateLog(pankey_Log_EndMethod, "update", "");
 					}
-					virtual void updateiState(Args... a_values){
-						iStateLog(pankey_Log_StartMethod, "updateiState", "");
-						iStateLog(pankey_Log_EndMethod, "updateiState", "");
+					virtual void updateState(Args... a_values){
+						iStateLog(pankey_Log_StartMethod, "updateState", "");
+						iStateLog(pankey_Log_EndMethod, "updateState", "");
 					}
 					
 					virtual void operator=(const iState<Args...>& a_iState){

@@ -48,7 +48,7 @@
 						S array[] = {S(a_error)...};
 						S total;
 						for(const S& a : array){
-							concat(total, a);
+							total = pankey::concat(total, a);
 						}
 						m_info.add(total);
 						TestResultLog(pankey_Log_EndMethod, "addInfo", "");
@@ -338,6 +338,17 @@
 					}
 
 					template<class T>
+					void assertEqualDebug(S a_error, T a_assert_1, T a_assert_2){
+						if(a_assert_1 != a_assert_2){
+							S i_value_1 = pankey::concat(" value 1: ", pankey::toString(a_assert_1));
+							S i_value_2 = pankey::concat(" value 2: ", pankey::toString(a_assert_2));
+							S i_error = pankey::concat(a_error, i_value_1, i_value_2);
+							this->catchError(i_error);
+						}
+						m_index++;
+					}
+
+					template<class T>
 					void assertNotEqual(int a_index, S a_error, T a_assert_1, T a_assert_2){
 						if(a_assert_1 == a_assert_2){
 							this->catchError(a_index, a_error);
@@ -363,11 +374,11 @@
 							if(f_info == nullptr){
 								continue;
 							}
-							concat(i_info, *f_info);
+							i_info = pankey::concat(i_info, *f_info);
 							if(x == m_info.length() - 1){
 								continue;
 							}
-							concat(i_info, '\n');
+							i_info = pankey::concat(i_info, '\n');
 						}
 						return i_info;
 					}
@@ -383,12 +394,12 @@
 							if(f_index == nullptr || f_error == nullptr){
 								continue;
 							}
-							concat(i_errors, "Index: ");
-							concat(i_errors, *f_index);
-							concat(i_errors, '\n');
-							concat(i_errors, *f_error);
+							i_errors = pankey::concat(i_errors, "Index: ");
+							i_errors = pankey::concat(i_errors, *f_index);
+							i_errors = pankey::concat(i_errors, '\n');
+							i_errors = pankey::concat(i_errors, *f_error);
 							if(x != m_errors.length() - 1){
-								concat(i_errors, '\n');
+								i_errors = pankey::concat(i_errors, '\n');
 							}
 						}
 						return i_errors;

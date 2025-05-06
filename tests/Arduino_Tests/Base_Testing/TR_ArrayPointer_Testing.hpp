@@ -447,6 +447,29 @@
 				return result;
 			}
 			
+			TestResult<String> TR_ArrayPointer_Testing_21(){
+				TestResult<String> result;
+
+				ArrayPointer<int> array;
+
+				array.createArray(20);
+
+				array.add(10);
+				array.add(20);
+				array.add(30);
+				array.add(40);
+				array.add(50);
+
+				ArrayPointer<int> array_2 = array;
+				
+				result.assertEqualDebug("array_2 at index 2 should be 30", array_2.get(2), 30);
+				result.assertEqualDebug("array_2 at index 3 should be 40", array_2.get(3), 40);
+				result.assertEqualDebug("array_2 at index 4 should be 50", array_2.get(4), 50);
+				result.assertEqualDebug("array_2 last index should be 5", array_2.length(), 5);
+				
+				return result;
+			}
+			
 			void TR_ArrayPointer_Testing(TestRunner<String>& a_test_runner){
 				a_test_runner.add("Array createArray", TR_ArrayPointer_Testing_1);
 				a_test_runner.add("Array createArrayFast", TR_ArrayPointer_Testing_2);
@@ -468,6 +491,7 @@
 				// a_test_runner.add("Array add(T&&), insert(T&&)", TR_ArrayPointer_Testing_18);
 				// a_test_runner.add("Array add(T&&), insertFast(const T&)", TR_ArrayPointer_Testing_19);
 				// a_test_runner.add("Array add(T&&), insertFast(T&&)", TR_ArrayPointer_Testing_20);
+				a_test_runner.add("Array copyContructor", TR_ArrayPointer_Testing_21);
 			}
 		}
 	}

@@ -1,12 +1,26 @@
 
-template<class T>
-void concat(String& a_string, const T& a_add){
-  a_string = a_string + a_add;
+namespace pankey{
+  template<class T>
+  String toString(const T& a_add){
+    return String(a_add);
+  }
+
+  template<class T>
+  String concat(const T& a_add){
+    return String(a_add);
+  }
+
+  template<class T, class... Args>
+  String concat(const T& a_string, const Args&... a_add){
+    String i_string = String(a_string) + concat(a_add...);
+    return i_string;
+  }
 }
 
 #include "TestRunner.hpp"
 
 #include "TR_Array_Testing.hpp"
+// #include "TR_ArrayList_Testing.hpp"
 #include "TR_ArrayPointer_Testing.hpp"
 #include "TR_CharArray_Testing.hpp"
 #include "TR_GlobalEvents_Testing.hpp"
@@ -52,6 +66,7 @@ void setup() {
   Serial.begin(9600);
   
   TR_Array_Testing(tester);
+  // TR_ArrayList_Testing(tester);
   TR_ArrayPointer_Testing(tester);
   TR_CharArray_Testing(tester);
   TR_GlobalEvents_Testing(tester);
@@ -74,6 +89,6 @@ void setup() {
 void loop() {
   tester.runTest();
   tester.run();
-  // Serial.println(ESP.getFreeHeap());
+  Serial.println(ESP.getFreeHeap());
   delay(3000);
 }

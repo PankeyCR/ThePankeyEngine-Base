@@ -120,10 +120,10 @@
 						}
 						if(this->length() >= this->getSize()){
 							if(a_map_entry.getKey() != nullptr && this->isKeyOwner()){
-								a_map_entry.deleteKeyEntry();
+								a_map_entry.destroyKeyEntry();
 							}
 							if(a_map_entry.getValue() != nullptr && this->isValueOwner()){
-								a_map_entry.deleteValueEntry();
+								a_map_entry.destroyValueEntry();
 							}
 							ArrayRawPointerMapLog(pankey_Log_EndMethod, "addRawMapEntry", "");
 							return RawMapEntry<K,V>();
@@ -207,10 +207,10 @@
 						ArrayRawPointerMapLog(pankey_Log_StartMethod, "setRawMapEntryByIndex", "");
 						if(a_Index >= this->length()){
 							if(a_map_entry.getKey() != nullptr && this->isKeyOwner()){
-								a_map_entry.deleteKeyEntry();
+								a_map_entry.destroyKeyEntry();
 							}
 							if(a_map_entry.getValue() != nullptr && this->isValueOwner()){
-								a_map_entry.deleteValueEntry();
+								a_map_entry.destroyValueEntry();
 							}
 							ArrayRawPointerMapLog(pankey_Log_EndMethod, "setRawMapEntryByIndex", "a_Index >= this->length()");
 							return RawMapEntry<K,V>();

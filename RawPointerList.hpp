@@ -168,6 +168,23 @@
                         RawPointerListLog(pankey_Log_EndMethod, "destroyLast", "");
                         return this->destroyByIndex(this->length() - 1);
                     }
+				
+					template<class... Args>
+					void addPack(Args... x){
+						RawPointerListLog(pankey_Log_StartMethod, "addPack", "");
+						T array[] = {x...};
+						for(const T& a : array){
+							this->addPointer(new T(a));
+						}
+						RawPointerListLog(pankey_Log_EndMethod, "addPack", "");
+					}
+					
+					template<class... Args>
+					T* addWithParameters(Args... x){
+						RawPointerListLog(pankey_Log_StartMethod, "addWithParameters", "");
+						RawPointerListLog(pankey_Log_EndMethod, "addWithParameters", "");
+						return this->addPointer(new T(x...));
+					}
 
                     virtual bool isInOrder(){return this->m_reorder;}
                     virtual void setReorder(bool a_reorder){this->m_reorder = a_reorder;}

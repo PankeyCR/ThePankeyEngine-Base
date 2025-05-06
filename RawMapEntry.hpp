@@ -96,10 +96,10 @@
 						return m_key == nullptr && m_value == nullptr;
 					}
 					
-					virtual bool deleteEntry(){
-						RawMapEntryLog(pankey_Log_StartMethod, "deleteEntry", "");
+					virtual bool destroyEntry(){
+						RawMapEntryLog(pankey_Log_StartMethod, "destroyEntry", "");
 						if(m_key == nullptr && m_value == nullptr){
-							RawMapEntryLog(pankey_Log_EndMethod, "deleteEntry", "");
+							RawMapEntryLog(pankey_Log_EndMethod, "destroyEntry", "");
 							return false;
 						}
 						if(m_key != nullptr){
@@ -108,33 +108,33 @@
 						if(m_value != nullptr){
 							delete this->m_value;
 						}
-						RawMapEntryLog(pankey_Log_EndMethod, "deleteEntry", "");
+						RawMapEntryLog(pankey_Log_EndMethod, "destroyEntry", "");
 						return true;
 					}
 					
-					virtual bool deleteKeyEntry(){
-						RawMapEntryLog(pankey_Log_StartMethod, "deleteKeyEntry", "");
+					virtual bool destroyKeyEntry(){
+						RawMapEntryLog(pankey_Log_StartMethod, "destroyKeyEntry", "");
 						if(m_key == nullptr){
-							RawMapEntryLog(pankey_Log_EndMethod, "deleteKeyEntry", "");
+							RawMapEntryLog(pankey_Log_EndMethod, "destroyKeyEntry", "");
 							return false;
 						}
 						if(m_key != nullptr){
 							delete this->m_key;
 						}
-						RawMapEntryLog(pankey_Log_EndMethod, "deleteKeyEntry", "");
+						RawMapEntryLog(pankey_Log_EndMethod, "destroyKeyEntry", "");
 						return true;
 					}
 					
-					virtual bool deleteValueEntry(){
-						RawMapEntryLog(pankey_Log_StartMethod, "deleteKeyEntry", "");
+					virtual bool destroyValueEntry(){
+						RawMapEntryLog(pankey_Log_StartMethod, "destroyValueEntry", "");
 						if(m_value == nullptr){
-							RawMapEntryLog(pankey_Log_EndMethod, "deleteEntry", "");
+							RawMapEntryLog(pankey_Log_EndMethod, "destroyValueEntry", "");
 							return false;
 						}
 						if(m_value != nullptr){
 							delete this->m_value;
 						}
-						RawMapEntryLog(pankey_Log_EndMethod, "deleteKeyEntry", "");
+						RawMapEntryLog(pankey_Log_EndMethod, "destroyValueEntry", "");
 						return true;
 					}
 				

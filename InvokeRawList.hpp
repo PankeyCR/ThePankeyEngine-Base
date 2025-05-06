@@ -3,7 +3,7 @@
 	#define InvokeRawList_hpp
 
 	#include "ArrayRawList.hpp"
-	#include "InvokeMethod.hpp"
+	#include "InvokeFunction.hpp"
 
 	#if defined(pankey_Log) && (defined(InvokeRawList_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 		#include "Logger_status.hpp"
@@ -17,27 +17,27 @@
 		namespace Base{
 
 			template<class... Args>
-			using MethodList = ArrayRawList<InvokeMethod<Args...>>;
+			using FunctionList = ArrayRawList<InvokeFunction<Args...>>;
 
 			template<class R, class... Args>
-			using MethodReturnList = ArrayRawList<InvokeMethodReturn<R,Args...>>;
+			using FunctionReturnList = ArrayRawList<InvokeFunctionReturn<R,Args...>>;
 
 			template<class T, class... Args>
-			using ClassMethodList = ArrayRawList<InvokeClassMethod<T,Args...>>;
+			using ClassFunctionList = ArrayRawList<InvokeClassFunction<T,Args...>>;
 
 			template<class T, class R, class... Args>
-			using ClassMethodReturnList = ArrayRawList<InvokeClassMethodReturn<T,R,Args...>>;
+			using ClassFunctionReturnList = ArrayRawList<InvokeClassFunctionReturn<T,R,Args...>>;
 
 			template<class... Args>
-			void invoke(const RawList<InvokeMethod<Args...>>& a_list, int a_index, Args... args){
+			void invoke(const RawList<InvokeFunction<Args...>>& a_list, int a_index, Args... args){
 				InvokeRawListLog(pankey_Log_StartMethod, "invoke", "");
 				auto i_event = a_list.getPointerByIndex(a_index);
-				invoke<Args...>(i_event, args...);
+				(*i_event)(args...);
 				InvokeRawListLog(pankey_Log_EndMethod, "invoke", "");
 			}
 
 			template<class... Args>
-			void invokeAll(const RawList<InvokeMethod<Args...>>& a_list, Args... args){
+			void invokeAll(const RawList<InvokeFunction<Args...>>& a_list, Args... args){
 				InvokeRawListLog(pankey_Log_StartMethod, "invokeAll", "");
 				InvokeRawListLog(pankey_Log_Statement, "invokeAll", "list last index:");
 				InvokeRawListLog(pankey_Log_Statement, "invokeAll", a_list.length());
@@ -45,13 +45,13 @@
 					InvokeRawListLog(pankey_Log_Statement, "invokeAll", "iteration:");
 					InvokeRawListLog(pankey_Log_Statement, "invokeAll", x);
 					auto i_event = a_list.getPointerByIndex(x);
-					invoke<Args...>(i_event, args...);
+					(*i_event)(args...);
 				}
 				InvokeRawListLog(pankey_Log_EndMethod, "invokeAll", "");
 			}
 
 			// template<class... Args>
-			// void invokeAll(RawList<int>& a_deletes, RawList<InvokeMethod<Args...>>& a_list, Args... args){
+			// void invokeAll(RawList<int>& a_deletes, RawList<InvokeFunction<Args...>>& a_list, Args... args){
 			// 	InvokeRawListLog(pankey_Log_StartMethod, "invokeAll", "");
 			// 	InvokeRawListLog(pankey_Log_Statement, "invokeAll", "list initial index:");
 			// 	InvokeRawListLog(pankey_Log_Statement, "invokeAll", a_list.length());
@@ -83,37 +83,37 @@
 			// }
 
 			template<class T, class... Args>
-			void invoke(const RawList<InvokeClassMethod<T,Args...>>& a_list, T& a_instance, int a_index, Args... args){
+			void invoke(const RawList<InvokeClassFunction<T,Args...>>& a_list, T& a_instance, int a_index, Args... args){
 				InvokeRawListLog(pankey_Log_StartMethod, "invoke", "");
 				auto i_event = a_list.getPointerByIndex(a_index);
-				invoke<T,Args...>(a_instance, *i_event, args...);
+				(*i_event)(a_instance, args...);
 				InvokeRawListLog(pankey_Log_EndMethod, "invoke", "");
 			}
 
 			template<class T, class... Args>
-			void invokeAll(const RawList<InvokeClassMethod<T,Args...>>& a_list, T& a_instance, Args... args){
+			void invokeAll(const RawList<InvokeClassFunction<T,Args...>>& a_list, T& a_instance, Args... args){
 				InvokeRawListLog(pankey_Log_StartMethod, "invokeAll", "");
 				for(int x = 0; x < a_list.length(); x++){
 					auto i_event = a_list.getPointerByIndex(x);
-					invoke<T,Args...>(a_instance, *i_event, args...);
+					(*i_event)(a_instance, args...);
 				}
 				InvokeRawListLog(pankey_Log_EndMethod, "invokeAll", "");
 			}
 
 			template<class R, class... Args>
-			R invoke(const RawList<InvokeMethodReturn<R,Args...>>& a_list, int a_index, Args... args){
+			R invoke(const RawList<InvokeFunctionReturn<R,Args...>>& a_list, int a_index, Args... args){
 				InvokeRawListLog(pankey_Log_StartMethod, "invoke", "");
 				auto i_event = a_list.getPointerByIndex(a_index);
 				InvokeRawListLog(pankey_Log_EndMethod, "invoke", "");
-				return invoke<R,Args...>(i_event, args...);
+				return (*i_event)(args...);
 			}
 
 			template<class T, class R, class... Args>
-			R invoke(const RawList<InvokeClassMethodReturn<T,R,Args...>>& a_list, T& a_instance, int a_index, Args... args){
+			R invoke(const RawList<InvokeClassFunctionReturn<T,R,Args...>>& a_list, T& a_instance, int a_index, Args... args){
 				InvokeRawListLog(pankey_Log_StartMethod, "invoke", "");
 				auto i_event = a_list.getPointerByIndex(a_index);
 				InvokeRawListLog(pankey_Log_EndMethod, "invoke", "");
-				return invoke<T,R,Args...>(a_instance, *i_event, args...);
+				return (*i_event)(a_instance, args...);
 			}
 		
 		}

@@ -33,7 +33,7 @@
 			TestResult<String> TR_InvokeRawList_Testing_1(){
 				TestResult<String> result;
 
-				MethodList<> i_list;
+				FunctionList<> i_list;
 
 				result.assertTrue("list has to be empty", i_list.isEmpty());
 				
@@ -43,7 +43,7 @@
 			TestResult<String> TR_InvokeRawList_Testing_2(){
 				TestResult<String> result;
 
-				MethodList<float> i_list;
+				FunctionList<float> i_list;
 
 				result.assertTrue("list has to be empty", i_list.isEmpty());
 				
@@ -53,7 +53,7 @@
 			TestResult<String> TR_InvokeRawList_Testing_3(){
 				TestResult<String> result;
 
-				MethodList<TestResult<String>&> i_list;
+				FunctionList<TestResult<String>&> i_list;
 
 				i_list.add(TestMethod);
 
@@ -65,7 +65,7 @@
 			TestResult<String> TR_InvokeRawList_Testing_4(){
 				TestResult<String> result;
 
-				MethodList<TestResult<String>&> i_list;
+				FunctionList<TestResult<String>&> i_list;
 
 				i_list.add(TestMethod);
 				i_list.add(TestMethod_2);
@@ -96,7 +96,7 @@
 			TestResult<String> TR_InvokeRawList_Testing_5(){
 				TestResult<String> result;
 
-				ClassMethodList<InvokeExample,TestResult<String>&> i_list;
+				ClassFunctionList<InvokeExample,TestResult<String>&> i_list;
 
 				i_list.add(&InvokeExample::TestMethod);
 				i_list.add(&InvokeExample::TestMethod_2);
@@ -111,7 +111,7 @@
 			TestResult<String> TR_InvokeRawList_Testing_6(){
 				TestResult<String> result;
 
-				ClassMethodList<InvokeExample,TestResult<String>&> i_list;
+				ClassFunctionList<InvokeExample,TestResult<String>&> i_list;
 
 				i_list.add(&InvokeExample::TestMethod);
 				i_list.add(&InvokeExample::TestMethod_2);
@@ -126,7 +126,7 @@
 			TestResult<String> TR_InvokeRawList_Testing_7(){
 				TestResult<String> result;
 
-				MethodReturnList<int,TestResult<String>&> i_list;
+				FunctionReturnList<int,TestResult<String>&> i_list;
 
 				i_list.add(TestMethod_3);
 				i_list.add(TestMethod_4);
@@ -143,7 +143,7 @@
 			TestResult<String> TR_InvokeRawList_Testing_8(){
 				TestResult<String> result;
 
-				ClassMethodReturnList<InvokeExample,int,TestResult<String>&> i_list;
+				ClassFunctionReturnList<InvokeExample,int,TestResult<String>&> i_list;
 
 				i_list.add(&InvokeExample::TestMethod_3);
 				i_list.add(&InvokeExample::TestMethod_4);
@@ -158,14 +158,14 @@
 			}
 
 			void TR_InvokeRawList_Testing(TestRunner<String>& a_test_runner){
-				a_test_runner.add("MethodList Constructor with no arguments", TR_InvokeRawList_Testing_1);
-				a_test_runner.add("MethodList Constructor with 1 float arguments", TR_InvokeRawList_Testing_2);
-				a_test_runner.add("MethodList invoke with TestResult<String>& argument", TR_InvokeRawList_Testing_3);
-				a_test_runner.add("MethodList invokeAll with TestResult<String>& argument", TR_InvokeRawList_Testing_4);
-				a_test_runner.add("MethodList invoke class with TestResult<String>& argument", TR_InvokeRawList_Testing_5);
-				a_test_runner.add("MethodList invokeAll class with TestResult<String>& argument", TR_InvokeRawList_Testing_6);
-				a_test_runner.add("MethodList invoke return with TestResult<String>& argument", TR_InvokeRawList_Testing_7);
-				a_test_runner.add("MethodList invoke class return with TestResult<String>& argument", TR_InvokeRawList_Testing_8);
+				a_test_runner.add("FunctionList Constructor with no arguments", TR_InvokeRawList_Testing_1);
+				a_test_runner.add("FunctionList Constructor with 1 float arguments", TR_InvokeRawList_Testing_2);
+				a_test_runner.add("FunctionList invoke with TestResult<String>& argument", TR_InvokeRawList_Testing_3);
+				a_test_runner.add("FunctionList invokeAll with TestResult<String>& argument", TR_InvokeRawList_Testing_4);
+				a_test_runner.add("FunctionList invoke class with TestResult<String>& argument", TR_InvokeRawList_Testing_5);
+				a_test_runner.add("FunctionList invokeAll class with TestResult<String>& argument", TR_InvokeRawList_Testing_6);
+				a_test_runner.add("FunctionList invoke return with TestResult<String>& argument", TR_InvokeRawList_Testing_7);
+				a_test_runner.add("FunctionList invoke class return with TestResult<String>& argument", TR_InvokeRawList_Testing_8);
 			}
 
 		}

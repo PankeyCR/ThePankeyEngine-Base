@@ -3,6 +3,7 @@
 	#define ArrayRawPointerList_hpp
 
 	#include "RawPointerList.hpp"
+	#include "MemoryAllocator.hpp"
 
 	#if defined(pankey_Log) && (defined(ArrayRawPointerList_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 		#include "Logger_status.hpp"
@@ -23,8 +24,15 @@
 						ArrayRawPointerListLog(pankey_Log_EndMethod, "Constructor", "");
 					}
 					
+					ArrayRawPointerList(MemoryAllocator* a_allocator){
+						ArrayRawPointerListLog(pankey_Log_StartMethod, "Constructor", "");
+						this->m_allocator = setMemoryAllocator(a_allocator);
+						ArrayRawPointerListLog(pankey_Log_EndMethod, "Constructor", "");
+					}
+					
 					ArrayRawPointerList(const ArrayRawPointerList<T>& a_list){
 						ArrayRawPointerListLog(pankey_Log_StartMethod, "Constructor", "");
+						this->m_allocator = setMemoryAllocator(a_list.m_allocator);
 						this->setOwner(false);
 						this->expand(a_list.getSize());
 						for(int x = 0; x < a_list.length(); x++){
@@ -43,17 +51,12 @@
 					
 					virtual ~ArrayRawPointerList(){
 						ArrayRawPointerListLog(pankey_Log_StartMethod, "Destructor", "");
-						if(this->m_values != nullptr){
-							if(this->m_owner){
-								for(int x=0; x < this->length() ; x++){
-									delete this->m_values[x];
-								}
+						if(this->m_owner){
+							for(int x=0; x < this->length() ; x++){
+								this->destroyPointer(this->m_values[x]);
 							}
-							this->length(0);
-							this->setSize(0);
-							delete[] this->m_values;
-							this->m_values = nullptr;
 						}
+						deallocatePointerArray<T>(this->m_allocator, this->m_size, this->m_values);
 						ArrayRawPointerListLog(pankey_Log_EndMethod, "Destructor", "");
 					}
 					
@@ -349,7 +352,7 @@
 							return;
 						}
 						T **nT;
-						nT = new T*[i_size];
+						nT = allocatePointerArray<T>(this->m_allocator, i_size);
 						for(int x = 0; x < this->length(); x++){
 							ArrayRawPointerListLog(pankey_Log_Statement, "expand", "iteration:");
 							ArrayRawPointerListLog(pankey_Log_Statement, "expand", x);
@@ -357,7 +360,7 @@
 						}
 						if(this->m_values != nullptr){
 							ArrayRawPointerListLog(pankey_Log_Statement, "expand", "this->m_values != nullptr");
-							delete[] this->m_values;
+							deallocatePointerArray<T>(this->m_allocator, this->m_size, this->m_values);
 						}
 						this->m_values = nT;
 						this->setSize(i_size);
@@ -443,6 +446,14 @@
 					}
 					
 				protected:
+					virtual void destroyPointer(T* a_pointer){
+						if(a_pointer == nullptr){
+							return;
+						}
+						delete a_pointer;
+					}
+					
+					MemoryAllocator* m_allocator = nullptr;
 					T** m_values = nullptr;
 					int m_expandSize = 5;
 			};

@@ -6,7 +6,7 @@
 
 		namespace Base{
 
-			#ifndef MemorySize(TYPE)
+			#ifndef MemorySize
 
 				using memory_size = unsigned int;
 

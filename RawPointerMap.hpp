@@ -173,7 +173,7 @@
 						RawMapEntry<K,V> i_entry = this->removePointersByKeyPointer(a_key);
 						bool removed = !i_entry.isNull();
 						if(removed && this->isOwner()){
-							i_entry.deleteEntry();
+							i_entry.destroyEntry();
 						}
 						RawPointerMapLog(pankey_Log_EndMethod, "destroyByKeyPointer", "");
 						return removed;
@@ -184,7 +184,7 @@
 						RawMapEntry<K,V> i_entry = this->removePointersByValuePointer(a_value);
 						bool removed = !i_entry.isNull();
 						if(removed && this->isOwner()){
-							i_entry.deleteEntry();
+							i_entry.destroyEntry();
 						}
 						RawPointerMapLog(pankey_Log_EndMethod, "destroyByValuePointer", "");
 						return removed;
@@ -195,7 +195,7 @@
 						RawMapEntry<K,V> i_entry = this->removePointersByIndex(a_index);
 						bool removed = !i_entry.isNull();
 						if(removed && isOwner()){
-							i_entry.deleteEntry();
+							i_entry.destroyEntry();
 						}
 						RawPointerMapLog(pankey_Log_EndMethod, "destroyByIndex", "");
 						return removed;

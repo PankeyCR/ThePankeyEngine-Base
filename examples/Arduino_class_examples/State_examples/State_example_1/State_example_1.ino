@@ -3,20 +3,35 @@
 
 using namespace pankey::Base;
 
-class Example : public State<long>{
-  virtual void initializeState(){
+class Example{
+  public:
+  void initializeState(){
     Serial.println("initializeState");
   }
-  virtual void updateState(long a_tpc){
+  void updateState(long a_tpc){
     Serial.println("updateState");
     Serial.println(a_tpc);
   }
 };
 
-Example state;
+void ExampleInit(void* a_state){
+  static_cast<Example*>(a_state)->initializeState();
+}
+
+void ExampleUpdate(void* a_state, float a_tpc){
+  static_cast<Example*>(a_state)->updateState(a_tpc);
+}
+
+//both Example and State needs to have the same scope for no error
+Example example;
+State<float> state = State<float>(&example, ExampleInit, ExampleUpdate);
 
 void setup() {
   Serial.begin(9600);
+  delay(3000);
+
+  Serial.println("start");
+
   state.initialize();
 }
 

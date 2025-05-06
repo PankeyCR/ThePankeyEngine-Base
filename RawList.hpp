@@ -20,6 +20,9 @@
 				public:
 					virtual ~RawList(){}
 
+					using RawPointerList<T>::addPack;
+					using RawPointerList<T>::addWithParameters;
+
 					virtual void addCopy(RawList<T>& a_list){
 						RawListLog(pankey_Log_StartMethod, "addCopy", "");
                         for(int x = 0; x < a_list.length(); x++){
@@ -77,23 +80,6 @@
 					virtual bool destroyAll(T a_value)=0;
 					virtual bool destroyFirst(T a_value)=0;
 					virtual bool destroyLast(T a_value)=0;
-				
-					template<class... Args>
-					void addPack(Args... x){
-						RawListLog(pankey_Log_StartMethod, "addPack", "");
-						T array[] = {x...};
-						for(const T& a : array){
-							this->addPointer(new T(a));
-						}
-						RawListLog(pankey_Log_EndMethod, "addPack", "");
-					}
-					
-					template<class... Args>
-					T* addWithParameters(Args... x){
-						RawListLog(pankey_Log_StartMethod, "addWithParameters", "");
-						RawListLog(pankey_Log_EndMethod, "addWithParameters", "");
-						return this->addPointer(new T(x...));
-					}
 					
 					virtual T* put(T a_value){
 						RawListLog(pankey_Log_StartMethod, "put", "");
