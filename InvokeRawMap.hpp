@@ -17,16 +17,16 @@
 		namespace Base{
 
 			template<class K, class... Args>
-			using MethodMap = ArrayRawMap<K,InvokeFunction<Args...>>;
+			using FunctionMap = ArrayRawMap<K,InvokeFunction<Args...>>;
 
 			template<class K, class R, class... Args>
-			using MethodReturnMap = ArrayRawMap<K,InvokeFunctionReturn<R,Args...>>;
+			using FunctionReturnMap = ArrayRawMap<K,InvokeFunctionReturn<R,Args...>>;
 
 			template<class T, class K, class... Args>
-			using ClassMethodMap = ArrayRawMap<K,InvokeClassFunction<T,Args...>>;
+			using ClassFunctionMap = ArrayRawMap<K,InvokeClassFunction<T,Args...>>;
 
 			template<class T, class K, class R, class... Args>
-			using ClassMethodReturnMap = ArrayRawMap<K,InvokeClassFunctionReturn<T,R,Args...>>;
+			using ClassFunctionReturnMap = ArrayRawMap<K,InvokeClassFunctionReturn<T,R,Args...>>;
 
 			template<class K, class... Args>
 			void invoke(const RawMap<K,InvokeFunction<Args...>>& a_map, K a_key, Args... args){

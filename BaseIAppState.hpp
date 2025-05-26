@@ -47,6 +47,14 @@
 					
 					virtual void updateState(A& a_app, Args... a_values){}
 
+					virtual long getType()const{
+						return ClassCount<BaseIAppState<A,Args...>>::get();
+					}
+
+					virtual bool istype(long a_type)const{
+						return iAppState<A,Args...>::istype(a_type) || ClassCount<BaseIAppState<A,Args...>>::get() == a_type;
+					}
+
 				protected:
 					bool m_enable = false;
 					bool m_init = false;

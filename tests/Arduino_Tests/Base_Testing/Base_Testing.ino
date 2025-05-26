@@ -35,6 +35,7 @@ namespace pankey{
 #include "TR_TPC_Testing.hpp"
 #include "TR_TypeListManager_Testing.hpp"
 #include "TR_TypePointerListManager_Testing.hpp"
+#include "TR_unique_ptr_Testing.hpp"
 
 using namespace pankey::Base;
 
@@ -82,6 +83,7 @@ void setup() {
   TR_TPC_Testing(tester);
   TR_TypeListManager_Testing(tester);
   TR_TypePointerListManager_Testing(tester);
+  TR_unique_ptr_Testing(tester);
 
   tester.output(Start, End, Info, Error, Succes);
 }
@@ -89,6 +91,6 @@ void setup() {
 void loop() {
   tester.runTest();
   tester.run();
-  Serial.println(ESP.getFreeHeap());
+  // Serial.println(ESP.getFreeHeap());
   delay(3000);
 }

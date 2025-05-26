@@ -33,12 +33,12 @@
 					}
 
 					virtual bool istype(long a_type)const{
-						TypeLog(pankey_Log_StartMethod, "istypeof", "");
-						TypeLog(pankey_Log_Statement, "istypeof", "My Type:");
-						TypeLog(pankey_Log_Statement, "istypeof", this->getType());
-						TypeLog(pankey_Log_Statement, "istypeof", "Checking Type:");
-						TypeLog(pankey_Log_Statement, "istypeof", a_type);
-						TypeLog(pankey_Log_EndMethod, "istypeof", "");
+						TypeLog(pankey_Log_StartMethod, "istype", "");
+						TypeLog(pankey_Log_Statement, "istype", "My Type:");
+						TypeLog(pankey_Log_Statement, "istype", this->getType());
+						TypeLog(pankey_Log_Statement, "istype", "Checking Type:");
+						TypeLog(pankey_Log_Statement, "istype", a_type);
+						TypeLog(pankey_Log_EndMethod, "istype", "");
 						return this->getType() == a_type;
 					}
 

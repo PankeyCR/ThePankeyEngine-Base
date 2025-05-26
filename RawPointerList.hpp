@@ -168,6 +168,15 @@
                         RawPointerListLog(pankey_Log_EndMethod, "destroyLast", "");
                         return this->destroyByIndex(this->length() - 1);
                     }
+                    
+                    virtual void destroyFromList(const RawPointerList<T>& a_list){
+                        RawPointerListLog(pankey_Log_StartMethod, "destroyFromList", "");
+                        for(int x = 0; x < a_list.length(); x++){
+                            T* f_value = a_list.getPointerByIndex(x);
+                            this->destroyByPointer(f_value);
+                        }
+                        RawPointerListLog(pankey_Log_EndMethod, "destroyFromList", "");
+                    }
 				
 					template<class... Args>
 					void addPack(Args... x){

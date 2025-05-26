@@ -17,7 +17,7 @@
 
 			template<class K, class... Args>
 			struct GlobalEvents{
-				static MethodMap<K,Args...> g_global_events;
+				static FunctionMap<K,Args...> g_global_events;
 
 				static void put(K a_key, InvokeMethod<Args...> a_method){
 					g_global_events.put(a_key, a_method);
@@ -45,7 +45,7 @@
 				}
 			};
 
-			template<class K, class... Args> MethodMap<K,Args...> GlobalEvents<K,Args...>::g_global_events;
+			template<class K, class... Args> FunctionMap<K,Args...> GlobalEvents<K,Args...>::g_global_events;
 
 		}
 
