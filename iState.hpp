@@ -3,6 +3,7 @@
 	#define iState_hpp
 
 	#include "Type.hpp"
+	#include "ClassType.hpp"
 
 	#if defined(iState_LogApp) && defined(pankey_Log)
 	#include "Logger_status.hpp"
@@ -77,13 +78,13 @@
 					virtual long getType()const{
 						iStateLog(pankey_Log_StartMethod, "getType", "");
 						iStateLog(pankey_Log_EndMethod, "getType", "");
-						return ClassCount<iState<Args...>>::get();
+						return ClassType<iState<Args...>>::getId();
 					}
 
 					virtual bool istype(long a_type)const{
 						iStateLog(pankey_Log_StartMethod, "istypeof", "");
 						iStateLog(pankey_Log_EndMethod, "istypeof", "");
-						return ClassCount<iState<Args...>>::get() == a_type;
+						return ClassType<iState<Args...>>::getId() == a_type;
 					}
 					
 				protected:

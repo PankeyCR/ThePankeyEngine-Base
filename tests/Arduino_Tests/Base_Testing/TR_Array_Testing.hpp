@@ -567,7 +567,7 @@
 				TestResult<String> result;
 				
 				MemoryAllocator* i_allocator = new TemplateMemoryAllocator<int>();
-				i_allocator->isManaged(true);
+				i_allocator->isStatic(false);
 				Array<int> i_array;
 				i_array.setAllocator(i_allocator);
 

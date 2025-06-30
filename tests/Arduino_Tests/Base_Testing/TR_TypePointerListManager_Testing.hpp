@@ -6,6 +6,7 @@
 	#include "TestRunner.hpp"
 
 	#include "TypePointerListManager.hpp"
+	#include "ClassType.hpp"
 
 	namespace pankey{
 
@@ -15,7 +16,7 @@
 				public:
 			};
 
-			CREATE_TYPE(TPLM_Example)
+			CREATE_TYPE(TPLM_Example, ClassType<TPLM_Example>::getId())
 		
 			TestResult<String> TR_TypePointerListManager_Testing_1(){
 				TestResult<String> i_result;
@@ -34,7 +35,7 @@
 				TypePointerListManager<TPLM_App> i_manager;
 				Type* i_type = i_manager.addTypePointer(new TPLM_Example());
 				
-				i_result.assertTrue("manager should contain TPLM_Example", i_manager.containByType(ClassCount<TPLM_Example>::get()));
+				i_result.assertTrue("manager should contain TPLM_Example", i_manager.containByType(ClassType<TPLM_Example>::getId()));
 				
 				return i_result;
 			}
@@ -44,7 +45,7 @@
 
 				TypePointerListManager<TPLM_App> i_manager;
 				i_manager.addTypePointer(new TPLM_Example());
-				Type* i_type = i_manager.getTypePointerByType(ClassCount<TPLM_Example>::get());
+				Type* i_type = i_manager.getTypePointerByType(ClassType<TPLM_Example>::getId());
 				
 				i_result.assertTrue("manager should contain TPLM_Example", i_manager.containByTypePointer(i_type));
 				
@@ -70,7 +71,7 @@
 
 				TypePointerListManager<TPLM_App> i_manager;
 				i_manager.addTypePointer(new TPLM_Example());
-				Type* i_type = i_manager.removeTypePointerByType(ClassCount<TPLM_Example>::get());
+				Type* i_type = i_manager.removeTypePointerByType(ClassType<TPLM_Example>::getId());
 				
 				i_result.assertTrue("manager shouldnt contain TPLM_Example", !i_manager.containByTypePointer(i_type));
 				
@@ -96,7 +97,7 @@
 				TypePointerListManager<TPLM_App> i_manager;
 				i_manager.addTypePointer(new TPLM_Example());
 				
-				i_result.assertTrue("manager most delete TPLM_Example", i_manager.destroyByType(ClassCount<TPLM_Example>::get()));
+				i_result.assertTrue("manager most delete TPLM_Example", i_manager.destroyByType(ClassType<TPLM_Example>::getId()));
 
 				return i_result;
 			}

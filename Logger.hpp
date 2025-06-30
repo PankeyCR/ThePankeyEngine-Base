@@ -17,6 +17,10 @@
 		#define pankey_Log_set(S) 
 	#endif 
 
+	#ifndef pankey_Logger_set
+		#define pankey_Log_set(S) 
+	#endif 
+
 	#ifndef pankey_Log_Split
 		#define pankey_Log_Split(tittle) 
 	#endif
@@ -33,8 +37,16 @@
 		#define pankey_Log(status,name,method,mns) 
 	#endif
 
+	#ifndef pankey_Trigger_Log
+		#define pankey_Trigger_Log(trigger,status,name,method,mns) 
+	#endif
+
 	#ifndef pankey_Logger
 		#define pankey_Logger(status,name,method,mns) 
+	#endif
+
+	#ifndef pankey_Trigger_Logger
+		#define pankey_Trigger_Logger(trigger,status,name,method,mns) 
 	#endif
 
 	#ifndef pankey_Log_enable

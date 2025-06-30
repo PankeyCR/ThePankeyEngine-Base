@@ -345,6 +345,27 @@
 				
 				return result;
 			}
+				
+			TestResult<String> TR_CharArray_Testing_28(){
+				TestResult<String> result;
+				
+				CharArray i_path;
+				String i_dir = "/path";
+
+				for(int x = 0; x < i_dir.length(); x++){
+					char f_chr = i_dir.charAt(x);
+					i_path.addLocalValue(f_chr);
+				}
+
+				result.assertEqual("array should contain 5 chars", i_path.length(), 5);
+				result.assertEqual("value should be /", i_path.get(0), '/');
+				result.assertEqual("value should be p", i_path.get(1), 'p');
+				result.assertEqual("value should be a", i_path.get(2), 'a');
+				result.assertEqual("value should be t", i_path.get(3), 't');
+				result.assertEqual("value should be h", i_path.get(4), 'h');
+				
+				return result;
+			}
 			
 			void TR_CharArray_Testing(TestRunner<String>& a_test_runner){
 				a_test_runner.add("CharArray Constructor Bool", TR_CharArray_Testing_1);
@@ -374,6 +395,7 @@
 				a_test_runner.add("CharArray isBool, toBool with array TRUE", TR_CharArray_Testing_25);
 				a_test_runner.add("CharArray isBool, toBool with array false", TR_CharArray_Testing_26);
 				a_test_runner.add("CharArray isBool, toBool with array FALSE", TR_CharArray_Testing_27);
+				a_test_runner.add("CharArray addLocalValue, from String", TR_CharArray_Testing_28);
 			}
 		}
 	}

@@ -18,7 +18,7 @@
 			class MemoryAllocator{
 				public:
 					MemoryAllocator(){}
-					MemoryAllocator(bool a_managed){this->m_managed = a_managed;}
+					MemoryAllocator(bool a_static){this->m_static = a_static;}
 					virtual ~MemoryAllocator(){}
 
 					virtual void* create(memory_size a_type_size){return malloc(a_type_size);}
@@ -39,12 +39,12 @@
 					virtual void destroyPointerArray(memory_size a_type_size, memory_size a_count, void** a_destroy){free(a_destroy);}
 					virtual void destroyPointerArray(void** a_destroy){free(a_destroy);}
 
-					virtual void isManaged(bool a_managed){
-						this->m_managed = a_managed;
+					virtual void isStatic(bool a_static){
+						this->m_static = a_static;
 					}
 
-					virtual bool isManaged(){
-						return this->m_managed;
+					virtual bool isStatic(){
+						return this->m_static;
 					}
 
 					virtual MemoryAllocator* clone()const{
@@ -52,7 +52,7 @@
 					}
 
 				protected:
-					bool m_managed = false;
+					bool m_static = true;
 			};
 
 			MemoryAllocator* setMemoryAllocator(MemoryAllocator* a_memory_allocator){
@@ -60,10 +60,10 @@
 				MemoryAllocator* i_memory_allocator = nullptr;
 				if(a_memory_allocator != nullptr){
 					MemoryAllocatorLog(pankey_Log_Statement, "setMemoryAllocator", "a_memory_allocator != nullptr");
-					if(a_memory_allocator->isManaged()){
+					if(!a_memory_allocator->isStatic()){
 						MemoryAllocatorLog(pankey_Log_Statement, "setMemoryAllocator", "a_memory_allocator->isManaged()");
 						i_memory_allocator = a_memory_allocator->clone();
-						i_memory_allocator->isManaged(true);
+						i_memory_allocator->isStatic(false);
 					}else{
 						MemoryAllocatorLog(pankey_Log_Statement, "setMemoryAllocator", "!a_memory_allocator->isManaged()");
 						i_memory_allocator = a_memory_allocator;
@@ -73,13 +73,27 @@
 				return i_memory_allocator;
 			}
 
+			MemoryAllocator* setMemoryAllocator(MemoryAllocator* a_owned_memory_allocator, MemoryAllocator* a_memory_allocator){
+				MemoryAllocatorLog(pankey_Log_StartMethod, "setMemoryAllocator", "");
+				if(a_owned_memory_allocator == a_memory_allocator){
+					return a_owned_memory_allocator;
+				}
+				if(a_owned_memory_allocator != nullptr){
+					if(!a_owned_memory_allocator->isStatic()){
+						delete a_owned_memory_allocator;
+					}
+				}
+				MemoryAllocatorLog(pankey_Log_EndMethod, "setMemoryAllocator", "");
+				return setMemoryAllocator(a_memory_allocator);
+			}
+
 			void destroyMemoryAllocator(MemoryAllocator* a_memory_allocator){
 				MemoryAllocatorLog(pankey_Log_StartMethod, "destroyMemoryAllocator", "");
 				if(a_memory_allocator == nullptr){
 					MemoryAllocatorLog(pankey_Log_EndMethod, "destroyMemoryAllocator", "a_memory_allocator == nullptr");
 					return;
 				}
-				if(!a_memory_allocator->isManaged()){
+				if(a_memory_allocator->isStatic()){
 					MemoryAllocatorLog(pankey_Log_EndMethod, "destroyMemoryAllocator", "!a_memory_allocator->isManaged()");
 					return;
 				}

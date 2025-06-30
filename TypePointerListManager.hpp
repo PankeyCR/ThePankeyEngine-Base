@@ -3,7 +3,7 @@
 	#define TypePointerListManager_hpp
 
 	#include "Type.hpp"
-	#include "ClassCount.hpp"
+	#include "ClassType.hpp"
 	#include "ArrayRawPointerList.hpp"
 	#include "UpdateManager.hpp"
 	#include "InvokeMethod.hpp"

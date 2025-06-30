@@ -48,11 +48,11 @@
 					virtual void updateState(A& a_app, Args... a_values){}
 
 					virtual long getType()const{
-						return ClassCount<BaseIAppState<A,Args...>>::get();
+						return ClassType<BaseIAppState<A,Args...>>::getId();
 					}
 
 					virtual bool istype(long a_type)const{
-						return iAppState<A,Args...>::istype(a_type) || ClassCount<BaseIAppState<A,Args...>>::get() == a_type;
+						return iAppState<A,Args...>::istype(a_type) || ClassType<BaseIAppState<A,Args...>>::getId() == a_type;
 					}
 
 				protected:

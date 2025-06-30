@@ -41,7 +41,7 @@
 					template<class AS>
 					bool containType(){
 						TypeListManagerLog(pankey_Log_StartMethod, "containType",  "");
-						long i_type = Base::ClassCount<AS>::get();
+						long i_type = Base::ClassType<AS>::getId();
 						TypeListManagerLog(pankey_Log_EndMethod, "containType", "");
 						return this->containByType(i_type);
 					}
@@ -49,7 +49,7 @@
 					template<class AS>
 					bool containIsType(){
 						TypeListManagerLog(pankey_Log_StartMethod, "containType",  "");
-						long i_type = Base::ClassCount<AS>::get();
+						long i_type = Base::ClassType<AS>::getId();
 						TypeListManagerLog(pankey_Log_EndMethod, "containType", "");
 						return this->containByIsType(i_type);
 					}
@@ -57,7 +57,7 @@
 					template<class AS>
 					void putType(){
 						TypeListManagerLog(pankey_Log_StartMethod, "putType",  "");
-						if(this->containByType(Base::ClassCount<AS>::get())){
+						if(this->containByType(Base::ClassType<AS>::getId())){
 							return;
 						}
 						this->addTypePointer(new AS());
@@ -67,7 +67,7 @@
 					template<class AS, class... MArgs>
 					void runTypeMethod(Base::InvokeClassMethod<AS,MArgs...> a_method, MArgs... a_args){
 						TypeListManagerLog(pankey_Log_StartMethod, "run",  "");
-						Base::Type* f_type = this->getTypePointerByType(Base::ClassCount<AS>::get());
+						Base::Type* f_type = this->getTypePointerByType(Base::ClassType<AS>::getId());
 						if(f_type == nullptr){
 							TypeListManagerLog(pankey_Log_EndMethod, "run", "f_type == nullptr");
 							return;

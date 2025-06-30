@@ -3,6 +3,7 @@
 	#define iAppState_hpp
 
 	#include "Type.hpp"
+	#include "ClassType.hpp"
 
 	namespace pankey{
 
@@ -31,7 +32,7 @@
 					virtual bool operator!=(iAppState b){return true;}
 
 					virtual bool istype(long a_type)const{
-						return ClassCount<iAppState<A,Args...>>::get() == a_type;
+						return ClassType<iAppState<A,Args...>>::getId() == a_type;
 					}
 			};
 		}

@@ -20,7 +20,7 @@
 			class TemplateMemoryAllocator : public MemoryAllocator{
 				public:
 					TemplateMemoryAllocator(){}
-					TemplateMemoryAllocator(bool a_managed){this->m_managed = a_managed;}
+					TemplateMemoryAllocator(bool a_static){this->m_static = a_static;}
 					virtual ~TemplateMemoryAllocator(){}
 
 					virtual void* create(memory_size a_type_size){

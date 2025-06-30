@@ -23,11 +23,11 @@
 					}
 
 					virtual long getType()const{
-						return ClassCount<TLM_Example>::get();
+						return ClassType<TLM_Example>::getId();
 					}
 
 					virtual bool istype(long a_type)const{
-						return ClassCount<TLM_Example>::get() == a_type;
+						return ClassType<TLM_Example>::getId() == a_type;
 					}
 			};
 		

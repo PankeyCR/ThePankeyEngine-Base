@@ -66,9 +66,9 @@
 						ArrayLog(pankey_Log_StartMethod, "Constructor", "");
 						ArrayLog(pankey_Log_Statement, "Constructor", "const Array& val");
 						if(c_array.m_allocator != nullptr){
-							if(c_array.m_allocator->isManaged()){
+							if(!c_array.m_allocator->isStatic()){
 								m_allocator = c_array.m_allocator->clone();
-								m_allocator->isManaged(true);
+								m_allocator->isStatic(false);
 							}else{
 								m_allocator = c_array.m_allocator;
 							}
@@ -478,7 +478,7 @@
 							ArrayLog(pankey_Log_EndMethod, "destroyAllocator", "m_allocator == nullptr");
 							return;
 						}
-						if(!m_allocator->isManaged()){
+						if(m_allocator->isStatic()){
 							ArrayLog(pankey_Log_EndMethod, "destroyAllocator", "!m_allocator->isManaged()");
 							return;
 						}

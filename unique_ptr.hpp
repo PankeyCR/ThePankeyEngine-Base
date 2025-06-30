@@ -1,6 +1,6 @@
 
-#ifndef Command_hpp
-	#define Command_hpp
+#ifndef unique_ptr_hpp
+	#define unique_ptr_hpp
 
 	namespace pankey{
 

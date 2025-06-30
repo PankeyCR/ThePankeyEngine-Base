@@ -19,10 +19,13 @@ namespace pankey{
 
 #include "TestRunner.hpp"
 
-#include "TR_Array_Testing.hpp"
+// #include "TR_Array_Testing.hpp"
 // #include "TR_ArrayList_Testing.hpp"
 #include "TR_ArrayPointer_Testing.hpp"
-#include "TR_CharArray_Testing.hpp"
+#include "TR_Byte_Testing.hpp"
+#include "TR_ByteArray_Testing.hpp"
+// #include "TR_CharArray_Testing.hpp"
+#include "TR_ClassType_Testing.hpp"
 #include "TR_GlobalEvents_Testing.hpp"
 #include "TR_InvokeMethod_Testing.hpp"
 #include "TR_InvokeRawList_Testing.hpp"
@@ -34,6 +37,7 @@ namespace pankey{
 #include "TR_TemplateMemoryAllocator_Testing.hpp"
 #include "TR_TPC_Testing.hpp"
 #include "TR_TypeListManager_Testing.hpp"
+#include "TR_TypePointerList_Testing.hpp"
 #include "TR_TypePointerListManager_Testing.hpp"
 #include "TR_unique_ptr_Testing.hpp"
 
@@ -66,10 +70,13 @@ TestRunner<String> tester;
 void setup() {
   Serial.begin(9600);
   
-  TR_Array_Testing(tester);
+  // TR_Array_Testing(tester);
   // TR_ArrayList_Testing(tester);
   TR_ArrayPointer_Testing(tester);
-  TR_CharArray_Testing(tester);
+  TR_Byte_Testing(tester);
+  TR_ByteArray_Testing(tester);
+  // TR_CharArray_Testing(tester);
+  TR_ClassType_Testing(tester);
   TR_GlobalEvents_Testing(tester);
   TR_InvokeMethod_Testing(tester);
   TR_InvokeRawList_Testing(tester);
@@ -82,6 +89,7 @@ void setup() {
   TR_TemplateMemoryAllocator_Testing(tester);
   TR_TPC_Testing(tester);
   TR_TypeListManager_Testing(tester);
+  TR_TypePointerList_Testing(tester);
   TR_TypePointerListManager_Testing(tester);
   TR_unique_ptr_Testing(tester);
 
@@ -91,6 +99,6 @@ void setup() {
 void loop() {
   tester.runTest();
   tester.run();
-  // Serial.println(ESP.getFreeHeap());
+  Serial.println(ESP.getFreeHeap());
   delay(3000);
 }

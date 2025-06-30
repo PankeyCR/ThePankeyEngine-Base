@@ -174,7 +174,7 @@
 						int i_list_index = m_expected_errors.getIndex(i_firts_error);
 
 						if(i_list_index + i_sequence.length() <= m_expected_errors.length()){
-							this->assertSEqual("Error, not enough test to check: sequence - errors found: ", i_sequence.length(), m_expected_errors.length() - i_list_index);
+							this->assertEqual("Error, not enough test to check: sequence - errors found: ", i_sequence.length(), m_expected_errors.length() - i_list_index);
 							TestResultLog(pankey_Log_EndMethod, "assertExpectedSequence", "");
 							return;
 						}
