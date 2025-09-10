@@ -16,6 +16,12 @@ namespace pankey{
     return i_string;
   }
 }
+#include "ArduinoClassMethodNamesEnable.hpp"
+#include "arduino_method_logger.hpp"
+
+#define CharArray_Log
+#define CharPointer_Log
+#define ArrayPointer_Log
 
 #include "TestRunner.hpp"
 
@@ -24,7 +30,8 @@ namespace pankey{
 #include "TR_ArrayPointer_Testing.hpp"
 #include "TR_Byte_Testing.hpp"
 #include "TR_ByteArray_Testing.hpp"
-// #include "TR_CharArray_Testing.hpp"
+#include "TR_CharArray_Testing.hpp"
+#include "TR_CharPointer_Testing.hpp"
 #include "TR_ClassType_Testing.hpp"
 #include "TR_GlobalEvents_Testing.hpp"
 #include "TR_InvokeMethod_Testing.hpp"
@@ -36,9 +43,7 @@ namespace pankey{
 #include "TR_StaticAllocatorInstance_Testing.hpp"
 #include "TR_TemplateMemoryAllocator_Testing.hpp"
 #include "TR_TPC_Testing.hpp"
-#include "TR_TypeListManager_Testing.hpp"
 #include "TR_TypePointerList_Testing.hpp"
-#include "TR_TypePointerListManager_Testing.hpp"
 #include "TR_unique_ptr_Testing.hpp"
 
 using namespace pankey::Base;
@@ -69,13 +74,18 @@ TestRunner<String> tester;
 
 void setup() {
   Serial.begin(9600);
+  // pankey_Log_Class_Method("CharPointer");
+  // pankey_Log_Class_Method("ArrayPointer", "insert");
+  // pankey_Log_Class_Method("CharArray", "setFloat");
+  // pankey_Log_Start();
   
   // TR_Array_Testing(tester);
   // TR_ArrayList_Testing(tester);
   TR_ArrayPointer_Testing(tester);
   TR_Byte_Testing(tester);
   TR_ByteArray_Testing(tester);
-  // TR_CharArray_Testing(tester);
+  TR_CharArray_Testing(tester);
+  TR_CharPointer_Testing(tester);
   TR_ClassType_Testing(tester);
   TR_GlobalEvents_Testing(tester);
   TR_InvokeMethod_Testing(tester);
@@ -88,9 +98,7 @@ void setup() {
   TR_StaticAllocatorInstance_Testing(tester);
   TR_TemplateMemoryAllocator_Testing(tester);
   TR_TPC_Testing(tester);
-  TR_TypeListManager_Testing(tester);
   TR_TypePointerList_Testing(tester);
-  TR_TypePointerListManager_Testing(tester);
   TR_unique_ptr_Testing(tester);
 
   tester.output(Start, End, Info, Error, Succes);

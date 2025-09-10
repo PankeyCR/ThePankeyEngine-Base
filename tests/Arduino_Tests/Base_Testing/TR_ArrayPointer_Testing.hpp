@@ -538,6 +538,185 @@
 				return result;
 			}
 			
+			TestResult<String> TR_ArrayPointer_Testing_24(){
+				TestResult<String> result;
+
+				ArrayPointer<int> array;
+
+				array.add(10);
+				array.add(20);
+				array.add(30);
+				array.add(40);
+				array.add(50);
+				array.add(60);
+				array.add(70);
+				array.add(80);
+				array.add(90);
+				array.add(100);
+
+				int num = 15;
+				array.insert(10, num);
+
+				array.add(110);
+				
+				result.assertEqual("array at index 5 should be 15", array.get(9), 100);
+				result.assertEqual("array at index 6 should be 60", array.get(10), 15);
+				result.assertEqual("array at index 6 should be 60", array.get(11), 110);
+				result.assertEqual("array last index should be 11", array.length(), 12);
+				
+				return result;
+			}
+			
+			TestResult<String> TR_ArrayPointer_Testing_25(){
+				TestResult<String> result;
+
+				ArrayPointer<int> array;
+
+				array.add(10);
+				array.add(20);
+				array.add(30);
+				array.add(40);
+				array.add(50);
+				array.add(60);
+				array.add(70);
+				array.add(80);
+				array.add(90);
+				array.add(100);
+
+				array.insert(10, 15);
+
+				array.add(110);
+				
+				result.assertEqual("array at index 5 should be 15", array.get(9), 100);
+				result.assertEqual("array at index 6 should be 60", array.get(10), 15);
+				result.assertEqual("array at index 6 should be 60", array.get(11), 110);
+				result.assertEqual("array last index should be 11", array.length(), 12);
+				
+				return result;
+			}
+			
+			TestResult<String> TR_ArrayPointer_Testing_26(){
+				TestResult<String> result;
+
+				ArrayPointer<int> array;
+
+				array.createArray(20);
+
+				array.add(10);
+				array.add(20);
+				array.add(30);
+				array.add(40);
+				array.add(50);
+				array.add(60);
+				array.add(70);
+				array.add(80);
+				array.add(90);
+				array.add(100);
+
+				int num = 15;
+				array.insertFast(10, num);
+
+				array.add(110);
+				
+				result.assertEqual("array at index 5 should be 15", array.get(9), 100);
+				result.assertEqual("array at index 6 should be 60", array.get(10), 15);
+				result.assertEqual("array at index 6 should be 60", array.get(11), 110);
+				result.assertEqual("array last index should be 11", array.length(), 12);
+				
+				return result;
+			}
+			
+			TestResult<String> TR_ArrayPointer_Testing_27(){
+				TestResult<String> result;
+
+				ArrayPointer<int> array;
+
+				array.createArray(20);
+
+				array.add(10);
+				array.add(20);
+				array.add(30);
+				array.add(40);
+				array.add(50);
+				array.add(60);
+				array.add(70);
+				array.add(80);
+				array.add(90);
+				array.add(100);
+
+				array.insertFast(10, 15);
+
+				array.add(110);
+				
+				result.assertEqual("array at index 5 should be 15", array.get(9), 100);
+				result.assertEqual("array at index 6 should be 60", array.get(10), 15);
+				result.assertEqual("array at index 6 should be 60", array.get(11), 110);
+				result.assertEqual("array last index should be 11", array.length(), 12);
+				
+				return result;
+			}
+			
+			TestResult<String> TR_ArrayPointer_Testing_28(){
+				TestResult<String> result;
+
+				ArrayPointer<int> array;
+
+				array.createArrayFast(10);
+
+				int num_1 = 15;
+				int num_2 = 25;
+				array.insert(3, num_1);
+				array.insert(6, num_2);
+				
+				result.assertEqual("array at index 3 should be 15", array.getFast(3), 15);
+				result.assertEqual("array at index 6 should be 25", array.getFast(6), 25);
+				result.assertEqual("array last index should be 0", array.length(), 0);
+				
+				return result;
+			}
+			
+			TestResult<String> TR_ArrayPointer_Testing_29(){
+				TestResult<String> i_result;
+
+				ArrayPointer<int> i_array_1;
+				ArrayPointer<int> i_array_2;
+
+				i_array_1.createArray(20);
+
+				i_array_1.add(0);
+				i_array_1.add(1);
+				i_array_1.add(2);
+				i_array_1.add(3);
+				i_array_1.add(4);
+				i_array_1.add(5);
+				i_array_1.add(6);
+				i_array_1.add(7);
+				i_array_1.add(8);
+				i_array_1.add(9);
+				i_array_1.add(10);
+
+				i_array_2.add(11);
+				i_array_2.add(12);
+				i_array_2.add(13);
+				i_array_2.add(14);
+				i_array_2.add(15);
+				i_array_2.add(16);
+				i_array_2.add(17);
+				i_array_2.add(18);
+				i_array_2.add(19);
+				i_array_2.add(20);
+
+				i_array_1.add(i_array_2);
+
+				for(int x = 0; x < i_array_1.length(); x++){
+					i_result.assertEqual(String("iteration x = ") + String(x), i_array_1.get(x), x);
+				}
+				
+				i_result.assertEqual("array at index 5 should be 15", i_array_1.length(), 21);
+				
+				return i_result;
+			}
+			
 			void TR_ArrayPointer_Testing(TestRunner<String>& a_test_runner){
 				a_test_runner.add("Array createArray", TR_ArrayPointer_Testing_1);
 				a_test_runner.add("Array createArrayFast", TR_ArrayPointer_Testing_2);
@@ -555,13 +734,19 @@
 				a_test_runner.add("Array setFast(T&&), getFast", TR_ArrayPointer_Testing_14);
 				a_test_runner.add("Array add, shrink", TR_ArrayPointer_Testing_15);
 				a_test_runner.add("Array TemplateMemoryAllocator, add(T&&)", TR_ArrayPointer_Testing_16);
-				// a_test_runner.add("Array add(T&&), insert(const T&)", TR_ArrayPointer_Testing_17);
-				// a_test_runner.add("Array add(T&&), insert(T&&)", TR_ArrayPointer_Testing_18);
-				// a_test_runner.add("Array add(T&&), insertFast(const T&)", TR_ArrayPointer_Testing_19);
-				// a_test_runner.add("Array add(T&&), insertFast(T&&)", TR_ArrayPointer_Testing_20);
+				a_test_runner.add("Array add(T&&), insert(const T&)", TR_ArrayPointer_Testing_17);
+				a_test_runner.add("Array add(T&&), insert(T&&)", TR_ArrayPointer_Testing_18);
+				a_test_runner.add("Array add(T&&), insertFast(const T&)", TR_ArrayPointer_Testing_19);
+				a_test_runner.add("Array add(T&&), insertFast(T&&)", TR_ArrayPointer_Testing_20);
 				a_test_runner.add("Array copyContructor", TR_ArrayPointer_Testing_21);
 				a_test_runner.add("Array operator=", TR_ArrayPointer_Testing_22);
 				a_test_runner.add("Array operator=, TemplateMemoryAllocator", TR_ArrayPointer_Testing_22);
+				a_test_runner.add("Array insert(const T&) at the end", TR_ArrayPointer_Testing_24);
+				a_test_runner.add("Array insert(T&&) at the end", TR_ArrayPointer_Testing_25);
+				a_test_runner.add("Array insertFast(const T&) at the end", TR_ArrayPointer_Testing_26);
+				a_test_runner.add("Array insertFast(T&&) at the end", TR_ArrayPointer_Testing_27);
+				a_test_runner.add("Array insertFast(const T&) outside, getFast", TR_ArrayPointer_Testing_28);
+				a_test_runner.add("Array add(const ArrayPointer<T>&)&", TR_ArrayPointer_Testing_29);
 			}
 		}
 	}

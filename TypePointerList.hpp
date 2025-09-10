@@ -69,6 +69,19 @@
 				Base::invoke<T,Args...>(i_type, a_method, a_args...);
 				TypePointerListLog(pankey_Log_EndMethod, "invoke", "");
 			}
+
+			template<class T>
+			void mutate(const RawPointerList<Type>& a_list, InvokeMethod<T&> a_method){
+				TypePointerListLog(pankey_Log_StartMethod, "mutateTypePointer",  "");
+				Base::Type* f_type = getTypePointerByType(a_list, Base::ClassType<T>::getId());
+				if(f_type == nullptr){
+					TypePointerListLog(pankey_Log_EndMethod, "run", "f_type == nullptr");
+					return;
+				}
+				T& i_type = f_type->cast<T>();
+				Base::invoke<T&>(a_method, i_type);
+				TypePointerListLog(pankey_Log_EndMethod, "mutateTypePointer", "");
+			}
 		
 		}
 		

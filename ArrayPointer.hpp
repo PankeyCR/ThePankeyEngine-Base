@@ -146,6 +146,14 @@
 					virtual void expand(int a_size){
 						ArrayPointerLog(pankey_Log_StartMethod, "expand", "");
 						int i_size = this->m_size + a_size;
+						ArrayPointerLog(pankey_Log_Statement, "expand", "initial size:");
+						ArrayPointerLog(pankey_Log_Statement, "expand", this->m_size);
+						ArrayPointerLog(pankey_Log_Statement, "expand", "requested extra size:");
+						ArrayPointerLog(pankey_Log_Statement, "expand", a_size);
+						ArrayPointerLog(pankey_Log_Statement, "expand", "applied new size:");
+						ArrayPointerLog(pankey_Log_Statement, "expand", i_size);
+						ArrayPointerLog(pankey_Log_Statement, "expand", "last index:");
+						ArrayPointerLog(pankey_Log_Statement, "expand", this->m_last_index);
 						T *nT = allocateArray<T>(this->m_allocator, i_size);
 						for(int x = 0; x < this->m_last_index; x++){
 							nT[x] = pankey::Base::move(this->m_t_value[x]);
@@ -239,6 +247,12 @@
 						return this->m_last_index;
 					}
 
+					virtual int getAvailableSpace() const{
+						ArrayPointerLog(pankey_Log_StartMethod, "length", "");
+						ArrayPointerLog(pankey_Log_EndMethod, "length", "");
+						return this->m_size - this->m_last_index;
+					}
+
 					virtual bool add(const T& a_value){
 						ArrayPointerLog(pankey_Log_StartMethod, "add", "const T&");
 						if(this->m_last_index >= this->m_size || this->m_t_value == nullptr){
@@ -271,12 +285,33 @@
 						return true;
 					}
 
-					virtual bool addFast(const T& a_value){
+					virtual bool add(const ArrayPointer<T>& a_array){
+						ArrayPointerLog(pankey_Log_StartMethod, "add", "const T&");
+						if(a_array.isEmpty()){
+							ArrayPointerLog(pankey_Log_EndMethod, "add", "a_array.isEmpty()");
+							return false;
+						}
+						if(this->getAvailableSpace() < a_array.length() || this->m_t_value == nullptr){
+							ArrayPointerLog(pankey_Log_Statement, "add", "expanding");
+							this->expand(a_array.length());
+						}
+						if(this->getAvailableSpace() < a_array.length() || this->m_t_value == nullptr){
+							ArrayPointerLog(pankey_Log_EndMethod, "add", "no more space");
+							return false;
+						}
+						for(int x = 0; x < a_array.length(); x++){
+							this->m_t_value[this->m_last_index] = a_array.get(x);
+							this->m_last_index++;
+						}
+						ArrayPointerLog(pankey_Log_EndMethod, "add", "");
+						return true;
+					}
+
+					virtual void addFast(const T& a_value){
 						ArrayPointerLog(pankey_Log_StartMethod, "addFast", "");
 						this->m_t_value[this->m_last_index] = a_value;
 						this->m_last_index++;
 						ArrayPointerLog(pankey_Log_EndMethod, "addFast", "");
-						return true;
 					}
 
 					virtual void addFast(T&& a_value){
@@ -288,7 +323,7 @@
 
 					virtual bool set(int a_index, const T& a_value){
 						ArrayPointerLog(pankey_Log_StartMethod, "set", "");
-						if(a_index >= this->m_size || this->m_t_value == nullptr){
+						if(a_index < 0 || a_index >= this->m_size || this->m_t_value == nullptr){
 							return false;
 						}
 						this->m_t_value[a_index] = a_value;
@@ -301,7 +336,7 @@
 
 					virtual bool set(int a_index, T&& a_value){
 						ArrayPointerLog(pankey_Log_StartMethod, "set", "");
-						if(a_index >= this->m_size || this->m_t_value == nullptr){
+						if(a_index < 0 || a_index >= this->m_size || this->m_t_value == nullptr){
 							return false;
 						}
 						this->m_t_value[a_index] = pankey::Base::move(a_value);
@@ -326,41 +361,157 @@
 
 					virtual bool insert(int a_index, const T& a_value){
 						ArrayPointerLog(pankey_Log_StartMethod, "insert", "");
-						if(a_index >= this->m_size || this->m_t_value == nullptr){
-							ArrayPointerLog(pankey_Log_Statement, "insert", "expanding");
-							this->expand(this->m_expandSize);
+						ArrayPointerLog(pankey_Log_Statement, "insert", "insert index:");
+						ArrayPointerLog(pankey_Log_Statement, "insert", a_index);
+						ArrayPointerLog(pankey_Log_Statement, "insert", "last index:");
+						ArrayPointerLog(pankey_Log_Statement, "insert", this->m_last_index);
+						ArrayPointerLog(pankey_Log_Statement, "insert", "size:");
+						ArrayPointerLog(pankey_Log_Statement, "insert", this->m_size);
+						if(a_index < 0){
+							ArrayPointerLog(pankey_Log_EndMethod, "insert", "a_index < 0");
+							return false;
 						}
-						if(a_index >= this->m_size || this->m_t_value == nullptr){
+						if(a_index >= this->m_size || this->m_last_index >= this->m_size || this->m_t_value == nullptr){
+							ArrayPointerLog(pankey_Log_Statement, "insert", "expanding");
+							if(a_index >= this->m_size){
+								ArrayPointerLog(pankey_Log_Statement, "insert", "a_index >= this->m_size");
+								this->expand(this->m_expandSize + (this->m_size - a_index));
+							}
+							if(this->m_last_index >= this->m_size){
+								ArrayPointerLog(pankey_Log_Statement, "insert", "this->m_last_index >= this->m_size");
+								this->expand(this->m_expandSize);
+							}
+						}
+						if(a_index >= this->m_size || this->m_last_index >= this->m_size || this->m_t_value == nullptr){
 							ArrayPointerLog(pankey_Log_EndMethod, "insert", "no more space");
 							return false;
 						}
+						if(a_index == this->m_last_index){
+							this->m_t_value[this->m_last_index] = a_value;
+							this->m_last_index++;
+							ArrayPointerLog(pankey_Log_EndMethod, "insert", "a_index == this->m_last_index");
+							return true;
+						}
+						if(a_index > this->m_last_index){
+							this->m_t_value[a_index] = a_value;
+							ArrayPointerLog(pankey_Log_EndMethod, "insert", "a_index > this->m_last_index");
+							return true;
+						}
 						T i_retain = a_value;
 						for(int x = a_index; x < this->m_last_index; x++){
-							T&& f_retain = pankey::Base::move(this->m_t_value[x]);
+							// ArrayPointerLog(pankey_Log_Statement, "insert", "interation:");
+							// ArrayPointerLog(pankey_Log_Statement, "insert", x);
+							T f_retain = pankey::Base::move(this->m_t_value[x]);
+							// ArrayPointerLog(pankey_Log_Statement, "insert", "f_retain:");
+							// ArrayPointerLog(pankey_Log_Statement, "insert", f_retain);
 							this->m_t_value[x] = pankey::Base::move(i_retain);
+							// ArrayPointerLog(pankey_Log_Statement, "insert", "this->m_t_value[x]:");
+							// ArrayPointerLog(pankey_Log_Statement, "insert", this->m_t_value[x]);
 							i_retain = pankey::Base::move(f_retain);
+							// ArrayPointerLog(pankey_Log_Statement, "insert", "i_retain:");
+							// ArrayPointerLog(pankey_Log_Statement, "insert", i_retain);
 						}
+						this->m_t_value[this->m_last_index] = pankey::Base::move(i_retain);
 						this->m_last_index++;
-						ArrayPointerLog(pankey_Log_EndMethod, "insert", "");
+						ArrayPointerLog(pankey_Log_EndMethod, "insert", "insert done");
 						return true;
 					}
 
 					virtual bool insert(int a_index, T&& a_value){
 						ArrayPointerLog(pankey_Log_StartMethod, "insert", "");
-						
-						ArrayPointerLog(pankey_Log_EndMethod, "insert", "");
+						ArrayPointerLog(pankey_Log_Statement, "insert", "insert index:");
+						ArrayPointerLog(pankey_Log_Statement, "insert", a_index);
+						ArrayPointerLog(pankey_Log_Statement, "insert", "last index:");
+						ArrayPointerLog(pankey_Log_Statement, "insert", this->m_last_index);
+						ArrayPointerLog(pankey_Log_Statement, "insert", "size:");
+						ArrayPointerLog(pankey_Log_Statement, "insert", this->m_size);
+						if(a_index < 0){
+							ArrayPointerLog(pankey_Log_EndMethod, "insert", "a_index < 0");
+							return false;
+						}
+						if(a_index >= this->m_size || this->m_last_index >= this->m_size || this->m_t_value == nullptr){
+							ArrayPointerLog(pankey_Log_Statement, "insert", "expanding");
+							if(a_index >= this->m_size){
+								ArrayPointerLog(pankey_Log_Statement, "insert", "a_index >= this->m_size");
+								this->expand(this->m_expandSize + (this->m_size - a_index));
+							}
+							if(this->m_last_index >= this->m_size){
+								ArrayPointerLog(pankey_Log_Statement, "insert", "this->m_last_index >= this->m_size");
+								this->expand(this->m_expandSize);
+							}
+						}
+						if(a_index >= this->m_size || this->m_last_index >= this->m_size || this->m_t_value == nullptr){
+							ArrayPointerLog(pankey_Log_EndMethod, "insert", "no more space");
+							return false;
+						}
+						if(a_index == this->m_last_index){
+							this->m_t_value[this->m_last_index] = a_value;
+							this->m_last_index++;
+							ArrayPointerLog(pankey_Log_EndMethod, "insert", "a_index == this->m_last_index");
+							return true;
+						}
+						if(a_index > this->m_last_index){
+							this->m_t_value[a_index] = a_value;
+							ArrayPointerLog(pankey_Log_EndMethod, "insert", "a_index > this->m_last_index");
+							return true;
+						}
+						T i_retain = pankey::Base::move(a_value);
+						for(int x = a_index; x < this->m_last_index; x++){
+							T f_retain = pankey::Base::move(this->m_t_value[x]);
+							this->m_t_value[x] = pankey::Base::move(i_retain);
+							i_retain = pankey::Base::move(f_retain);
+						}
+						this->m_t_value[this->m_last_index] = pankey::Base::move(i_retain);
+						this->m_last_index++;
+						ArrayPointerLog(pankey_Log_EndMethod, "insert", "insert done");
 						return true;
 					}
 
 					virtual void insertFast(int a_index, const T& a_value){
 						ArrayPointerLog(pankey_Log_StartMethod, "insertFast", "");
-						
+						if(a_index == this->m_last_index){
+							this->m_t_value[this->m_last_index] = a_value;
+							this->m_last_index++;
+							ArrayPointerLog(pankey_Log_EndMethod, "insertFast", "a_index == this->m_last_index");
+							return;
+						}
+						if(a_index > this->m_last_index){
+							this->m_t_value[a_index] = a_value;
+							ArrayPointerLog(pankey_Log_EndMethod, "insertFast", "a_index > this->m_last_index");
+							return;
+						}
+						T i_retain = a_value;
+						for(int x = a_index; x < this->m_last_index; x++){
+							T f_retain = pankey::Base::move(this->m_t_value[x]);
+							this->m_t_value[x] = pankey::Base::move(i_retain);
+							i_retain = pankey::Base::move(f_retain);
+						}
+						this->m_t_value[this->m_last_index] = pankey::Base::move(i_retain);
+						this->m_last_index++;
 						ArrayPointerLog(pankey_Log_EndMethod, "insertFast", "");
 					}
 
 					virtual void insertFast(int a_index, T&& a_value){
 						ArrayPointerLog(pankey_Log_StartMethod, "insertFast", "");
-						
+						if(a_index == this->m_last_index){
+							this->m_t_value[this->m_last_index] = a_value;
+							this->m_last_index++;
+							ArrayPointerLog(pankey_Log_EndMethod, "insertFast", "a_index == this->m_last_index");
+							return;
+						}
+						if(a_index > this->m_last_index){
+							this->m_t_value[a_index] = a_value;
+							ArrayPointerLog(pankey_Log_EndMethod, "insertFast", "a_index > this->m_last_index");
+							return;
+						}
+						T i_retain = pankey::Base::move(a_value);
+						for(int x = a_index; x < this->m_last_index; x++){
+							T f_retain = pankey::Base::move(this->m_t_value[x]);
+							this->m_t_value[x] = pankey::Base::move(i_retain);
+							i_retain = pankey::Base::move(f_retain);
+						}
+						this->m_t_value[this->m_last_index] = pankey::Base::move(i_retain);
+						this->m_last_index++;
 						ArrayPointerLog(pankey_Log_EndMethod, "insertFast", "");
 					}
 
@@ -418,36 +569,87 @@
 						ArrayPointerLog(pankey_Log_EndMethod, "operator=", "");
 					}
 
-					virtual bool operator==(const ArrayPointer<T>& a_values){
-						ArrayPointerLog(pankey_Log_StartMethod, "operator=", "");
+					virtual bool operator==(const ArrayPointer<T>& a_values)const{
+						ArrayPointerLog(pankey_Log_StartMethod, "operator==", "");
+						if(this->isEmpty() && a_values.isEmpty()){
+							ArrayPointerLog(pankey_Log_Statement, "operator==", "this->isEmpty() == a_values.isEmpty()");
+							ArrayPointerLog(pankey_Log_EndMethod, "operator==", "");
+							return true;
+						}
 						if(this->length() != a_values.length()){
+							ArrayPointerLog(pankey_Log_Statement, "operator==", "this->length() != a_values.length()");
+							ArrayPointerLog(pankey_Log_EndMethod, "operator==", "");
 							return false;
 						}
 						for(int x = 0; x < this->length(); x++){
 							T& f_value_1 = m_t_value[x];
 							T& f_value_2 = a_values.m_t_value[x];
 							if(f_value_1 != f_value_2){
+								ArrayPointerLog(pankey_Log_Statement, "operator==", "f_value_1 != f_value_2");
+								ArrayPointerLog(pankey_Log_Statement, "operator==", "iteration:");
+								ArrayPointerLog(pankey_Log_Statement, "operator==", x);
+								ArrayPointerLog(pankey_Log_EndMethod, "operator==", "");
 								return false;
 							}
 						}
-						ArrayPointerLog(pankey_Log_EndMethod, "operator=", "");
+						ArrayPointerLog(pankey_Log_EndMethod, "operator==", "");
 						return true;
 					}
 
-					virtual bool operator!=(const ArrayPointer<T>& a_values){
-						ArrayPointerLog(pankey_Log_StartMethod, "operator=", "");
+					virtual bool operator!=(const ArrayPointer<T>& a_values)const{
+						ArrayPointerLog(pankey_Log_StartMethod, "operator!=", "");
+						if(this->isEmpty() && a_values.isEmpty()){
+							ArrayPointerLog(pankey_Log_Statement, "operator!=", "this->isEmpty() == a_values.isEmpty()");
+							ArrayPointerLog(pankey_Log_EndMethod, "operator!=", "");
+							return false;
+						}
 						if(this->length() != a_values.length()){
+							ArrayPointerLog(pankey_Log_Statement, "operator!=", "this->length() != a_values.length()");
+							ArrayPointerLog(pankey_Log_EndMethod, "operator!=", "");
 							return true;
 						}
 						for(int x = 0; x < this->length(); x++){
 							T& f_value_1 = m_t_value[x];
 							T& f_value_2 = a_values.m_t_value[x];
 							if(f_value_1 != f_value_2){
+								ArrayPointerLog(pankey_Log_Statement, "operator!=", "f_value_1 != f_value_2");
+								ArrayPointerLog(pankey_Log_Statement, "operator!=", "iteration:");
+								ArrayPointerLog(pankey_Log_Statement, "operator!=", x);
+								ArrayPointerLog(pankey_Log_EndMethod, "operator!=", "");
 								return true;
 							}
 						}
-						ArrayPointerLog(pankey_Log_EndMethod, "operator=", "");
+						ArrayPointerLog(pankey_Log_EndMethod, "operator!=", "");
 						return false;
+					}
+
+					virtual ArrayPointer<T> operator+(const ArrayPointer<T>& a_values)const{
+						ArrayPointerLog(pankey_Log_StartMethod, "operator!=", "");
+						if(this->isEmpty() && a_values.isEmpty()){
+							ArrayPointerLog(pankey_Log_Statement, "operator!=", "this->isEmpty() == a_values.isEmpty()");
+							ArrayPointerLog(pankey_Log_EndMethod, "operator!=", "");
+							return ArrayPointer<T>();
+						}
+						if(this->isEmpty()){
+							ArrayPointerLog(pankey_Log_Statement, "operator!=", "this->isEmpty() == a_values.isEmpty()");
+							ArrayPointerLog(pankey_Log_EndMethod, "operator!=", "");
+							return *this;
+						}
+						if(a_values.isEmpty()){
+							ArrayPointerLog(pankey_Log_Statement, "operator!=", "this->isEmpty() == a_values.isEmpty()");
+							ArrayPointerLog(pankey_Log_EndMethod, "operator!=", "");
+							return ArrayPointer<T>(a_values);
+						}
+						ArrayPointer<T> i_sum;
+						i_sum.createArrayFast(this->length() + a_values.length());
+						for(int x = 0; x < this->length(); x++){
+							i_sum.addFast(this->getFast(x));
+						}
+						for(int x = 0; x < a_values.length(); x++){
+							i_sum.addFast(a_values.getFast(x));
+						}
+						ArrayPointerLog(pankey_Log_EndMethod, "operator!=", "");
+						return i_sum;
 					}
 
 				protected:
@@ -473,11 +675,6 @@
 	}
 
 #endif
-
-
-
-
-
 
 
 

@@ -12,390 +12,346 @@
 		namespace Base{
 			
 			TestResult<String> TR_CharArray_Testing_1(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray = true;
+				CharArray i_bool_1 = CharArray(true);
+				CharArray i_bool_2 = CharArray(false);
 				
-				result.assertEqual(0, "CharArray Constructor Bool", i_CharArray.get(0), '1');
-				result.assertEqual(1, "CharArray getPosition", i_CharArray.getPosition(), 1);
+				i_result.assertEqual("CharArray = true Constructor Bool", i_bool_1.get(0), '1');
+				i_result.assertEqual("CharArray = true length", i_bool_1.length(), 1);
+				i_result.assertTrue("CharArray = true should be bool", i_bool_1.isBool());
 				
-				return result;
+				i_result.assertEqual("CharArray = false Constructor Bool", i_bool_2.get(0), '0');
+				i_result.assertEqual("CharArray = false length", i_bool_2.length(), 1);
+				i_result.assertTrue("CharArray = false should be bool", i_bool_2.isBool());
+				
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_2(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray = "CharArray test";
+				CharArray i_bool_1;
+				CharArray i_bool_2;
+
+				i_bool_1.setBool(false, true);
+				i_bool_2.setBool(false, false);
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 14);
+				i_result.assertEqual("CharArray = true Constructor Bool", i_bool_1.get(0), 't');
+				i_result.assertEqual("CharArray = true Constructor Bool", i_bool_1.get(1), 'r');
+				i_result.assertEqual("CharArray = true Constructor Bool", i_bool_1.get(2), 'u');
+				i_result.assertEqual("CharArray = true Constructor Bool", i_bool_1.get(3), 'e');
+				i_result.assertEqual("CharArray = true length", i_bool_1.length(), 4);
+				i_result.assertTrue("CharArray = true should be bool", i_bool_1.isBool());
 				
-				return result;
+				i_result.assertEqual("CharArray = false Constructor Bool", i_bool_2.get(0), 'f');
+				i_result.assertEqual("CharArray = false Constructor Bool", i_bool_2.get(1), 'a');
+				i_result.assertEqual("CharArray = false Constructor Bool", i_bool_2.get(2), 'l');
+				i_result.assertEqual("CharArray = false Constructor Bool", i_bool_2.get(3), 's');
+				i_result.assertEqual("CharArray = false Constructor Bool", i_bool_2.get(4), 'e');
+				i_result.assertEqual("CharArray = false length", i_bool_2.length(), 5);
+				i_result.assertTrue("CharArray = false should be bool", i_bool_2.isBool());
+				
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_3(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray = 123.4567f;
+				CharArray i_bool_1;
+				CharArray i_bool_2;
+
+				i_bool_1.setBool(true);
+				i_bool_2.setBool(false);
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 8);
+				i_result.assertEqual("CharArray = true Constructor Bool", i_bool_1.get(0), '1');
+				i_result.assertEqual("CharArray = true length", i_bool_1.length(), 1);
+				i_result.assertTrue("CharArray = true should be bool", i_bool_1.isBool());
 				
-				return result;
+				i_result.assertEqual("CharArray = false Constructor Bool", i_bool_2.get(0), '0');
+				i_result.assertEqual("CharArray = false length", i_bool_2.length(), 1);
+				i_result.assertTrue("CharArray = false should be bool", i_bool_2.isBool());
+				
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_4(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray = 150;
+				CharArray i_str_1 = "hellow world";
+				CharArray i_str_2 = "hellow world";
+				CharArray i_str_3 = "yellow world";
+				CharArray i_str_4 = "hellow";
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 3);
+				i_result.assertTrue("i_str_1 == i_str_2", i_str_1 == i_str_2);
+				i_result.assertTrue("!(i_str_1 != i_str_2)", !(i_str_1 != i_str_2));
+				i_result.assertTrue("i_str_1 != i_str_3", i_str_1 != i_str_3);
+				i_result.assertTrue("!(i_str_1 == i_str_3)", !(i_str_1 == i_str_3));
+				i_result.assertTrue("i_str_1 != i_str_4", i_str_1 != i_str_4);
+				i_result.assertTrue("!(i_str_1 == i_str_4)", !(i_str_1 == i_str_4));
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_5(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray = 1234567l;
+				CharArray i_str_1 = "hellow world";
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 7);
+				i_result.assertTrue("i_str_1 == hellow world", i_str_1 == "hellow world");
+				i_result.assertTrue("!(i_str_1 != hellow world)", !(i_str_1 != "hellow world"));
+				i_result.assertTrue("i_str_1 != yellow world", i_str_1 != "yellow world");
+				i_result.assertTrue("!(i_str_1 == yellow world)", !(i_str_1 == "yellow world"));
+				i_result.assertTrue("i_str_1 != hellow", i_str_1 != "hellow");
+				i_result.assertTrue("!(i_str_1 == hellow)", !(i_str_1 == "hellow"));
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_6(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray = -150;
+				CharArray i_bool_1 = CharArray(true);
+				CharArray i_bool_2 = CharArray(false);
+
+				bool i_to_bool_1 = i_bool_1.toBool();
+				bool i_to_bool_2 = i_bool_2.toBool();
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 4);
+				i_result.assertEqual("CharArray = true Constructor Bool", i_to_bool_1, true);
 				
-				return result;
+				i_result.assertEqual("CharArray = false Constructor Bool", i_to_bool_2, false);
+				
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_7(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray;
+				int i_positive_size = CharArray::intCharSize(12345);
+				int i_negative_size = CharArray::intCharSize(-12345);
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 0);
+				i_result.assertEqual("CharArray intCharSize 12345", i_positive_size, 5);
+				i_result.assertEqual("CharArray intCharSize -12345", i_negative_size, 6);
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_8(){
-				TestResult<String> result;
+				TestResult<String> i_result;
+				
+				i_result.assertTrue("CharArray 0 is number", CharArray::isNumber('0'));
+				i_result.assertTrue("CharArray 1 is number", CharArray::isNumber('1'));
+				i_result.assertTrue("CharArray 2 is number", CharArray::isNumber('2'));
+				i_result.assertTrue("CharArray 3 is number", CharArray::isNumber('3'));
+				i_result.assertTrue("CharArray 4 is number", CharArray::isNumber('4'));
+				i_result.assertTrue("CharArray 5 is number", CharArray::isNumber('5'));
+				i_result.assertTrue("CharArray 6 is number", CharArray::isNumber('6'));
+				i_result.assertTrue("CharArray 7 is number", CharArray::isNumber('7'));
+				i_result.assertTrue("CharArray 8 is number", CharArray::isNumber('8'));
+				i_result.assertTrue("CharArray 9 is number", CharArray::isNumber('9'));
 
-				// CharArray i_CharArray = CharArray("CharArray test example");
+				i_result.assertTrue("CharArray a is not number", !CharArray::isNumber('a'));
+				i_result.assertTrue("CharArray z is not number", !CharArray::isNumber('z'));
 				
-				// result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 17);
-				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_9(){
-				TestResult<String> result;
+				TestResult<String> i_result;
+				
+				i_result.assertEqual("CharArray 0 is number", CharArray::getNumber('0'), 0);
+				i_result.assertEqual("CharArray 1 is number", CharArray::getNumber('1'), 1);
+				i_result.assertEqual("CharArray 2 is number", CharArray::getNumber('2'), 2);
+				i_result.assertEqual("CharArray 3 is number", CharArray::getNumber('3'), 3);
+				i_result.assertEqual("CharArray 4 is number", CharArray::getNumber('4'), 4);
+				i_result.assertEqual("CharArray 5 is number", CharArray::getNumber('5'), 5);
+				i_result.assertEqual("CharArray 6 is number", CharArray::getNumber('6'), 6);
+				i_result.assertEqual("CharArray 7 is number", CharArray::getNumber('7'), 7);
+				i_result.assertEqual("CharArray 8 is number", CharArray::getNumber('8'), 8);
+				i_result.assertEqual("CharArray 9 is number", CharArray::getNumber('9'), 9);
 
-				CharArray i_CharArray = "CharArray";
-				CharArray n_CharArray = i_CharArray.addArrayPointer(" test example");
+				i_result.assertEqual("CharArray a is not number", CharArray::getNumber('a'), -1);
+				i_result.assertEqual("CharArray z is not number", CharArray::getNumber('z'), -1);
 				
-				result.assertEqual(0, "CharArray getPosition", n_CharArray.getPosition(), 22);
-				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_10(){
-				TestResult<String> result;
-
-				CharArray i_CharArray = "hola ";
-				i_CharArray.addLocalBool(true);
+				TestResult<String> i_result;
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 6);
+				i_result.assertTrue("CharArray should be a decimal point", CharArray::isDecimalPoint('.'));
+				i_result.assertTrue("CharArray shouldnt be a decimal point", !CharArray::isDecimalPoint('1'));
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_11(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray = "CharArray";
-				i_CharArray.addLocalArrayPointer(" ");
-				i_CharArray.addLocalArrayPointer("test");
-				i_CharArray.addLocalArrayPointer(" ");
-				i_CharArray.addLocalArrayPointer("example");
+				CharArray i_int_1 = CharArray(12345);
+				CharArray i_int_2 = CharArray(-12345);
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 22);
+				i_result.assertTrue("CharArray should be int", i_int_1.isInt());
+				i_result.assertTrue("CharArray shouldnt be int", i_int_2.isInt());
 				
-				return result;
+				i_result.assertTrue("CharArray shouldnt be negative int", i_int_1.isPositiveInt());
+				i_result.assertTrue("CharArray should be negative int", !i_int_2.isPositiveInt());
+				
+				i_result.assertTrue("CharArray shouldnt be negative int", !i_int_1.isNegativeInt());
+				i_result.assertTrue("CharArray should be negative int", i_int_2.isNegativeInt());
+				
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_12(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray = "hola ";
-				i_CharArray.addLocalFloat(123.4567f);
+				CharArray i_int_1 = CharArray(12345);
+				CharArray i_int_2 = CharArray(-12345);
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 13);
+				i_result.assertEqual("CharArray int should be 12345", i_int_1.toInt(), 12345);
+				i_result.assertNotEqual("CharArray int shouldnt be 54321", i_int_1.toInt(), 54321);
+				i_result.assertEqual("CharArray int should be -12345", i_int_2.toInt(), -12345);
+				i_result.assertNotEqual("CharArray int should be -54321", i_int_2.toInt(), -54321);
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_13(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray = "hola ";
-				i_CharArray.addLocalInt(150);
+				CharArray i_str = "hellow";
+				i_str.addCharPointer(" world");
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 8);
+				i_result.assertTrue("CharArray should be hellow world", i_str == "hellow world");
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_14(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				// CharArray i_CharArray = "hola ";
-				// i_CharArray.addLocalCharArray(CharArray("user"));
+				CharArray i_str_1 = "hellow";
+				CharArray i_str_2 = i_str_1 + " world";
 				
-				// result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 9);
+				i_result.assertTrue("CharArray should be hellow world", i_str_2 == "hellow world");
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_15(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray = "hellow";
-				i_CharArray.addLocalValue(' ');
-				i_CharArray.addLocalArrayPointer("world");
+				CharArray i_str_1 = "hellow";
+				CharArray i_str_2 = " ";
+				CharArray i_str_3 = "world";
+				CharArray i_str_4 = i_str_1 + i_str_2 + i_str_3;
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray.getPosition(), 12);
+				i_result.assertTrue("CharArray should be hellow world", i_str_4 == "hellow world");
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_16(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray = "hellow world";
+				CharArray i_str_1 = "hellow world";
+				CharPointer i_pointer = i_str_1.c_str();
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray.get(0), 'h');
+				i_result.assertTrue("CharPointer should be hellow world", i_pointer == "hellow world");
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_17(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 
-				CharArray i_CharArray = "hellow world";
-				void* i_CharArray_2 = new CharArray("hellow world");
-
-				CharArray* i_CharArray_3 = (CharArray*)i_CharArray_2;
-				*i_CharArray_3 = i_CharArray;
+				CharArray i_str = CharArray('x');
 				
-				result.assertEqual(0, "CharArray getPosition", i_CharArray_3->get(0), 'h');
-
-				delete i_CharArray_3;
+				i_result.assertEqual("CharArray should be x", i_str.get(0), 'x');
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_18(){
-				TestResult<String> result;
-
-				CharArray i_CharArray = "hellow pikachu world";
+				TestResult<String> i_result;
 				
-				result.assertTrue("CharArray should contain hellow", i_CharArray.contain("hellow"));
-				result.assertTrue("CharArray should contain pikachu", i_CharArray.contain("pikachu"));
-				result.assertTrue("CharArray shouldnt contain pikacha", !i_CharArray.contain("pikacha"));
-				result.assertTrue("CharArray shouldnt contain raychu", !i_CharArray.contain("raychu"));
-				result.assertTrue("CharArray shouldnt contain worldd", !i_CharArray.contain("worldd"));
-				result.assertTrue("CharArray should contain world", i_CharArray.contain("world"));
+				i_result.assertEqual("CharArray long size should be 6", CharArray::longCharSize(123456l), 6);
+				i_result.assertEqual("CharArray long size should be 10", CharArray::longCharSize(123456789l), 9);
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_19(){
-				TestResult<String> result;
+				TestResult<String> i_result;
+
+				CharArray i_long = CharArray(123456789l);
 				
-				CharArray array = "-hellow-world-";//14
-
-				CharArray i_part_1 = array.removeAllInitialValues('-');
-				CharArray i_part_2 = array.removeAllEndingValues('-');
-				CharArray i_part_3 = array.removeAllInitialAndEndingValues('-');
-
-				result.assertEqual("array removeAllInitialValues size should be 13", i_part_1.length(), 13);
-				result.assertEqual("array part 1 should be hellow-world-", i_part_1, CharArray("hellow-world-"));
-
-				result.assertEqual("array removeAllEndingValues size should be 13", i_part_2.length(), 13);
-				result.assertEqual("array part 1 should be -hellow-world", i_part_2, CharArray("-hellow-world"));
-
-				result.assertEqual("array removeAllInitialAndEndingValues size should be 12", i_part_3.length(), 12);
-				result.assertEqual("array part 1 should be hellow-world", i_part_3, CharArray("hellow-world"));
-
-				int i_split_size = array.getSplitSize('-');
-				int i_part_size = array.getPartSize('-');
-
-				result.assertEqual("array splits 1 time", i_split_size, 1);
-				result.assertEqual("array splits in to parts", i_part_size, 2);
-
-				CharArray i_part_4 = array.split(0, '-');
-				CharArray i_part_5 = array.split(1, '-');
-
-				result.assertEqual("array should contain 2 ints", i_part_4.length(), 6);
-				result.assertEqual("array part should be hellow", i_part_4, CharArray("hellow"));
-
-				result.assertEqual("array should contain 2 ints", i_part_5.length(), 5);
-				result.assertEqual("array part should be world", i_part_5, CharArray("world"));
+				i_result.assertEqual("CharArray length should be 10", i_long.length(), 9);
+				i_result.assertEqual("CharArray at index 0 should be 1", i_long.get(0), '1');
+				i_result.assertEqual("CharArray at index 8 should be 9", i_long.get(8), '9');
+				i_result.assertTrue("CharArray should be a long", i_long.isLong());
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_20(){
-				TestResult<String> result;
+				TestResult<String> i_result;
 				
-				CharArray i_num = "15.15f";
-
-				result.assertEqual("array should contain 6 chars", i_num.length(), 6);
-				result.assertTrue("array should be a float", i_num.isFloat());
-				// result.assertEqual("float should be 15.15f", i_num.toFloat(), 15.15f);
+				i_result.assertEqual("Decimals should be 0.12f", CharArray::getDecimals(152.12f, 4, true), 0.12f);
 				
-				return result;
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_21(){
-				TestResult<String> result;
-				
-				CharArray i_num = "15.15";
+				TestResult<String> i_result;
 
-				result.assertEqual("array should contain 6 chars", i_num.length(), 5);
-				result.assertTrue("array should be a float", i_num.isFloat());
-				// result.assertEqual("float should be 15.15f", i_num.toFloat(), 15.15f);
+				CharArray i_float = CharArray(152.1234f);
 				
-				return result;
+				i_result.assertEqual("CharArray length should be 8", i_float.length(), 6);
+				i_result.assertEqual("CharArray value at 0 should be 1", i_float.get(0), '1');
+				i_result.assertEqual("CharArray value at 1 should be 5", i_float.get(1), '5');
+				i_result.assertEqual("CharArray value at 2 should be 2", i_float.get(2), '2');
+				i_result.assertEqual("CharArray value at 3 should be .", i_float.get(3), '.');
+				i_result.assertEqual("CharArray value at 4 should be 1", i_float.get(4), '1');
+				i_result.assertEqual("CharArray value at 5 should be 2", i_float.get(5), '2');
+				
+				return i_result;
 			}
-				
+			
 			TestResult<String> TR_CharArray_Testing_22(){
-				TestResult<String> result;
-				
-				CharArray i_num = "0";
+				TestResult<String> i_result;
 
-				result.assertEqual("array should contain 1 chars", i_num.length(), 1);
-				result.assertTrue("array should be a bool", i_num.isBool());
-				result.assertEqual("bool should be false", i_num.toBool(), false);
+				CharArray i_float = CharArray("float: ") + CharArray(15);
 				
-				return result;
-			}
+				i_result.assertTrue("CharArray should be float: 15", i_float == "float: 15");
 				
-			TestResult<String> TR_CharArray_Testing_23(){
-				TestResult<String> result;
-				
-				CharArray i_num = "1";
-
-				result.assertEqual("array should contain 1 chars", i_num.length(), 1);
-				result.assertTrue("array should be a bool", i_num.isBool());
-				result.assertEqual("bool should be true", i_num.toBool(), true);
-				
-				return result;
-			}
-				
-			TestResult<String> TR_CharArray_Testing_24(){
-				TestResult<String> result;
-				
-				CharArray i_num = "true";
-
-				result.assertEqual("array should contain 4 chars", i_num.length(), 4);
-				result.assertTrue("array should be a bool", i_num.isBool());
-				result.assertEqual("bool should be true", i_num.toBool(), true);
-				
-				return result;
-			}
-				
-			TestResult<String> TR_CharArray_Testing_25(){
-				TestResult<String> result;
-				
-				CharArray i_num = "TRUE";
-
-				result.assertEqual("array should contain 4 chars", i_num.length(), 4);
-				result.assertTrue("array should be a bool", i_num.isBool());
-				result.assertEqual("bool should be true", i_num.toBool(), true);
-				
-				return result;
-			}
-				
-			TestResult<String> TR_CharArray_Testing_26(){
-				TestResult<String> result;
-				
-				CharArray i_num = "false";
-
-				result.assertEqual("array should contain 5 chars", i_num.length(), 5);
-				result.assertTrue("array should be a bool", i_num.isBool());
-				result.assertEqual("bool should be false", i_num.toBool(), false);
-				
-				return result;
-			}
-				
-			TestResult<String> TR_CharArray_Testing_27(){
-				TestResult<String> result;
-				
-				CharArray i_num = "FALSE";
-
-				result.assertEqual("array should contain 5 chars", i_num.length(), 5);
-				result.assertTrue("array should be a bool", i_num.isBool());
-				result.assertEqual("bool should be false", i_num.toBool(), false);
-				
-				return result;
-			}
-				
-			TestResult<String> TR_CharArray_Testing_28(){
-				TestResult<String> result;
-				
-				CharArray i_path;
-				String i_dir = "/path";
-
-				for(int x = 0; x < i_dir.length(); x++){
-					char f_chr = i_dir.charAt(x);
-					i_path.addLocalValue(f_chr);
-				}
-
-				result.assertEqual("array should contain 5 chars", i_path.length(), 5);
-				result.assertEqual("value should be /", i_path.get(0), '/');
-				result.assertEqual("value should be p", i_path.get(1), 'p');
-				result.assertEqual("value should be a", i_path.get(2), 'a');
-				result.assertEqual("value should be t", i_path.get(3), 't');
-				result.assertEqual("value should be h", i_path.get(4), 'h');
-				
-				return result;
+				return i_result;
 			}
 			
 			void TR_CharArray_Testing(TestRunner<String>& a_test_runner){
-				a_test_runner.add("CharArray Constructor Bool", TR_CharArray_Testing_1);
-				a_test_runner.add("CharArray Constructor chararray", TR_CharArray_Testing_2);
-				a_test_runner.add("CharArray Constructor float", TR_CharArray_Testing_3);
-				a_test_runner.add("CharArray Constructor int", TR_CharArray_Testing_4);
-				a_test_runner.add("CharArray Constructor long", TR_CharArray_Testing_5);
-				a_test_runner.add("CharArray Constructor negative int", TR_CharArray_Testing_6);
-				a_test_runner.add("CharArray Constructor", TR_CharArray_Testing_7);
-				a_test_runner.add("CharArray Arduino CharArray", TR_CharArray_Testing_8);
-				a_test_runner.add("CharArray addArrayPointer", TR_CharArray_Testing_9);
-				a_test_runner.add("CharArray addLocalBool", TR_CharArray_Testing_10);
-				a_test_runner.add("CharArray addLocalArrayPointer", TR_CharArray_Testing_11);
-				a_test_runner.add("CharArray addLocalFloat", TR_CharArray_Testing_12);
-				a_test_runner.add("CharArray addLocalInt", TR_CharArray_Testing_13);
-				a_test_runner.add("CharArray addLocalCharArray", TR_CharArray_Testing_14);
-				a_test_runner.add("CharArray addLocalValue", TR_CharArray_Testing_15);
-				a_test_runner.add("CharArray ", TR_CharArray_Testing_16);
-				a_test_runner.add("CharArray assingment operator", TR_CharArray_Testing_17);
-				a_test_runner.add("CharArray contain", TR_CharArray_Testing_18);
-				a_test_runner.add("CharArray splits", TR_CharArray_Testing_19);
-				a_test_runner.add("CharArray isFloat, toFloat with f at the end", TR_CharArray_Testing_20);
-				a_test_runner.add("CharArray isFloat, toFloat with out f at the end", TR_CharArray_Testing_21);
-				a_test_runner.add("CharArray isBool, toBool with array 0", TR_CharArray_Testing_22);
-				a_test_runner.add("CharArray isBool, toBool with array 1", TR_CharArray_Testing_23);
-				a_test_runner.add("CharArray isBool, toBool with array true", TR_CharArray_Testing_24);
-				a_test_runner.add("CharArray isBool, toBool with array TRUE", TR_CharArray_Testing_25);
-				a_test_runner.add("CharArray isBool, toBool with array false", TR_CharArray_Testing_26);
-				a_test_runner.add("CharArray isBool, toBool with array FALSE", TR_CharArray_Testing_27);
-				a_test_runner.add("CharArray addLocalValue, from String", TR_CharArray_Testing_28);
+				a_test_runner.add("CharArray Constructor(bool)", TR_CharArray_Testing_1);
+				a_test_runner.add("CharArray setBool(bool,bool)", TR_CharArray_Testing_2);
+				a_test_runner.add("CharArray setBool(bool)", TR_CharArray_Testing_3);
+				a_test_runner.add("CharArray ==(CharArray)", TR_CharArray_Testing_4);
+				a_test_runner.add("CharArray ==(char*)", TR_CharArray_Testing_5);
+				a_test_runner.add("CharArray toBool", TR_CharArray_Testing_6);
+				a_test_runner.add("CharArray intCharSize", TR_CharArray_Testing_7);
+				a_test_runner.add("CharArray isNumber(char)", TR_CharArray_Testing_8);
+				a_test_runner.add("CharArray getNumber(char)", TR_CharArray_Testing_9);
+				a_test_runner.add("CharArray isDecimalPoint(char)", TR_CharArray_Testing_10);
+				a_test_runner.add("CharArray setInt", TR_CharArray_Testing_11);
+				a_test_runner.add("CharArray toInt", TR_CharArray_Testing_12);
+				a_test_runner.add("CharArray addCharPointer", TR_CharArray_Testing_13);
+				a_test_runner.add("CharArray +(char*)", TR_CharArray_Testing_14);
+				a_test_runner.add("CharArray +(const CharArray&)", TR_CharArray_Testing_15);
+				a_test_runner.add("CharArray c_str, CharPointer==", TR_CharArray_Testing_16);
+				a_test_runner.add("CharArray Constructor(char)", TR_CharArray_Testing_17);
+				a_test_runner.add("CharArray longCharSize", TR_CharArray_Testing_18);
+				a_test_runner.add("CharArray Constructor(long)", TR_CharArray_Testing_19);
+				a_test_runner.add("CharArray getDecimals", TR_CharArray_Testing_20);
+				a_test_runner.add("CharArray setFloat", TR_CharArray_Testing_21);
+				a_test_runner.add("CharArray operator+", TR_CharArray_Testing_22);
 			}
 		}
 	}

@@ -19,7 +19,19 @@
 				public:
 					MemoryAllocator(){}
 					MemoryAllocator(bool a_static){this->m_static = a_static;}
+					MemoryAllocator(bool a_static, bool a_assign){
+						this->m_static = a_static;
+						this->m_assign = a_assign;
+					}
 					virtual ~MemoryAllocator(){}
+
+					virtual void hasBeenAssign(bool a_assign){
+						this->m_assign = a_assign;
+					}
+
+					virtual bool hasBeenAssign(){
+						return this->m_assign;
+					}
 
 					virtual void* create(memory_size a_type_size){return malloc(a_type_size);}
 					virtual void* create(){return nullptr;}
@@ -53,6 +65,7 @@
 
 				protected:
 					bool m_static = true;
+					bool m_assign = false;
 			};
 
 			MemoryAllocator* setMemoryAllocator(MemoryAllocator* a_memory_allocator){
@@ -60,13 +73,19 @@
 				MemoryAllocator* i_memory_allocator = nullptr;
 				if(a_memory_allocator != nullptr){
 					MemoryAllocatorLog(pankey_Log_Statement, "setMemoryAllocator", "a_memory_allocator != nullptr");
-					if(!a_memory_allocator->isStatic()){
-						MemoryAllocatorLog(pankey_Log_Statement, "setMemoryAllocator", "a_memory_allocator->isManaged()");
+					if(a_memory_allocator->isStatic()){
+						MemoryAllocatorLog(pankey_Log_Statement, "setMemoryAllocator", "a_memory_allocator->isStatic()");
+						i_memory_allocator = a_memory_allocator;
+						return i_memory_allocator;
+					}
+					if(a_memory_allocator->hasBeenAssign()){
+						MemoryAllocatorLog(pankey_Log_Statement, "setMemoryAllocator", "a_memory_allocator->hasBeenAssign()");
 						i_memory_allocator = a_memory_allocator->clone();
 						i_memory_allocator->isStatic(false);
 					}else{
-						MemoryAllocatorLog(pankey_Log_Statement, "setMemoryAllocator", "!a_memory_allocator->isManaged()");
+						MemoryAllocatorLog(pankey_Log_Statement, "setMemoryAllocator", "!a_memory_allocator->hasBeenAssign()");
 						i_memory_allocator = a_memory_allocator;
+						i_memory_allocator->hasBeenAssign(true);
 					}
 				}
 				MemoryAllocatorLog(pankey_Log_EndMethod, "setMemoryAllocator", "");
