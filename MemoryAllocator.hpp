@@ -33,23 +33,23 @@
 						return this->m_assign;
 					}
 
-					virtual void* create(memory_size a_type_size){return malloc(a_type_size);}
+					virtual void* create(memory_size a_type_size){return nullptr;}
 					virtual void* create(){return nullptr;}
 
-					virtual void* createArray(memory_size a_type_size, memory_size a_count){return malloc(a_type_size * a_count);}
+					virtual void* createArray(memory_size a_type_size, memory_size a_count){return nullptr;}
 					virtual void* createArray(memory_size a_count){return nullptr;}
 
-					virtual void** createPointerArray(memory_size a_type_size, memory_size a_count){return (void**)malloc(a_type_size * a_count);}
+					virtual void** createPointerArray(memory_size a_type_size, memory_size a_count){return (void**)nullptr;}
 					virtual void** createPointerArray(memory_size a_count){return nullptr;}
 
-					virtual void destroy(memory_size a_type_size, void* a_destroy){free(a_destroy);}
-					virtual void destroy(void* a_destroy){free(a_destroy);}
+					virtual void destroy(memory_size a_type_size, void* a_destroy){}
+					virtual void destroy(void* a_destroy){}
 
-					virtual void destroyArray(memory_size a_type_size, memory_size a_count, void* a_destroy){free(a_destroy);}
-					virtual void destroyArray(void* a_destroy){free(a_destroy);}
+					virtual void destroyArray(memory_size a_type_size, memory_size a_count, void* a_destroy){}
+					virtual void destroyArray(void* a_destroy){}
 
-					virtual void destroyPointerArray(memory_size a_type_size, memory_size a_count, void** a_destroy){free(a_destroy);}
-					virtual void destroyPointerArray(void** a_destroy){free(a_destroy);}
+					virtual void destroyPointerArray(memory_size a_type_size, memory_size a_count, void** a_destroy){}
+					virtual void destroyPointerArray(void** a_destroy){}
 
 					virtual void isStatic(bool a_static){
 						this->m_static = a_static;
