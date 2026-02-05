@@ -2,6 +2,8 @@
 #ifndef Type_hpp
 	#define Type_hpp
 
+	#include "ClassType.hpp"
+
 	#if defined(pankey_Log) && (defined(Type_Log) || defined(pankey_Global_Log) || defined(pankey_Base_Log))
 		#include "Logger_status.hpp"
 		#define TypeLog(status,method,mns) pankey_Log(status,"Type",method,mns)
@@ -60,15 +62,15 @@
 
 		#ifndef TYPE_CLASS
 			#define TYPE_CLASS(T)\
-				virtual long getType()const{return T;}\
-				virtual bool istype(long a_type)const{return a_type == T;}\
+				virtual long getType()const{return Base::ClassType<T>::getId();}\
+				virtual bool istype(long a_type)const{return a_type == Base::ClassType<T>::getId();}\
 
 		#endif
 	
 		#ifndef TYPE_INHERIT_CLASS
 			#define TYPE_INHERIT_CLASS(T,G)\
-				virtual long getType()const{return T;}\
-				virtual bool istype(long a_type)const{return a_type == T || G::istypeof(a_type);}\
+				virtual long getType()const{return Base::ClassType<T>::getId();}\
+				virtual bool istype(long a_type)const{return a_type == Base::ClassType<T>::getId() || G::istypeof(a_type);}\
 
 		#endif
 
